@@ -1,0 +1,14 @@
+@startuml
+!include https://raw.githubusercontent.com/kirchsth/C4-PlantUML/extended/C4_Container.puml
+
+Person(userCandidate, "Usuário", "Um usuário comum que gostaria de encontrar um emprego.")
+Person(userCompany, "Empresa", "Uma empresa que gostaria de cadastrar uma vaga.")
+System(systemAlias, "Aplicação CataEmprego", "Disponibiliza informação de vagas disponíveis e empresas cadastradas, também permite a candidatura e visualização de vagas pelos usuários.")
+
+ContainerDb(containerAlias, "Banco de Dados CataEmprego", "Dados", "Armazena todas as informações de candidaturas, vagas disponíveis e empresas cadastradas.")
+
+
+Rel(userCandidate, systemAlias, "O usuário irá buscar, visualizar e se candidatar em vagas de emprego.")
+Rel(userCompany, systemAlias, "O usuário irá cadastrar a empresa e as vagas de emprego disponíveis, assim como irá coletar as candidaturas já feitas pelos candidatos.")
+Rel(systemAlias, containerAlias, "Leitura/Gravação")
+@enduml
