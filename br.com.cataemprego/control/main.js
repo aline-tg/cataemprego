@@ -1,47 +1,51 @@
-// const container = document.querySelector(".container")
-// const coffees = [
-//   { name: "Perspiciatis", image: "images/coffee1.jpg" },
-//   { name: "Voluptatem", image: "images/coffee2.jpg" },
-//   { name: "Explicabo", image: "images/coffee3.jpg" },
-//   { name: "Rchitecto", image: "images/coffee4.jpg" },
-//   { name: " Beatae", image: "images/coffee5.jpg" },
-//   { name: " Vitae", image: "images/coffee6.jpg" },
-//   { name: "Inventore", image: "images/coffee7.jpg" },
-//   { name: "Veritatis", image: "images/coffee8.jpg" },
-//   { name: "Accusantium", image: "images/coffee9.jpg" },
-// ]
+function userPerson() {
+    //location.href = "videopage.html";
+}
 
-// const showCoffees = () => {
-//     let output = ""
-//     coffees.forEach(
-//       ({ name, image }) =>
-//         (output += `
-//                 <div class="card">
-//                   <img class="card--avatar" src=${image} />
-//                   <h1 class="card--title">${name}</h1>
-//                   <a class="card--link" href="#">Taste</a>
-//                 </div>
-//                 `)
-//     )
-//     container.innerHTML = output
-//   }
-  
-//   document.addEventListener("DOMContentLoaded", showCoffees)
+function createButton(inputId, buttonClass, text) {
+    /**
+     * Creates a button element
+     * 
+     * @param inputId the button id
+     * @param buttonClass the css class used to style button
+     * @param text the button text to be seen in UI
+     * 
+     * @return button a button element
+     */
+    var button = document.createElement("button");
+    button.classList.add(buttonClass);
+    button.innerText = text;
+    button.id = inputId;
 
-var myDiv = document.createElement("div");
-//myDiv.classList("button--container")
-myDiv.setAttribute('style', 'text-align:center;');
+    return button;
+}
 
-var button1 = document.createElement("button");
-button1.classList.add("button--actions")
-button1.innerText = "Quero um emprego!";
-//document.body.appendChild(button1);
+function mainPage() {
+    /**
+     * Function created to show the first page from CataEmprego
+     */
+    var myDiv = document.createElement("div");
+    myDiv.setAttribute('style', 'text-align:center;');
+    var lineBreak = document.createElement("br")
+    var button1 = createButton("userPersonButton","button--actions", "Quero um emprego!");
+    var button2 = createButton("userCompanyButton","button--actions", "Quero contratar!");
+    
+    myDiv.appendChild(lineBreak);
+    myDiv.appendChild(lineBreak.cloneNode());
+    myDiv.appendChild(button1);
+    myDiv.appendChild(lineBreak.cloneNode());
+    myDiv.appendChild(lineBreak.cloneNode());
+    myDiv.appendChild(lineBreak.cloneNode());
+    myDiv.appendChild(button2);
+    document.body.appendChild(myDiv);
 
-var button2 = document.createElement("button");
-button2.classList.add("button--actions");
-button2.innerText = "Quero contratar!";
-///document.body.appendChild(button2);
+    button1.onclick = userPerson();
+    button2.onclick = userCompany();
+    //button1.addEventListener('click', userPerson());
+    //button2.addEventListener('click', userCompany());
+    // button1.addEventListener('click', event => {
+    //     button.textContent = `Click count: ${event.detail}`;
+    //   });
+}
 
-myDiv.appendChild(button1);
-myDiv.append(button2);
-document.body.appendChild(myDiv);
+mainPage();
