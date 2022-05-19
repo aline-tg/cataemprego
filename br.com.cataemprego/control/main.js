@@ -1,6 +1,12 @@
+//import {userCompany,userPerson} from "./control/videopage.js";
+
 function userPerson() {
-    //location.href = "videopage.html";
-}
+    window.location.href = "videopage.html"; 
+ }
+ 
+ function userCompany() {
+     window.location.href = "videopage.html"; 
+  }
 
 function createButton(inputId, buttonClass, text) {
     /**
@@ -39,13 +45,8 @@ function mainPage() {
     myDiv.appendChild(button2);
     document.body.appendChild(myDiv);
 
-    button1.onclick = userPerson();
-    button2.onclick = userCompany();
-    //button1.addEventListener('click', userPerson());
-    //button2.addEventListener('click', userCompany());
-    // button1.addEventListener('click', event => {
-    //     button.textContent = `Click count: ${event.detail}`;
-    //   });
+    document.getElementById("userPersonButton").addEventListener("click", userPerson)
+    document.getElementById("userCompanyButton").addEventListener("click", userCompany)
 }
 
 mainPage();
