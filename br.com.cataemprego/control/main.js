@@ -1,30 +1,5 @@
-//import {userCompany,userPerson} from "./control/videopage.js";
-
-function userPerson() {
-    window.location.href = "videopage.html"; 
- }
- 
- function userCompany() {
-     window.location.href = "videopage.html"; 
-  }
-
-function createButton(inputId, buttonClass, text) {
-    /**
-     * Creates a button element
-     * 
-     * @param inputId the button id
-     * @param buttonClass the css class used to style button
-     * @param text the button text to be seen in UI
-     * 
-     * @return button a button element
-     */
-    var button = document.createElement("button");
-    button.classList.add(buttonClass);
-    button.innerText = text;
-    button.id = inputId;
-
-    return button;
-}
+import {userCompany,userPerson} from "./videopage.js";
+import {createButton} from "./utils.js";
 
 function mainPage() {
     /**
@@ -45,8 +20,11 @@ function mainPage() {
     myDiv.appendChild(button2);
     document.body.appendChild(myDiv);
 
-    document.getElementById("userPersonButton").addEventListener("click", userPerson)
-    document.getElementById("userCompanyButton").addEventListener("click", userCompany)
+    document.getElementById("userPersonButton")
+            .addEventListener("click", userPerson)
+
+    document.getElementById("userCompanyButton")
+            .addEventListener("click", userCompany)
 }
 
 mainPage();
