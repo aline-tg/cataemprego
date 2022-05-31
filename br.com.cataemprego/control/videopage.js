@@ -1,3 +1,4 @@
+
 export function userPerson() {
    window.location.href = "./view/pages/videopage_user.html"; 
 }  

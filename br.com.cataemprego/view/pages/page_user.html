@@ -19,14 +19,33 @@
   <body>
     <main>
       <img class="video_page_logo" src="../images/logo.png">
+      <br>
+      <br>
         <div>
-          <form>
-            <input class="search_bar" type="search" placeholder="Search" aria-label="Search">
+          <form id="search_form" role="search">
+            <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos.">
             <input class="btn btn-secondary" type="submit">
           </form>
         </div>
+
+        <script>
+          const f = document.getElementById('search_form');
+          const q = document.getElementById('search_jobs');
+          const google = 'https://www.google.com/search?q=site%3A+';
+          const site = 'pagedart.com';
     
-        <div class="jobs_found_user"></div><div class="resumes_sent"></div>
+          function submitted(event) {
+            event.preventDefault();
+            const url = google + site + '+' + q.value;
+            const win = window.open(url, '_blank');
+            win.focus();
+          }
+    
+          f.addEventListener('submit', submitted);
+        </script>
+        <!-- <container>
+        <div class="jobs_found_user"><p style="color:white">Vagas Encontradas</p><div class="box_numbers"></div></div><div class="resumes_sent"><p style="color:white">Currículos Enviados</p></div>
+        </container> -->
     </main>
   </body>
 </html>

@@ -1,6 +1,4 @@
-export default class {
-
-    createButton(inputId, buttonClass, text) {
+export function createButton(inputId, buttonClass, text) {
     /**
      * Creates a button element
      * 
@@ -16,6 +14,4 @@ export default class {
     button.id = inputId;
 
     return button;
-}
-
 }

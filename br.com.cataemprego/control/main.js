@@ -1,5 +1,5 @@
 import {userCompany,userPerson} from "./videopage.js";
-import Utils from "./Utils.js";
+import {createButton} from "./utils.js";
 
 function mainPage() {
     /**
@@ -8,8 +8,8 @@ function mainPage() {
     var myDiv = document.createElement("div");
     myDiv.setAttribute('style', 'text-align:center;');
     var lineBreak = document.createElement("br")
-    var button1 = Utils.createButton("userPersonButton","button--actions", "Quero um emprego!");
-    var button2 = Utils.createButton("userCompanyButton","button--actions", "Quero contratar!");
+    var button1 = createButton("userPersonButton","button--actions", "Quero um emprego!");
+    var button2 = createButton("userCompanyButton","button--actions", "Quero contratar!");
     
     myDiv.appendChild(lineBreak);
     myDiv.appendChild(lineBreak.cloneNode());

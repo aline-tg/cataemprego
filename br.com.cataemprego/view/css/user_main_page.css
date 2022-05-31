@@ -35,14 +35,14 @@ main {
 
 .jobs_found_user {
     width: 210px;
-    height: 28px;
+    height: 30px;
     background: linear-gradient(270deg, #321473 0%, #227DAF 100%);
     display: inline-block;
 }
 
 .resumes_sent {
     width: 210px;
-    height: 28px;
+    height: 30px;
     margin-top: 53px;
     background: linear-gradient(90deg, #0FF2F2 4.59%, #227DAF 50%);
     display: inline-block;
