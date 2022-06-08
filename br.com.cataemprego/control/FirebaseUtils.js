@@ -22,6 +22,39 @@ class FirebaseUtils {
         return data;
     }
 
+    createKeywords = (name) => {
+        const arrName=[];
+        let curName = "";
+        name.split("").forEach((letter)=>{
+            curName += letter;
+            arrName.push(curName);
+        });
+        return arrName;
+    };
+
+    generateKeywords = (names) => {
+        const [first,middle,last,sfx] = names;
+        const suffix = sfx.length > 0 ? `$ {sfx}.` : "";
+        const keywordNameWithoutMiddleName = this.createKeywords(`${first} ${last}${suffix}`);
+        const keywordFullName = this.createKeywords(`${first} ${middle} ${last}${suffix}`);
+        const keywordLastNameFirst = this.createKeywords(`${last}, ${first} ${middle}${suffix}`);
+
+        const middleInitial = middle.length > 0 ? `${middle[0]}.` : "";
+        const keywordFullNameMiddleInitial = this.createKeywords(`${first}${middleInitial} ${last}${suffix}`);
+        const keywordLastNameFirstMiddleInitial = this.createKeywords(`${last}, ${first}${middleInitial}${suffix}`);
+
+        return [
+            ...new Set([
+                "",
+                ...keywordFullName,
+                ...keywordLastNameFirst,
+                ...keywordFullNameMiddleInitial,
+                ...keywordLastNameFirstMiddleInitial,
+                ...keywordNameWithoutMiddleName
+            ])
+        ];
+    };
+
     async searchJobs() {
         var admin = this.authentication();
 
@@ -36,7 +69,7 @@ class FirebaseUtils {
                     // do something with the data
                     console.log(JSON.stringify(querySnapshot.docs))
                 }
-    }
+    };
 
 }
 
