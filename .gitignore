@@ -1,0 +1,4 @@
+/node_modules/
+.vscode
+/frontend/
+br.com.cataemprego/secrets/
