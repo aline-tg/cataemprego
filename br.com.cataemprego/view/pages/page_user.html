@@ -17,6 +17,9 @@
 
   <!-- First page app  -->
   <body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script type="text/javascript" src="../../control/FirebaseUtils.js"></script>
+    <script type="text/javascript" src="../../control/test copy.js"></script>
     <main>
       <img class="video_page_logo" src="../images/logo.png">
       <br>
@@ -28,26 +31,10 @@
           </form>
         </div>
 
-        <script type= "module" src="../../control/FirebaseUtils.js">FirebaseUtils.getRegisteredJobs()</script>
-
-        <!-- <script type="module" >
-          const f = document.getElementById('search_form');
-          const q = document.getElementById('search_jobs');
-          const google = 'https://www.google.com/search?q=site%3A+';
-          const site = 'pagedart.com';
-    
-          function submitted(event) {
-            event.preventDefault();
-            const url = google + site + '+' + q.value;
-            const win = window.open(url, '_blank');
-            win.focus();
-          }
-    
-          f.addEventListener('submit', submitted);
-        </script> -->
-        <!-- <container>
-        <div class="jobs_found_user"><p style="color:white">Vagas Encontradas</p><div class="box_numbers"></div></div><div class="resumes_sent"><p style="color:white">Currículos Enviados</p></div>
-        </container> -->
+        <script type = "text/javascript">
+          admin = new firebaseAuthentication();
+          searchJobs(admin);
+        </script>
     </main>
   </body>
 </html>

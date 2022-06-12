@@ -2,7 +2,7 @@ const createKeywords = name => {
     const arrName = [];
     let curName = '';
     name.split('').forEach(letter => {
-      curName += letter;
+      curName += letter.toLowerCase();
       arrName.push(curName);
     });
     return arrName;
@@ -11,19 +11,21 @@ const createKeywords = name => {
   
 const generateKeywords = names => {
   const [companyName, positionName, positionLocation] = names;
-  const keywordNNamePosition = createKeywords(`${companyName} ${positionLocation}`);
-  const keywordFull = createKeywords(`${companyName} ${positionName} ${positionLocation}`);
-  const keywordLocationFirst = createKeywords(`${positionLocation}, ${companyName} ${positionName}`);
+  const keywordNamePosition = createKeywords(`${positionName}`);
+  const keywordFull = createKeywords(`${positionName} ${companyName} ${positionLocation}`);
+  const keywordLocationFirst = createKeywords(`${positionLocation} ${positionName} ${companyName}`);
+  const keywordCompanyFirst = createKeywords(` ${companyName} ${positionName} ${positionLocation}`);
   
   const middleInitial = positionName.length > 0 ? ` ${positionName[0]}.` : '';
-  const keywordFullMiddleInitial = createKeywords(`${companyName}${middleInitial} ${positionLocation}`);
-  const keywordLocationMiddleInitial = createKeywords(`${positionLocation}, ${companyName}${middleInitial}`);
+  const keywordFullMiddleInitial = createKeywords(`${companyName} ${positionLocation}`);
+  const keywordLocationMiddleInitial = createKeywords(`${positionLocation} ${middleInitial}`);
   return [
     ...new Set([
       '',
-      ...keywordNNamePosition,
+      ...keywordNamePosition,
       ...keywordFull,
       ...keywordLocationFirst,
+      ...keywordCompanyFirst,
       ...keywordFullMiddleInitial,
       ...keywordLocationMiddleInitial
     ])
@@ -40,7 +42,10 @@ let app =admin.initializeApp({
       });
 const db = app.firestore();
 const jobs = [
-    {"companyId": "test4", "companyName": "Itau", "positionDutyHours": "8hrs/dia", "positionLocation": "São Paulo", "positionName": "Auxiliar Administrativo", "positionSalary": 1200},
+    {"companyId": "test1", "companyName": "Alura", "positionDutyHours": "8hrs/dia", "positionLocation": "São Paulo", "positionName": "Auxiliar de Informática", "positionSalary": 1600},
+    {"companyId": "test2", "companyName": "Rocketseat", "positionDutyHours": "8hrs/dia", "positionLocation": "São Paulo", "positionName": "Auxiliar de Informática", "positionSalary": 1500},
+    {"companyId": "test3", "companyName": "Alura", "positionDutyHours": "Meio período", "positionLocation": "Home Office", "positionName": "Professor temporário", "positionSalary": 1200},
+    {"companyId": "test4", "companyName": "WSD", "positionDutyHours": "8hrs/dia", "positionLocation": "São Paulo", "positionName": "Auxiliar de limpeza", "positionSalary": 1200},
     {"companyId": "test5", "companyName": "Casa da Chica", "positionDutyHours": "8hrs/dia", "positionLocation": "", "positionName": "Auxiliar de cozinha", "positionSalary": 1200},
     {"companyId": "test6", "companyName": "Só Concreto", "positionDutyHours": "Meio período", "positionLocation": "São Carlos", "positionName": "Servente de pedreiro", "positionSalary": null},
     {"companyId": "test7", "companyName": "Bradesco", "positionDutyHours": "8hrs/dia", "positionLocation": "Campinas", "positionName": "Auxiliar Administrativo", "positionSalary": null},

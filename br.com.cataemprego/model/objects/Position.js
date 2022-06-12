@@ -1,80 +1,92 @@
-function Position(){
-    var positionId;
-    var companyId;
-    var companyName;
-    var positionName;
-    var positionLocation;
-    var positionDutyHours;
-    var positionSalary;
-    var positionBenefits;
-    var positionDescription;
-    var companyLogoImage;
+export class Position {
+    
+    constructor(positionId,
+                companyId,
+                companyName,
+                positionName,
+                positionLocation,
+                positionDutyHours,
+                positionSalary,
+                positionBenefits,
+                positionDescription,
+                companyLogoImage) {
+        this.positionId = positionId;
+        this.companyId = companyId;
+        this.companyName= companyName;
+        this.positionName = positionName;
+        this.positionLocation = positionLocation;
+        this.positionDutyHours = positionDutyHours;
+        this.positionSalary = positionSalary;
+        this.positionBenefits = positionBenefits;
+        this.positionDescription = positionDescription;
+        this.companyLogoImage = companyLogoImage;
+    }
 
-    function getPositionId() {
+    getPositionId() {
         return this.positionId;
     }
 
-    function getCompanyId() {
+    getCompanyId() {
         return this.companyId;
     }
 
-    function getCompanyName() {
+    getCompanyName() {
         return this.companyName;
     }
 
-    function getPositionName() {
+    getPositionName() {
         return this.positionName;
     }
 
-    function getPositionLocation() {
+    getPositionLocation() {
         return this.positionLocation;
     }
 
-    function getPositionDutyHours() {
+    getPositionDutyHours() {
         return this.positionDutyHours;
     }
 
-    function getPositionSalary() {
+    getPositionSalary() {
         return this.positionSalary;
     }
 
-    function getPositionBenefits() {
+    getPositionBenefits() {
         return this.positionBenefits;
     }
 
-    function getPositionDescription() {
+    getPositionDescription() {
         return this.positionDescription;
     }
 
-    function getCompanyLogoImage() {
+    getCompanyLogoImage() {
         return this.companyLogoImage;
     }
 
-    function setPositionName() {
+    setPositionName() {
         return undefined;
     }
 
-    function setPositionLocation() {
+    setPositionLocation() {
         return undefined;
     }
 
-    function setPositionDutyHours() {
+    setPositionDutyHours() {
         return undefined;
     }
 
-    function setPositionSalary() {
+    setPositionSalary() {
         return undefined;
     }
 
-    function setPositionBenefits() {
+    setPositionBenefits() {
         return undefined;
     }
 
-    function setPositionDescription() {
+    setPositionDescription() {
         return undefined;
     }
 
-    function deletePosition() {
+    deletePosition() {
         return undefined;
     }
 
