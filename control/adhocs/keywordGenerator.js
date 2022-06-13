@@ -33,7 +33,7 @@ const generateKeywords = names => {
 }
 
 var admin = require("firebase-admin");
-var serviceAccount = require("F:/projects/cataemprego/br.com.cataemprego/secrets/cataemprego-c4ddc-firebase-adminsdk-w9zd1-424a7c9fe7.json");
+var serviceAccount = require("F:/projects/cataemprego/br.com.cataemprego/secrets/credentials.json");
   
 let app =admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
