@@ -1,8 +1,13 @@
-function firebaseAuthentication() {
-  var firebase = require("firebase/app");
-  var serviceAccount = require("F:/projects/cataemprego/br.com.cataemprego/secrets/cataemprego-c4ddc-firebase-adminsdk-w9zd1-424a7c9fe7.json");
-  admin = firebase.initializeApp(serviceAccount);
-  return admin
+import admin from "firebase-admin";
+
+export function firebaseAuthentication() {
+      var serviceAccount = require("F:/projects/cataemprego/secrets/credentials.json");
+      firebase_login = admin.initializeApp({
+       credential: admin.credential.cert(serviceAccount),
+       databaseURL: "https://cataemprego-c4ddc-default-rtdb.firebaseio.com",
+       authDomain: "cataemprego-c4ddc.firebaseapp.com"
+       });
+  return firebase_login
 }
 
 function getFirebaseCollection(collection){

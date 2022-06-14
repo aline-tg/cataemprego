@@ -1,58 +1,92 @@
+import {initializeApp} from "firebase/app";
+import { getFirestore} from "firebase/firestore";
+import * as fs from "fs";
+
 class Position {
           
-    constructor(positionId,
-                companyId,
-                companyName,
-                positionName,
-                positionLocation,
-                positionDutyHours,
-                positionSalary,
-                positionBenefits,
-                positionDescription,
-                companyLogoImage) {
-        this.positionId = positionId;
-        this.companyId = companyId;
-        this.companyName= companyName;
-        this.positionName = positionName;
-        this.positionLocation = positionLocation;
-        this.positionDutyHours = positionDutyHours;
-        this.positionSalary = positionSalary;
-        this.positionBenefits = positionBenefits;
-        this.positionDescription = positionDescription;
-        this.companyLogoImage = companyLogoImage;
-    }
+  constructor(positionId,
+              companyId,
+              companyName,
+              positionName,
+              positionLocation,
+              positionDutyHours,
+              positionSalary,
+              positionBenefits,
+              positionDescription,
+              companyLogoImage) {
+      this.positionId = positionId;
+      this.companyId = companyId;
+      this.companyName= companyName;
+      this.positionName = positionName;
+      this.positionLocation = positionLocation;
+      this.positionDutyHours = positionDutyHours;
+      this.positionSalary = positionSalary;
+      this.positionBenefits = positionBenefits;
+      this.positionDescription = positionDescription;
+      this.companyLogoImage = companyLogoImage;
+  }
 }
 
-function myFunction() {
-    // Declare variables
-    var input, filter_input, array_search = [];
-    const data= require('../model/data/test-data.json'); 
+function firebaseAuthentication() {
+  fs.readFile('F:/projects/cataemprego/secrets/credentials.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    var parsed_data = JSON.parse(data);
+    const firebaseApp = initializeApp(parsed_data);
+    const db = getFirestore(firebaseApp);
+    //console.log(db)
+    return db;
+  });
+}
 
-    input = document.getElementById('search_jobs');
-    filter_input = input.value.toLowerCase();
+function searchJobs() {
+    fs.readFile('F:/projects/cataemprego/secrets/credentials.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // var parsed_data = JSON.parse(data);
+    // var firebase_login = admin.initializeApp({
+    //   credential: admin.credential.cert(parsed_data),
+    //   databaseURL: "https://cataemprego-c4ddc-default-rtdb.firebaseio.com",
+    //   authDomain: "cataemprego-c4ddc.firebaseapp.com"
+    //   });
+    
+    // const db = firebase_login.firestore();
+    var parsed_data = JSON.parse(data);
+    const firebaseApp = initializeApp(parsed_data);
+    const db = getFirestore(firebaseApp);
+    //console.log(db)
+  });
+    
+      var search = document.getElementById("search_jobs");
+      const searchJob = async(search) => {
 
-    data_treated = data.__collections__['registered-positions']
-
-    Object.entries(data_treated).forEach(([key, value]) => {
-        check_search = value.keywords.includes(filter_input.toLowerCase());
-        position = new Position(key,
-                                value.companyId,
-                                value.companyName,
-                                value.positionName,
-                                value.positionLocation,
-                                value.positionDutyHours,
-                                value.positionSalary,
-                                value.positionBenefits,
-                                value.positionDescription,
-                                value.companyLogoImage)
-        
-
-        if(check_search) {
-            array_search.push(position);
-            console.log(array_search);
-        }
-        else {
-            console.log("Não foram encontradas vagas disponíveis para essa busca.");
-        }
-    });
-  }
+          var collection = await db.collection("registered-positions");
+          var query = collection.where('keywords', 'array-contains', search.toLowerCase());
+          var listJobsFound = [];
+          var querySnapshot = query.get()
+                                   .then((querySnapshot) => {
+                                          querySnapshot.forEach((doc) => {
+                                          position = new Position(doc.data().id,
+                                                                  doc.data().companyId,
+                                                                  doc.data().companyName,
+                                                                  doc.data().positionName,
+                                                                  doc.data().positionLocation,
+                                                                  doc.data().positionDutyHours,
+                                                                  doc.data().positionSalary,
+                                                                  doc.data().positionBenefits,
+                                                                  doc.data().positionDescription,
+                                                                  doc.data().companyLogoImage)
+                                      
+                                          listJobsFound.push(position);   
+                                          console.log(length(listJobsFound)); 
+                                          return listJobsFound;                   
+                                            });
+                                            }).catch((error) => {
+                                          console.log("Sorry! We have a problem to process this call...")
+                                        });
+                                  }
+}
