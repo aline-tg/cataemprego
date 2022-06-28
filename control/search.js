@@ -1,6 +1,5 @@
-import {initializeApp} from "firebase/app";
-import { getFirestore} from "firebase/firestore";
-import * as fs from "fs";
+import { firebaseAuthentication } from "./FirebaseUtils.js";
+import { collection, query, where, getFirestore, getDocs } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
 
 class Position {
           
@@ -27,66 +26,34 @@ class Position {
   }
 }
 
-function firebaseAuthentication() {
-  fs.readFile('F:/projects/cataemprego/secrets/credentials.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    var parsed_data = JSON.parse(data);
-    const firebaseApp = initializeApp(parsed_data);
-    const db = getFirestore(firebaseApp);
-    //console.log(db)
-    return db;
-  });
-}
+async function searchJobs() {
+    const firebase_login = firebaseAuthentication()
+    const db = getFirestore(firebase_login);
+    const jobsCol = collection(db,"registered-positions");
+    const search = document.getElementById("search_jobs");
+    var querySearch = query(jobsCol,where('keywords', 'array-contains', search.toLowerCase()));
+    const querySnapshot = await getDocs(querySearch);
+    var listJobsFound = [];
 
-function searchJobs() {
-    fs.readFile('F:/projects/cataemprego/secrets/credentials.json', 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    // var parsed_data = JSON.parse(data);
-    // var firebase_login = admin.initializeApp({
-    //   credential: admin.credential.cert(parsed_data),
-    //   databaseURL: "https://cataemprego-c4ddc-default-rtdb.firebaseio.com",
-    //   authDomain: "cataemprego-c4ddc.firebaseapp.com"
-    //   });
-    
-    // const db = firebase_login.firestore();
-    var parsed_data = JSON.parse(data);
-    const firebaseApp = initializeApp(parsed_data);
-    const db = getFirestore(firebaseApp);
-    //console.log(db)
-  });
-    
-      var search = document.getElementById("search_jobs");
-      const searchJob = async(search) => {
+    querySnapshot.forEach((doc) => {
+      var position = new Position(doc.data().id,
+                              doc.data().companyId,
+                              doc.data().companyName,
+                              doc.data().positionName,
+                              doc.data().positionLocation,
+                              doc.data().positionDutyHours,
+                              doc.data().positionSalary,
+                              doc.data().positionBenefits,
+                              doc.data().positionDescription,
+                              doc.data().companyLogoImage)
+  
+      listJobsFound.push(position);                      
+        });
 
-          var collection = await db.collection("registered-positions");
-          var query = collection.where('keywords', 'array-contains', search.toLowerCase());
-          var listJobsFound = [];
-          var querySnapshot = query.get()
-                                   .then((querySnapshot) => {
-                                          querySnapshot.forEach((doc) => {
-                                          position = new Position(doc.data().id,
-                                                                  doc.data().companyId,
-                                                                  doc.data().companyName,
-                                                                  doc.data().positionName,
-                                                                  doc.data().positionLocation,
-                                                                  doc.data().positionDutyHours,
-                                                                  doc.data().positionSalary,
-                                                                  doc.data().positionBenefits,
-                                                                  doc.data().positionDescription,
-                                                                  doc.data().companyLogoImage)
-                                      
-                                          listJobsFound.push(position);   
-                                          console.log(length(listJobsFound)); 
-                                          return listJobsFound;                   
-                                            });
-                                            }).catch((error) => {
-                                          console.log("Sorry! We have a problem to process this call...")
-                                        });
-                                  }
-}
+      if (listJobsFound.length == 0)
+        window.document.innerHtml = "Não foram encontradas vagas para a posição buscada."
+      else
+        window.document.innerHtml = "Foram encontradas " + listJobsFound.length + "vagas."
+        
+      return listJobsFound;  
+      }
