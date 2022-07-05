@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+import {initializeFirestore} from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.8.4/firebase-firestore-lite.min.js";
 
 export function firebaseAuthentication() {
 
@@ -14,7 +15,12 @@ export function firebaseAuthentication() {
       
       const app = initializeApp(firebaseConfig);
 
-  return app;
+      const firestoreDB = initializeFirestore(app, {
+        experimentalForceLongPolling: true, // this line
+        useFetchStreams: false, // and this line
+      })
+      
+  return app, firestoreDB;
 }
 
 function getFirebaseCollection(collection){

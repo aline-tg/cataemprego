@@ -26,14 +26,18 @@ class Position {
   }
 }
 
-async function searchJobs() {
-    const firebase_login = firebaseAuthentication()
-    const db = getFirestore(firebase_login);
-    const jobsCol = collection(db,"registered-positions");
-    const search = document.getElementById("search_jobs");
+async function searchJobs(search,messageToPrint) {
+    //const firebase_login = firebaseAuthentication()
+    //let firebase_login = firebaseAuthentication().app
+    let db = firebaseAuthentication().firestoreDB
+    console.log(db)
+    //const db = getFirestore(firebase_login)
+    const jobsCol = db.collection("registered-positions");
+    console.log(jobsCol)
     var querySearch = query(jobsCol,where('keywords', 'array-contains', search.toLowerCase()));
     const querySnapshot = await getDocs(querySearch);
     var listJobsFound = [];
+    let message = messageToPrint;
 
     querySnapshot.forEach((doc) => {
       var position = new Position(doc.data().id,
@@ -51,9 +55,21 @@ async function searchJobs() {
         });
 
       if (listJobsFound.length == 0)
-        window.document.innerHtml = "Não foram encontradas vagas para a posição buscada."
+        message = "Não foram encontradas vagas para a posição buscada."
       else
-        window.document.innerHtml = "Foram encontradas " + listJobsFound.length + "vagas."
+        message = "Foram encontradas " + listJobsFound.length + "vagas."
         
-      return listJobsFound;  
+      return listJobsFound, message;  
       }
+
+let jobsList = [];
+let messageToPrint = "Você ainda não buscou nenhuma vaga :(";
+const searchInput = document.querySelector("[data-search]");
+searchInput.addEventListener("keydown", e => {
+  if (e.code == "Enter"){
+    const value = e.target.value
+    jobsList, messageToPrint = searchJobs(value,messageToPrint);
+    console.log(value)
+  }
+})
+    
