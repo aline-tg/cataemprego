@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  background: linear-gradient(to right, #0FF2F2 , #321473);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  margin: auto;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.video_page_logo {
+    width: 161px; 
+    height: 90px;
+    margin-left: auto;
+    margin-top: auto;
+    padding: 0.5rem;
+    align-content: center;
+    background: none;
+  }
+
+.search_bar {
+    width: 330px;
+    height: 44px;
+    left: 17px;
+    top: 69px;
+    background: #FFFFFF;
+    border-radius: 22px;
+    padding: 10px;
+}
+
+.jobs_found_user {
+    width: 210px;
+    height: 30px;
+    background: linear-gradient(270deg, #321473 0%, #227DAF 100%);
+    display: inline-block;
+}
+
+.resumes_sent {
+    width: 210px;
+    height: 30px;
+    margin-top: 53px;
+    background: linear-gradient(90deg, #0FF2F2 4.59%, #227DAF 50%);
+    display: inline-block;
+}
+
+.box_numbers {
+    box-sizing: border-box;
+    left: 74.71%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+}

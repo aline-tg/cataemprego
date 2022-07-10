@@ -1,0 +1,68 @@
+   var image = document.createElement("img")
+   image.classList.add("video_page_btn_video");
+   image.src = "./view/images/video.png"
+
+   var myDiv = document.createElement("div");
+   var button1 = createButton("videopage_back","video_page_btn", "Voltar");
+   var button2 = createButton("videopage_next","video_page_btn", "Próximo");
+   myDiv.appendChild(button1);
+   myDiv.appendChild(button2);
+
+   document.body.appendChild(image);
+   document.body.appendChild(myDiv);
+
+   class Position {
+    
+    constructor(positionId,
+                companyId,
+                companyName,
+                positionName,
+                positionLocation,
+                positionDutyHours,
+                positionSalary,
+                positionBenefits,
+                positionDescription,
+                companyLogoImage) {
+        this.positionId = positionId;
+        this.companyId = companyId;
+        this.companyName= companyName;
+        this.positionName = positionName;
+        this.positionLocation = positionLocation;
+        this.positionDutyHours = positionDutyHours;
+        this.positionSalary = positionSalary;
+        this.positionBenefits = positionBenefits;
+        this.positionDescription = positionDescription;
+        this.companyLogoImage = companyLogoImage;
+    }
+  }
+
+  // Firestore data converter
+var jobConverter = {
+    toFirestore: function(job) {
+        return {
+          positionId: job.positionId,
+          companyId: job.companyId,
+          companyName: job.companyName,
+          positionName: job.positionName,
+          positionLocation: job.positionLocation,
+          positionDutyHours: job.positionDutyHours,
+          positionSalary: job.positionSalary,
+          positionBenefits: job.positionBenefits,
+          positionDescription: job.positionDescription,
+          companyLogoImage: job.companyLogoImage
+            };
+    },
+    fromFirestore: function(snapshot, options){
+        const data = snapshot.data(options);
+        return new Position(data.positionId, 
+                            data.companyId, 
+                            data.companyName,
+                            data.positionName, 
+                            data.positionLocation,
+                            data.positionDutyHours, 
+                            data.positionSalary,
+                            data.positionBenefits, 
+                            data.positionDescription, 
+                            data.companyLogoImage);
+    }
+  };

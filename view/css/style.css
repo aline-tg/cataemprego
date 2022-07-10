@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  background: linear-gradient(to right, #0FF2F2 , #321473);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  margin: auto;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.main_page_logo {
+  width: 242px; 
+  height: 120px;
+  margin-left: auto;
+  margin-top: auto;
+  padding: 0.5rem;
+  align-content: center;
+  background: none;
+}
+
+.button--actions {
+  width: 252px;
+  height: 45px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 22px; 
+  text-align: center;
+}
+
+.button--actions:hover{
+  background-color: #eeebeb;
+}
