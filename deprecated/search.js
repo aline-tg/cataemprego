@@ -1,5 +1,6 @@
-import { firebaseAuthentication } from "./FirebaseUtils.js";
-import { collection, query, where, getFirestore, getDocs } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+// import { firebaseAuthentication } from "./FirebaseUtils.js";
+//import { collection, query, where, getFirestore, getDocs } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+//import {collection, query, where, getFirestore, getDocs} from 'https://www.gstatic.com/firebasejs/9.8.4/firebase-firestore.js'
 
 class Position {
           
@@ -26,14 +27,9 @@ class Position {
   }
 }
 
-async function searchJobs(search,messageToPrint) {
-    //const firebase_login = firebaseAuthentication()
-    //let firebase_login = firebaseAuthentication().app
-    let db = firebaseAuthentication().firestoreDB
-    console.log(db)
-    //const db = getFirestore(firebase_login)
-    const jobsCol = db.collection("registered-positions");
-    console.log(jobsCol)
+export async function searchJobs(search,messageToPrint, firestore_db) {   
+    const jobsCol = collection(firestore_db,"registered-positions");
+    console.log(firestore_db)
     var querySearch = query(jobsCol,where('keywords', 'array-contains', search.toLowerCase()));
     const querySnapshot = await getDocs(querySearch);
     var listJobsFound = [];
@@ -62,14 +58,5 @@ async function searchJobs(search,messageToPrint) {
       return listJobsFound, message;  
       }
 
-let jobsList = [];
-let messageToPrint = "Você ainda não buscou nenhuma vaga :(";
-const searchInput = document.querySelector("[data-search]");
-searchInput.addEventListener("keydown", e => {
-  if (e.code == "Enter"){
-    const value = e.target.value
-    jobsList, messageToPrint = searchJobs(value,messageToPrint);
-    console.log(value)
-  }
-})
+
     

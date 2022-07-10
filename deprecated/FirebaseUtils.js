@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-import {initializeFirestore} from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.8.4/firebase-firestore-lite.min.js";
+import {initializeFirestore,CACHE_SIZE_UNLIMITED} from "https://cdnjs.cloudflare.com/ajax/libs/firebase/9.8.4/firebase-firestore-lite.min.js";
 
 export function firebaseAuthentication() {
 
@@ -18,6 +18,7 @@ export function firebaseAuthentication() {
       const firestoreDB = initializeFirestore(app, {
         experimentalForceLongPolling: true, // this line
         useFetchStreams: false, // and this line
+        cacheSizeBytes: CACHE_SIZE_UNLIMITED
       })
       
   return app, firestoreDB;
