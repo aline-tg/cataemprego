@@ -29,31 +29,44 @@
       let jobsList = [];
       let messageToPrint = "Você ainda não buscou nenhuma vaga :(";
       const searchInput = document.querySelector("[data-search]");
+      const userCardContainer = document.querySelector("[data-jobs-cards-container]");
+      const userCardTemplate = document.querySelector("[data-user-template]");
       searchInput.addEventListener("keydown", e => {
         if (e.code == "Enter"){
-          const value = e.target.value
-          jobsList, messageToPrint = searchJobs(value,messageToPrint,_supabase)
-          console.log(value)
-          console.log(jobsList)
-          console.log(messageToPrint)
+          const value = e.target.value.toLowerCase()
+          jobsList = searchJobs(value,_supabase)
+          jobsList.then(position => {
+            console.log(position)
+            const card = userCardTemplate.content.cloneNode(true).children[0]
+            const position_company = card.querySelector("[position-company]")
+            const position_name = card.querySelector("[position-name]")
+            position_company.textContent = position.company_name
+            position_name.textContent = position.position_name
+            userCardContainer.append(card)
+            return { name: position.position_name, company: position.company_name, element: card }
+          })
         }
-      })
+      })      
+
     </script>
 
     <main>
       <img class="video_page_logo" src="../images/logo.png">
-      <br>
-      <br>
-        <div>
-          <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
-        </div>
-        <div class="jobs-cards" data-jobs-cards-container></div>
-        <template data-jobs-template>
-          <div class="card">
-            <div class="header" data-header></div>
-            <div class="body" data-body></div>
+      <div class="search_wrapper">
+         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>     
+      </div>
+      <div class="jobs-cards" data-jobs-cards-container>
+        <template data-user-template>
+        <div class="job_card">
+          <div style="background:white; display: flex; margin-bottom: 5px;">
+            <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" position-company></div>  
           </div>
+          <div style="background:white; display: flex">
+            <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
+          </div>
+        </div>
         </template>
+      </div>             
     </main>
 
     <script type="module" src="../../control/searchSupabase.js"></script>
