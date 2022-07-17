@@ -26,24 +26,38 @@
       const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhleXV1eW5xeHFvYmdpb3RmZ2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTcyNDcyMTUsImV4cCI6MTk3MjgyMzIxNX0.Y7Q_scMNfYmZXmeJWbZI4OUj7ic7GKCDao_j5TP4-Ts';
       const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey);
 
-      let jobsList = [];
+      let jobsFiltered = [];
+      let allJobs = [];
       let messageToPrint = "Você ainda não buscou nenhuma vaga :(";
+      let i;
       const searchInput = document.querySelector("[data-search]");
       const userCardContainer = document.querySelector("[data-jobs-cards-container]");
       const userCardTemplate = document.querySelector("[data-user-template]");
+
+      function removeAllChildNodes(node) {
+          i = (typeof(node) == "object") ? node : document.querySelector(node);
+
+          while (i.hasChildNodes()) {
+            i.removeChild(i.firstChild);
+          }
+      }
+
       searchInput.addEventListener("keydown", e => {
+        removeAllChildNodes("[data-jobs-cards-container]")
         if (e.code == "Enter"){
           const value = e.target.value.toLowerCase()
-          jobsList = searchJobs(value,_supabase)
-          jobsList.then(position => {
-            console.log(position)
-            const card = userCardTemplate.content.cloneNode(true).children[0]
-            const position_company = card.querySelector("[position-company]")
-            const position_name = card.querySelector("[position-name]")
-            position_company.textContent = position.company_name
-            position_name.textContent = position.position_name
-            userCardContainer.append(card)
-            return { name: position.position_name, company: position.company_name, element: card }
+          jobsFiltered = searchJobs(value,_supabase)
+          console.log(allJobs)
+          jobsFiltered.then(arrayPosition => {
+            arrayPosition.forEach(position => {
+              const card = userCardTemplate.content.cloneNode(true).children[0]
+              const position_company = card.querySelector("[position-company]")
+              const position_name = card.querySelector("[position-name]")
+              position_company.textContent = position.companyName
+              position_name.textContent = position.positionName
+              userCardContainer.append(card)
+              return { name: position.positionName, company: position.companyName, element: card }
+            }) 
           })
         }
       })      
@@ -53,9 +67,10 @@
     <main>
       <img class="video_page_logo" src="../images/logo.png">
       <div class="search_wrapper">
-         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>     
+         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
       </div>
-      <div class="jobs-cards" data-jobs-cards-container>
+      
+      <div class="jobs-cards" data-jobs-cards-container></div> 
         <template data-user-template>
         <div class="job_card">
           <div style="background:white; display: flex; margin-bottom: 5px;">
@@ -65,8 +80,7 @@
             <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
           </div>
         </div>
-        </template>
-      </div>             
+        </template>          
     </main>
 
     <script type="module" src="../../control/searchSupabase.js"></script>

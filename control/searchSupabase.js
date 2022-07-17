@@ -33,6 +33,7 @@ export default async function searchJobs(search,
     .contains("position_keywords",[search])
 
     all_jobs.forEach(position_filtered => {
+      console.log(position_filtered)
       var position = new Position(position_filtered.id,
                                   position_filtered.company_id,
                                   position_filtered.company_name,
@@ -44,6 +45,5 @@ export default async function searchJobs(search,
                                   position_filtered.position_description)
       listJobsFound.push(position)
     })
-    
     return listJobsFound
   }
