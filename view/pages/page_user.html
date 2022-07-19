@@ -55,6 +55,7 @@
               const position_name = card.querySelector("[position-name]")
               position_company.textContent = position.companyName
               position_name.textContent = position.positionName
+              const job_id = position.positionId
               userCardContainer.append(card)
               return { name: position.positionName, company: position.companyName, element: card }
             }) 
@@ -65,24 +66,24 @@
     </script>
 
     <main>
-      <img class="video_page_logo" src="../images/logo.png">
+      <img class="video_page_logo" src="../images/logo.png"></div>  
       <div class="search_wrapper">
-         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
-      </div>
-      
-      <div class="jobs-cards" data-jobs-cards-container></div> 
-        <template data-user-template>
-        <div class="job_card">
-          <div style="background:white; display: flex; margin-bottom: 5px;">
-            <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" position-company></div>  
-          </div>
-          <div style="background:white; display: flex">
-            <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
-          </div>
-          <button class="job_card_ret1" style = "border-style: none; margin-top: 5px;" onclick="location.href='detailment_page.html'">Detalhes</button>
-        </div>
-        </template>          
+        <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
+      </div>   
     </main>
+    <div class="jobs-cards" data-jobs-cards-container></div>
+      <template data-user-template>
+      <div class="job_card">
+         <div style="background:white; display: flex; margin-bottom: 5px;">
+           <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" position-company></div>  
+         </div>
+         <div style="background:white; display: flex; margin-bottom: 5px;">
+          <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
+         </div>
+       <!-- <button class="detail_button" onclick="location.href='job_detailment.html?job_id='{job_id}">Detalhes</button> -->
+      </div>
+      </template>  
+    
 
     <script type="module" src="../../control/searchSupabase.js"></script>
     <script type="module" src="../../control/SupabaseUtils.js"></script>

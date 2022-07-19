@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  background: linear-gradient(to right, #0FF2F2 , #321473);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  margin: auto;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.video_page_logo {
+    width: 161px; 
+    height: 90px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 0.5rem;
+    align-content: center;
+    background: none;
+  }
+
+.job_card_ret1 {
+  width: 100px;
+  height: 25px;
+  background: #E5E5E5;
+  border-radius: 12px;
+  margin-top: 1px;
+  margin-left: 5px;
+  text-align: center;
+}
+
+.job_card_ret2 {
+  width: 480px;
+  height: 25px;
+  background: #E5E5E5;
+  border-radius: 12px;
+  margin-top: 1px;
+  margin-left:5px;
+  text-align: center;
+}
+
+.job_card_ret3 {
+  width: 200px;
+  height: 25px;
+  background: #E5E5E5;
+  border-radius: 12px;
+  margin-top: 1px;
+  margin-left:5px;
+  text-align: center;
+}
+
+.job_card_ret4 {
+  width: 120px;
+  height: 25px;
+  background: #E5E5E5;
+  border-radius: 12px;
+  margin-top: 1px;
+  margin-left:5px;
+  text-align: center;
+}
+
+.detailment{
+  background: white;
+  width: 600px;
+  height: 600px;
+  border-radius: 12px;
+  padding-top: 10px;
+}
