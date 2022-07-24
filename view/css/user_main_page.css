@@ -32,7 +32,7 @@ main {
     margin-bottom: 20px;
 }
 
-/* .jobs_found_user {
+/*.jobs_found_user {
     width: 210px;
     height: 30px;
     background: linear-gradient(270deg, #321473 0%, #227DAF 100%);
@@ -113,4 +113,10 @@ main {
 
 .detail_button--actions:hover{
   background-color: #eeebeb;
+}
+
+h1 {
+  color:white;
+  text-align: center;
+  text-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }

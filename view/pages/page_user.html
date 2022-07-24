@@ -28,11 +28,13 @@
 
       let jobsFiltered = [];
       let allJobs = [];
-      let messageToPrint = "Você ainda não buscou nenhuma vaga :(";
+      let messageToPrint = "Você não pesquisou por nenhuma vaga :(";
       let i;
       const searchInput = document.querySelector("[data-search]");
       const userCardContainer = document.querySelector("[data-jobs-cards-container]");
       const userCardTemplate = document.querySelector("[data-user-template]");
+      const userTextBeforeSearch = document.querySelector("h1")
+      userTextBeforeSearch.innerHTML = messageToPrint
 
       function removeAllChildNodes(node) {
           i = (typeof(node) == "object") ? node : document.querySelector(node);
@@ -44,6 +46,7 @@
 
       searchInput.addEventListener("keydown", e => {
         removeAllChildNodes("[data-jobs-cards-container]")
+        removeAllChildNodes("h1")
         if (e.code == "Enter"){
           const value = e.target.value.toLowerCase()
           jobsFiltered = searchJobs(value,_supabase)
@@ -71,6 +74,7 @@
         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
       </div>   
     </main>
+    <h1></h1>
     <div class="jobs-cards" data-jobs-cards-container></div>
       <template data-user-template>
       <div class="job_card">
