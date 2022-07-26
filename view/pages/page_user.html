@@ -33,8 +33,8 @@
       const searchInput = document.querySelector("[data-search]");
       const userCardContainer = document.querySelector("[data-jobs-cards-container]");
       const userCardTemplate = document.querySelector("[data-user-template]");
-      const userTextBeforeSearch = document.querySelector("h1")
-      userTextBeforeSearch.innerHTML = messageToPrint
+      const userTextBeforeSearch = document.querySelector("h1");
+      userTextBeforeSearch.innerHTML = messageToPrint;
 
       function removeAllChildNodes(node) {
           i = (typeof(node) == "object") ? node : document.querySelector(node);
@@ -50,7 +50,6 @@
         if (e.code == "Enter"){
           const value = e.target.value.toLowerCase()
           jobsFiltered = searchJobs(value,_supabase)
-          console.log(allJobs)
           jobsFiltered.then(arrayPosition => {
             arrayPosition.forEach(position => {
               const card = userCardTemplate.content.cloneNode(true).children[0]
@@ -58,14 +57,36 @@
               const position_name = card.querySelector("[position-name]")
               position_company.textContent = position.companyName
               position_name.textContent = position.positionName
-              const job_id = position.positionId
               userCardContainer.append(card)
               return { name: position.positionName, company: position.companyName, element: card }
             }) 
           })
         }
-      })      
+      })    
+      
+      // const closeList = document.querySelector('[data-jobs-cards-container]').childNodes
 
+      // console.log(closeList)
+      // closeList.forEach(card => {
+      //   console.log(card.childNodes)s
+      // })
+      // closeList.forEach(element => {
+      // element.addEventListener('click', () => console.log("oie")); })d
+
+      // detail_button.addEventListener("click", e => {
+      //           const jobDetailment = document.querySelector("job-detailment");
+      //           const job = jobDetailment.content.cloneNode(true).children[0]
+      //           const position_company = job.querySelector("position-company");
+      //           position_company.textContent = position.companyName
+      //           const position_name = job.querySelector("position-name");
+      //           position_name.textContent = position.positionName
+      //           const position_loc = job.querySelector("position-location");
+      //           position_loc.textContent = position.positionLocation
+      //           const position_duty = job.querySelector("position-duty");
+      //           position_duty.textContent = position.positionDutyHours
+      //           const position_salary = job.querySelector("position-salary");
+      //           position_salary.textContent = position.positionSalary
+      //         })
     </script>
 
     <main>
@@ -84,11 +105,10 @@
          <div style="background:white; display: flex; margin-bottom: 5px;">
           <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
          </div>
-       <!-- <button class="detail_button" onclick="location.href='job_detailment.html?job_id='{job_id}">Detalhes</button> -->
+       <button class="detail_button" detail-button>Detalhes</button>
       </div>
       </template>  
     
-
     <script type="module" src="../../control/searchSupabase.js"></script>
     <script type="module" src="../../control/SupabaseUtils.js"></script>
   </body>

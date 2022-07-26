@@ -30,6 +30,7 @@ main {
     border-radius: 22px;
     padding: 10px;
     margin-bottom: 20px;
+    border-style: none;
 }
 
 /*.jobs_found_user {
