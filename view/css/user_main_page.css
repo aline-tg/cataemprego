@@ -2,6 +2,8 @@
 
 * {
   background: linear-gradient(to right, #0FF2F2 , #321473);
+  margin: 0;
+  padding: 0;
 }
 
 main {

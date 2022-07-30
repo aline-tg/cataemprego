@@ -63,30 +63,17 @@
           })
         }
       })    
-      
-      // const closeList = document.querySelector('[data-jobs-cards-container]').childNodes
 
-      // console.log(closeList)
-      // closeList.forEach(card => {
-      //   console.log(card.childNodes)s
-      // })
-      // closeList.forEach(element => {
-      // element.addEventListener('click', () => console.log("oie")); })d
+      document.body.addEventListener("click", jobDetailment, false)
 
-      // detail_button.addEventListener("click", e => {
-      //           const jobDetailment = document.querySelector("job-detailment");
-      //           const job = jobDetailment.content.cloneNode(true).children[0]
-      //           const position_company = job.querySelector("position-company");
-      //           position_company.textContent = position.companyName
-      //           const position_name = job.querySelector("position-name");
-      //           position_name.textContent = position.positionName
-      //           const position_loc = job.querySelector("position-location");
-      //           position_loc.textContent = position.positionLocation
-      //           const position_duty = job.querySelector("position-duty");
-      //           position_duty.textContent = position.positionDutyHours
-      //           const position_salary = job.querySelector("position-salary");
-      //           position_salary.textContent = position.positionSalary
-      //         })
+      function jobDetailment(e) {
+        e=e || window.event;
+        var target = e.target || e.srcElement;
+        if(target.className.match("button")) {
+          window.location.href = "../pages/job_detailment.html"; 
+        }
+      }
+
     </script>
 
     <main>
