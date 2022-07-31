@@ -16,13 +16,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Login Docker in Heroku
-        run: docker login --username _ --password=${{secrets.HEROKU_API_KEY}} registry.heroku.com
-
       - name: Deploy to Heroku
-        uses: AkhileshNS/heroku-deploy@v3.12.12
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
-          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          heroku_app_name: "cataemprego" 
+          heroku_email: "alinetgue@gmail.com"
           usedocker: true
