@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Login Docker in Heroku
+        run: docker login --username _ --password=${{secrets.HEROKU_API_KEY}} registry.heroku.com
+
       - name: Deploy to Heroku
         uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
