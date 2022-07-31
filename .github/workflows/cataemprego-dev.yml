@@ -18,11 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Login to Heroku Container registry
-        run: heroku container:login 
-
-      - name: Build and push
-        run: heroku container:push -a HEROKU_APP_NAME web 
-
-      - name: Release
-        run: heroku container:release -a HEROKU_APP_NAME web 
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+          usedocker: true
