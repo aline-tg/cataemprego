@@ -1,4 +1,4 @@
-import Position from "../../model/objects/Position.js"
+import Position from "../model/objects/Position.js"
 
 export default async function searchJobs(search, 
                                          supabaseClient) {   
