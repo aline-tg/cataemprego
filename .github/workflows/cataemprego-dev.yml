@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Login in Heroku
-        run: heroku auth:login
+        run: sudo heroku auth:login && heroku container:login
 
       # - name: Login in Heroku Container Registry
       #   run: heroku container:login 
