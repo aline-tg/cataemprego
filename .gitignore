@@ -4,4 +4,4 @@
 /secrets/
 package-lock.json
 package.json
-env.local
+config.js

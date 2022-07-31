@@ -3,7 +3,7 @@ name: Deploy cataemprego in dev stage
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   deploy:
@@ -23,14 +23,21 @@ jobs:
       #       SUPABASE_KEY
       #       SUPABASE_URL
       #     justlogin: true
+      - name: Creating secrets file for Supabase
+        run: |
+          echo "SUPABASE_KEY="${{secrets.SUPABASE_KEY}}; >> config.js 
+          echo "SUPABASE_KEY="${{secrets.SUPABASE_URL}}; >> config.js 
+
       - name: Login to Heroku Container registry
         env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: heroku container:login 
+
       - name: Build and push
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
+
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
