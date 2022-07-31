@@ -10,7 +10,7 @@ env:
   SUPABASE_URL: ${{secrets.SUPBASE_URL}}
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,6 +20,6 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "cataemprego" 
-          heroku_email: "alinetgue@gmail.com"
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: true
