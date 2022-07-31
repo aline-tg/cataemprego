@@ -55,10 +55,12 @@
               const card = userCardTemplate.content.cloneNode(true).children[0]
               const position_company = card.querySelector("[position-company]")
               const position_name = card.querySelector("[position-name]")
+              const detail_button_id = card.querySelector("[detail-button-id]")
               position_company.textContent = position.companyName
               position_name.textContent = position.positionName
+              detail_button_id.innerText = position.positionId
               userCardContainer.append(card)
-              return { name: position.positionName, company: position.companyName, element: card }
+              return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
             }) 
           })
         }
@@ -70,10 +72,10 @@
         e=e || window.event;
         var target = e.target || e.srcElement;
         if(target.className.match("button")) {
-          window.location.href = "../pages/job_detailment.html"; 
+          let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
+          window.location.href = "../pages/job_detailment?position_id=" + position_id +".html"; 
         }
       }
-
     </script>
 
     <main>
@@ -92,7 +94,7 @@
          <div style="background:white; display: flex; margin-bottom: 5px;">
           <div class="job_card_ret1">Posição</div><div class="job_card_ret2" position-name></div>
          </div>
-       <button class="detail_button" detail-button>Detalhes</button>
+       <button class="detail_button">Detalhes <div style = "display:none" detail-button-id></div></button>
       </div>
       </template>  
     

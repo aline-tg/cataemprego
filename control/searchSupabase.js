@@ -34,7 +34,7 @@ export default async function searchJobs(search,
 
     all_jobs.forEach(position_filtered => {
       console.log(position_filtered)
-      var position = new Position(position_filtered.id,
+      var position = new Position(position_filtered.position_id,
                                   position_filtered.company_id,
                                   position_filtered.company_name,
                                   position_filtered.position_name,
