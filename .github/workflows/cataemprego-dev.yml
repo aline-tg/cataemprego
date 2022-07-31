@@ -9,21 +9,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout  
-      uses: actions/checkout@v1
-    - name: Adding secrets
-      env: 
-        SUPABASE_KEY: ${{secrets.SUBAPASE_KEY}}
-        SUPABASE_URL: ${{secrets.SUPBASE_URL}}
-    - name: Login to Heroku Container registry
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+
+      - name: Checkout  
+        uses: actions/checkout@v1
+
+      - name: Adding secrets
+        env: 
+          SUPABASE_KEY: ${{secrets.SUBAPASE_KEY}}
+          SUPABASE_URL: ${{secrets.SUPBASE_URL}}
+
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login 
+
+      - name: Build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
+
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
