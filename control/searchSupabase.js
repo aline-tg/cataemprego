@@ -1,27 +1,4 @@
-class Position {
-          
-  constructor(positionId,
-              companyId,
-              companyName,
-              positionName,
-              positionLocation,
-              positionDutyHours,
-              positionSalary,
-              positionBenefits,
-              positionDescription,
-              companyLogoImage) {
-      this.positionId = positionId;
-      this.companyId = companyId;
-      this.companyName= companyName;
-      this.positionName = positionName;
-      this.positionLocation = positionLocation;
-      this.positionDutyHours = positionDutyHours;
-      this.positionSalary = positionSalary;
-      this.positionBenefits = positionBenefits;
-      this.positionDescription = positionDescription;
-      this.companyLogoImage = companyLogoImage;
-  }
-}
+import Position from "../../model/objects/Position.js"
 
 export default async function searchJobs(search, 
                                          supabaseClient) {   

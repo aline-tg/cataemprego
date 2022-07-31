@@ -73,7 +73,7 @@
         var target = e.target || e.srcElement;
         if(target.className.match("button")) {
           let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
-          window.location.href = "../pages/job_detailment?position_id=" + position_id +".html"; 
+          window.location.href = "../pages/job_detailment.html?position_id=" + position_id; 
         }
       }
     </script>

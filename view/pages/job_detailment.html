@@ -9,6 +9,7 @@
     <link rel="icon" href="view/images/favicon.ico" type="image/x-icon">
 
     <!-- Adding libs and styles -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/job_detailment.css" />
@@ -20,14 +21,75 @@
     <main>
       <img class="video_page_logo" src="../images/logo.png">
     </main>
-    
-    <template job-detailment>
-    <div class="detailment" style="margin:auto;">
+
+    <script type = "module">
+      import supabaseAuthentication from "../../control/SupabaseUtils.js"
+      import Position from "../../model/objects/Position.js"
+
+      const supabaseUrl = 'https://heyuuynqxqobgiotfgaj.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhleXV1eW5xeHFvYmdpb3RmZ2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTcyNDcyMTUsImV4cCI6MTk3MjgyMzIxNX0.Y7Q_scMNfYmZXmeJWbZI4OUj7ic7GKCDao_j5TP4-Ts';
+      const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey);
+
+      function getQueryVariable(variable)
+        {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+      }
+
+      let position_id = getQueryVariable("position_id");
+      const jobCardTemplate = document.querySelector("[job-detailment-template]");
+      const jobCardContainer = document.querySelector("[data-jobs-detailment]");
+      const {data: job, error: error_reading} = await _supabase
+                                                        .from("registered-jobs")
+                                                        .select("*")
+                                                        .eq("position_id", position_id)
+      var position_filtered = job[0]
+
+      var position = new Position(position_filtered.position_id,
+                                  position_filtered.company_id,
+                                  position_filtered.company_name,
+                                  position_filtered.position_name,
+                                  position_filtered.position_location,
+                                  position_filtered.position_duty_hours,
+                                  position_filtered.position_salary,
+                                  position_filtered.position_benefits,
+                                  position_filtered.position_description)  
+
+      const card_job = jobCardTemplate.content.cloneNode(true).children[0]
+      const position_company = card_job.querySelector("[position-company]")
+      const position_detail = card_job.querySelector("[position]")
+      const position_location = card_job.querySelector("[position-location]")
+      const position_duty = card_job.querySelector("[position-duty]")
+      const position_salary = card_job.querySelector("[position-salary]")
+      const position_ben_food_y = card_job.querySelector("[benefit-pos-food-y]")
+      const position_ben_food_n = card_job.querySelector("[benefit-pos-food-n]")
+      const position_ben_trans_y = card_job.querySelector("[benefit-pos-transp-y]")
+      const position_ben_trans_n = card_job.querySelector("[benefit-pos-transp-n]")
+      const position_ben_heal_y = card_job.querySelector("[benefit-heal-y]")
+      const position_ben_heal_n = card_job.querySelector("[benefit-heal-n]")
+      const position_description = card_job.querySelector("[description]")
+      position_company.textContent = position.companyName
+      position_detail.textContent = position.positionName
+      position_location.textContent = position.positionLocation
+      position_duty.textContent = position.positionDutyHours
+      position_salary.textContent = position.positionSalary
+      position_description.textContent = position.positionDescription
+      document.body.append(card_job)
+      
+    </script>
+
+    <template job-detailment-template>
+    <div class="detailment" data-jobs-detailment style="margin:auto;">
       <div style="background:white;  display: flex; margin-bottom: 5px;">
         <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" position-company></div>  
       </div>
       <div style="background:white;  display: flex; margin-bottom: 5px;">
-        <div class="job_card_ret1">Vaga</div><div class="job_card_ret2" position-company></div>  
+        <div class="job_card_ret1">Vaga</div><div class="job_card_ret2" position></div>  
       </div>
       <div style="background:white;  display: flex; margin-bottom: 5px;">
         <div class="job_card_ret1">Local</div><div class="job_card_ret2" position-location></div>  
@@ -64,7 +126,7 @@
         <p style="background:white; margin-left: 10px; text-justify: auto; margin-right: 10px;" description></p>
       </div>
       <button class="resume_button">Cadastrar Currículo</button>
-      <button class="back_button">Voltar</button>
+      <button class="back_button" onclick="location.href='../pages/page_user.html';">Voltar</button>
     </template>
     </div>  
   </body>
