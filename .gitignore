@@ -3,5 +3,5 @@
 /frontend/
 /secrets/
 package-lock.json
-package.json
+package2.json
 config.js

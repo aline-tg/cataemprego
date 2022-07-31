@@ -26,7 +26,7 @@ jobs:
       - name: Creating secrets file for Supabase
         run: |
           echo "SUPABASE_KEY="${{secrets.SUPABASE_KEY}}; >> config.js 
-          echo "SUPABASE_KEY="${{secrets.SUPABASE_URL}}; >> config.js 
+          echo "SUPABASE_URL="${{secrets.SUPABASE_URL}}; >> config.js 
 
       - name: Login to Heroku Container registry
         env: 
