@@ -3,7 +3,7 @@ name: Deploy cataemprego in dev stage
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build:
