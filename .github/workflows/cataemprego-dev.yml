@@ -20,7 +20,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Login in Heroku
-        run: sudo heroku auth:login
+        run: heroku auth:login
+
+      - name: Login Heroku Container
+        env: 
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: heroku container:login  
 
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
