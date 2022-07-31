@@ -11,9 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Adding secrets
-        env: 
-          SUPABASE_KEY: ${{secrets.SUBAPASE_KEY}}
-          SUPABASE_URL: ${{secrets.SUPBASE_URL}}
+      env: 
+        SUPABASE_KEY: ${{secrets.SUBAPASE_KEY}}
+        SUPABASE_URL: ${{secrets.SUPBASE_URL}}
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
