@@ -21,8 +21,8 @@ jobs:
       - name: Login in Heroku
         run: heroku auth:login
 
-      - name: Login in Heroku Container Registry
-        run: heroku container:login 
+      # - name: Login in Heroku Container Registry
+      #   run: heroku container:login 
 
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
