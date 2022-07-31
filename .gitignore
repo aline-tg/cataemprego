@@ -2,3 +2,6 @@
 .vscode
 /frontend/
 /secrets/
+package-lock.json
+package2.json
+config.js
