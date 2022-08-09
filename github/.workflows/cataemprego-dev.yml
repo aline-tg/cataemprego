@@ -1,0 +1,42 @@
+name: Deploy cataemprego in dev stage
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: write
+  metadata: read
+  pages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Creating secrets file for Supabase
+        run: |
+          echo "SUPABASE_KEY="${{secrets.SUPABASE_KEY}}; >> config.js 
+          echo "SUPABASE_URL="${{secrets.SUPABASE_URL}}; >> config.js 
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+      
+      - name: Run artifacts
+        uses: actions/upload-artifact@v3
+      
+      - name: Run upload artifacts
+        uses: actions/upload-artifact@main
+
+    deploy:
+      needs: build
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v1
