@@ -32,10 +32,10 @@ jobs:
       
       - name: Run tar
         run: tar \
-            --dereference --hard-dereference \
-            --directory ./_site \
+            -dereference -hard-dereference \
+            -directory ./_site \
             -cvf /home/runner/work/_temp/artifact.tar \
-            --exclude=.git \
+            -exclude=.git \
             .
 
       - name: Upload artifact
