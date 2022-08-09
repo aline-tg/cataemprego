@@ -41,12 +41,12 @@ jobs:
           path: /home/runner/work/_temp/artifact.tar
           retention-days: 1
 
-  deploy:
+  report-build-status:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Report build status
         uses: actions/deploy-pages@v1
         with:
           emit_telemetry: true
@@ -54,3 +54,12 @@ jobs:
           error_count: 10
           reporting_interval: 5000
           artifact_name: github-pages
+  
+  deploy:
+    needs: report-build-status
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
