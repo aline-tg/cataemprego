@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  metadata: read
-  pages: write
 
 jobs:
   build:
