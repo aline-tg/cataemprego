@@ -29,15 +29,13 @@ jobs:
         with:
           path: ./_site
           retention-days: 1
-      
-      - name: Run tar
         run: tar \
-            -dereference -hard-dereference \
-            -directory ./_site \
-            -cvf /home/runner/work/_temp/artifact.tar \
-            -exclude=.git \
-            .
-
+              --dereference --hard-dereference \
+              --directory ./_site \
+              -cvf /home/runner/work/_temp/artifact.tar \
+              --exclude=.git \
+              .
+              
       - name: Upload artifact
         uses: actions/upload-artifact@main
         with:
