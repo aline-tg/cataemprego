@@ -8,7 +8,7 @@ on:
 permissions:
   contents: read
   pages: write
-  id-token: write
+  
 
 jobs:
   build:
@@ -53,9 +53,18 @@ jobs:
           emit_telemetry: true
   
   deploy:
+    permissions: 
+      id-token: write
+      pages: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     needs: report-build-status
     runs-on: ubuntu-latest
 
     steps:
       - name: Deploy to Github Pages
+        id: deployment
         uses: actions/deploy-pages@v1
