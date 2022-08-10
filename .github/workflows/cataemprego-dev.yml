@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   pages: write
+  id-token: write
 
 jobs:
   build:
@@ -50,10 +51,6 @@ jobs:
         uses: actions/deploy-pages@v1
         with:
           emit_telemetry: true
-          timeout: 600000
-          error_count: 10
-          reporting_interval: 5000
-          artifact_name: github-pages
   
   deploy:
     needs: report-build-status
