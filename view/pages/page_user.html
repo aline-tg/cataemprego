@@ -21,10 +21,10 @@
     <script type="module">
       import supabaseAuthentication from "../../control/SupabaseUtils.js"
       import searchJobs from "../../control/searchSupabase.js"
-      import {SUPABASE_KEY, SUPABASE_URL} from "../../config.js"
+      import {configs} from "../../config.js"
 
-      const supabaseUrl = SUPABASE_URL;
-      const supabaseKey = SUPABASE_KEY;
+      const supabaseUrl = configs["SUPABASE_URL"];
+      const supabaseKey = configs["SUPABASE_KEY"];
       const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey);
 
       let jobsFiltered = [];
