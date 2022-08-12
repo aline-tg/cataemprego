@@ -11,8 +11,7 @@ permissions:
   
 jobs:
   build:
-    environment:
-      name: github-pages
+    env: 
       SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
       SUPABASE_URL: ${{secrets.SUPABASE_URL}}
 
