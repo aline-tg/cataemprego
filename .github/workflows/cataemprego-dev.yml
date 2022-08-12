@@ -22,8 +22,8 @@ jobs:
           SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
           SUPABASE_URL: ${{secrets.SUPABASE_URL}}
         run: |
-          echo "export let SUPABASE_KEY='$SUPABASE_KEY'" >> config.js 
-          echo "export let SUPABASE_URL='$SUPABASE_URL'" >> config.js 
+          echo "export let SUPABASE_KEY="$SUPABASE_KEY >> config.js 
+          echo "export let SUPABASE_URL="$SUPABASE_URL >> config.js 
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
