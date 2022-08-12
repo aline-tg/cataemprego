@@ -10,10 +10,10 @@ permissions:
   pages: write
   
 jobs:
-  environment:
-      name: github-pages
-
   build:
+    environment:
+    name: github-pages
+
     runs-on: ubuntu-latest
 
     steps:
