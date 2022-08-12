@@ -12,7 +12,9 @@ permissions:
 jobs:
   build:
     environment:
-    name: github-pages
+      name: github-pages
+      SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
+      SUPABASE_URL: ${{secrets.SUPABASE_URL}}
 
     runs-on: ubuntu-latest
 
@@ -20,9 +22,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Creating secrets file for Supabase
-        run: |
-          echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
+      # - name: Creating secrets file for Supabase
+      #   run: |
+      #     echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
