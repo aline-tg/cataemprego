@@ -67,7 +67,7 @@ main {
 .detailment{
   background: white;
   width: 600px;
-  height: 600px;
+  height: auto;
   border-radius: 12px;
   padding-top: 10px;
   padding-bottom: 10px;
