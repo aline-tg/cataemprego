@@ -26,9 +26,10 @@ jobs:
       #   run: |
       #     echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
 
-      - name: Create env files
+      - name: env vars
         run: |
-          node -e 'process.env("data", (data) => {console.log(JSON.parse(data.toString()).SecretString)})' >> config.js
+          echo "SUPABASE_KEY=$SUPABASE_KEY" >> $GITHUB_ENV
+          echo "SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
