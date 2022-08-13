@@ -14,7 +14,6 @@ jobs:
     env: 
       SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
       SUPABASE_URL: ${{secrets.SUPABASE_URL}}
-      SUPABASE_KEYS: ${{secrets.SUPABASE_KEYS}}
 
     runs-on: ubuntu-latest
 
@@ -26,10 +25,10 @@ jobs:
       #   run: |
       #     echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
 
-      - name: env vars
-        run: |
-          echo "SUPABASE_KEY=$SUPABASE_KEY" >> $GITHUB_ENV
-          echo "SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
+      # - name: env vars
+      #   run: |
+      #     echo "SUPABASE_KEY=$SUPABASE_KEY" >> $GITHUB_ENV
+      #     echo "SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
