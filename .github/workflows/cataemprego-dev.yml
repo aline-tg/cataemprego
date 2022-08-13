@@ -25,6 +25,10 @@ jobs:
       #   run: |
       #     echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
 
+      - name: Create env files
+        run: |
+          node -e 'process.stdin.on("data", (data) => {console.log(JSON.parse(data.toString()).SecretString)})' >> config.js
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
       

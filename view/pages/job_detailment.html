@@ -25,9 +25,10 @@
     <script type = "module">
       import supabaseAuthentication from "../../control/SupabaseUtils.js"
       import Position from "../../model/objects/Position.js"
+      import {SUPABASE_URL, SUPABASE_KEY} from "../../config.js"
 
-      const supabaseUrl = process.env.SUPABASE_URL
-      const supabaseKey = process.env.SUPABASE_KEY
+      const supabaseUrl = SUPABASE_URL
+      const supabaseKey = SUPABASE_KEY
       const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey);
 
       function getQueryVariable(variable)
