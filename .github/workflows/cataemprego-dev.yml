@@ -14,12 +14,13 @@ jobs:
     env: 
       SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
       SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+      SUPABASE_KEYS: ${{secrets.SUPABASE_KEYS}}
 
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # - name: Creating secrets file for Supabase
       #   run: |
@@ -27,7 +28,7 @@ jobs:
 
       - name: Create env files
         run: |
-          node -e 'process.stdin.on("data", (data) => {console.log(JSON.parse(data.toString()).SecretString)})' >> config.js
+          node -e 'process.env("data", (data) => {console.log(JSON.parse(data.toString()).SecretString)})' >> config.js
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
