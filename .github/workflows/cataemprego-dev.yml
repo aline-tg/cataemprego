@@ -1,33 +1,76 @@
 name: Deploy cataemprego in dev stage
 
 on:
-  push:
-    branches:
-      - develop
+  release:
+    types: [published]
 
 permissions:
-  contents: write
-
+  contents: read
+  pages: write
+  
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }}
+  build:
+    env: 
+      SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
+      SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Creating secrets file for Supabase
-        run: |
-          echo "SUPABASE_KEY="${{secrets.SUPABASE_KEY}}; >> config.js 
-          echo "SUPABASE_URL="${{secrets.SUPABASE_URL}}; >> config.js 
-          ls
+      # - name: Creating secrets file for Supabase
+      #   run: |
+      #     echo "${{secrets.SUPABASE_KEYS}}" >> config.js 
 
-      - name: Install rsync 📚
-        run: |
-          sudo apt-get update && sudo apt-get install -y rsync
+      # - name: env vars
+      #   run: |
+      #     echo "SUPABASE_KEY=$SUPABASE_KEY" >> $GITHUB_ENV
+      #     echo "SUPABASE_URL=$SUPABASE_URL" >> $GITHUB_ENV
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with: 
-          folder: .
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+      
+      - name: Run artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: ./_site
+          retention-days: 1
+
+      - name: Run tar
+        run: tar --dereference --hard-dereference --directory ./_site -cvf /home/runner/work/_temp/artifact.tar --exclude=.git .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: github-pages
+          path: /home/runner/work/_temp/artifact.tar
+          retention-days: 1
+
+  report-build-status:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Report build status
+        uses: actions/deploy-pages@v1
+        with:
+          emit_telemetry: true
+  
+  deploy:
+    permissions: 
+      id-token: write
+      pages: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    needs: report-build-status
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

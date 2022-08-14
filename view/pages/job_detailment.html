@@ -25,11 +25,8 @@
     <script type = "module">
       import supabaseAuthentication from "../../control/SupabaseUtils.js"
       import Position from "../../model/objects/Position.js"
-      import {SUPABASE_KEY, SUPABASE_URL} from "../../config.js"
 
-      const supabaseUrl = SUPABASE_URL;
-      const supabaseKey = SUPABASE_KEY;
-      const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey);
+      const _supabase = supabaseAuthentication();
 
       function getQueryVariable(variable)
         {
@@ -42,6 +39,7 @@
        return(false);
       }
 
+      
       let position_id = getQueryVariable("position_id");
       const jobCardTemplate = document.querySelector("[job-detailment-template]");
       const jobCardContainer = document.querySelector("[data-jobs-detailment]");
@@ -130,7 +128,6 @@
       <button class="back_button" onclick="location.href='../pages/page_user.html';">Voltar</button>
     </template>
     </div>  
-    <script type="module" src="../../config.js"></script>
     <script type="module" src="../../control/SupabaseUtils.js"></script>
     <script type="module" src="../../model/objects/Position.js"></script> 
   </body>

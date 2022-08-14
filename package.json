@@ -2,7 +2,12 @@
     "name": "cataemprego-app",
     "description": "App to help you find jobs!",
     "version": "1.0.0",
+    "license" : "Apache-2.0",
     "engines": {
-      "node": "16.13.2"
+        "node": "16.13.2"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^1.35.6",
     }
-  }
+
+}

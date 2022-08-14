@@ -1,4 +1,4 @@
-export default class Position {
+class Position {
     
     constructor(positionId,
                 companyId,
@@ -91,3 +91,5 @@ export default class Position {
     }
 
 }
+
+export default Position;
