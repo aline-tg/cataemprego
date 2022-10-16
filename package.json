@@ -7,7 +7,6 @@
         "node": "16.13.2"
     },
     "dependencies": {
-        "@supabase/supabase-js": "^1.35.6",
+        "@supabase/supabase-js": "^1.35.6"
     }
-
 }
