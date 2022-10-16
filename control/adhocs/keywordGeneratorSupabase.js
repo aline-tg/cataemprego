@@ -1,4 +1,4 @@
-import { supabaseAuthentication } from "../SupabaseUtils.js"; 
+import supabaseAuthentication from "../SupabaseUtils.js"; 
 
 const createKeywords = name => {
     const arrName = [];
@@ -36,7 +36,7 @@ const generateKeywords = names => {
 
 const supabaseUrl = 'https://heyuuynqxqobgiotfgaj.supabase.co'
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhleXV1eW5xeHFvYmdpb3RmZ2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTcyNDcyMTUsImV4cCI6MTk3MjgyMzIxNX0.Y7Q_scMNfYmZXmeJWbZI4OUj7ic7GKCDao_j5TP4-Ts'
-const table_name = "test4"
+const table_name = "registered-jobs"
 
 const _supabase = supabaseAuthentication(supabaseUrl, supabaseKey)
 
