@@ -5,7 +5,8 @@ name: Deploy cataemprego in dev stage
 #     types: [published]
 on:
   push:
-    branch: develop
+    branches: 
+      - develop
 
 permissions:
   contents: read
