@@ -46,11 +46,3 @@ main {
   background-color:"transparent";
   background-blend-mode: multiply;
 }
-
-/* .video_page_btn {
-  background: linear-gradient(180deg, #321473 0%, #0FF2F2 99.99%, rgba(0, 0, 0, 0) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  border: 1px solid #FFFFFF;
-} */
