@@ -36,6 +36,8 @@
       .catch((err) => {
         alert(err.response.text)
       })
+
+      
     }
 
     function setToken(response) {
@@ -45,6 +47,7 @@
       document.querySelector('#access-token').value = response.session.access_token
       document.querySelector('#refresh-token').value = response.session.refresh_token
       alert('Logged in as ' + response.user.email)
+      location.href='../view/pages/page_user.html'
     }
     }
 </script>
@@ -63,7 +66,7 @@
                 <input class="input--register" type='password' name='password'/>
                 <br>
                 <br>
-                <input class= "button--send" type='submit' onclick="location.href='view/pages/page_user.html';">
+                <input class= "button--send" type='submit'>
             </form>
         </div>
     </div>
