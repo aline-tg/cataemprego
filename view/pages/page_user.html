@@ -74,10 +74,23 @@
           window.location.href = "../pages/job_detailment.html?position_id=" + position_id; 
         }
       }
+
+      function logout(supabase) {
+        let err = supabase.auth.signOut()
+      }
+
+      const userLogout = document.getElementById("logout")
+      userLogout.addEventListener("click", e => {
+        logout(_supabase)
+        document.location.href = "../pages/logout.html"
+      })
+      
     </script>
 
     <main>
-      <img class="video_page_logo" src="../images/logo.png"></div>  
+      <div><img class="video_page_logo" src="../images/logo.png">
+        <button id="logout" class="button--logout">Deslogar</button>
+      </div>  
       <div class="search_wrapper">
         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
       </div>   
