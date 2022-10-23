@@ -1,28 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-  
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html>
 
-    <!-- Icon from page -->
-    <link rel="shortcut icon" href="view/images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="view/images/favicon.ico" type="image/x-icon">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <link rel="stylesheet" type="text/css" href="view/css/login.css">
+</head>
 
-    <!-- Adding libs and styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="view/css/style.css" />
-    <title>CataEmprego</title>
-  </head>
+<main>
+    <img class="video_page_logo" src="../view/images/logo.png"></div>
+</main>
+<script type="module">
+    import supabaseAuthentication from "../control/SupabaseUtils.js"
 
-  <!-- First page app  -->
-  <body>
-    <main>
-      <img class="main_page_logo" src="view/images/logo.png">
-    </main>
-    <script type= "module" src="control/main.js"></script>
-    <script type="module" src="control/utils.js"></script>
-    <script type="module" src="control/videopage.js"></script>
-  </body>
+    const _supabase = supabaseAuthentication();
+
+    window.userToken = null
+
+    document.addEventListener('DOMContentLoaded', function (event) {
+
+    var logInForm = document.querySelector('#log-in')
+    logInForm.onsubmit = logInSubmitted.bind(logInForm)
+
+    })  
+
+    const logInSubmitted = (event) => {
+    event.preventDefault()
+    const email = event.target[0].value
+    const password = event.target[1].value
+
+    _supabase.auth
+      .signInWithPassword({ email, password })
+      .then((response) => {
+        response.error ? alert(response.error.message) : setToken(response)
+      })
+      .catch((err) => {
+        alert(err.response.text)
+      })
+    }
+
+    function setToken(response) {
+    if (response.user.confirmation_sent_at && !response?.session?.access_token) {
+      alert('Confirmation Email Sent')
+    } else {
+      document.querySelector('#access-token').value = response.session.access_token
+      document.querySelector('#refresh-token').value = response.session.refresh_token
+      alert('Logged in as ' + response.user.email)
+    }
+    }
+</script>
+
+<body>
+    <div class='container' style="text-align:center">
+        <div class='section'>
+            <form id='log-in'>
+                <h2 class="font-style-login">Log In</h2>
+                <br>
+                <label class="font-style-login" style="background:none">Email </label>
+                <input class="input--register" type='email' name='email'/>
+                <br>
+                <br>
+                <label class="font-style-login" style="background:none">Senha </label>
+                <input class="input--register" type='password' name='password'/>
+                <br>
+                <br>
+                <input class= "button--send" type='submit' onclick="location.href='view/pages/page_user.html';">
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div style="text-align:center">
+        <button class="registration-button" onclick="location.href='view/pages/register_login.html';">Não tem login? <b style="background:none">Registre-se!</b></button>
+    </div>
+</body>
+
 </html>

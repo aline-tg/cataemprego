@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
-    <link rel="stylesheet" type="text/css" href="../../view/css/company_login.css">
+    <link rel="stylesheet" type="text/css" href="../../view/css/login.css">
 </head>
 
 <main>
@@ -56,9 +56,13 @@
                 <br>
                 <label class="font-style-login" style="background:none">Email </label>
                 <input class="input--register" type='email' name='email'/>
+                <br>
+                <br>
                 <label class="font-style-login" style="background:none">Senha </label>
                 <input class="input--register" type='password' name='password'/>
-                <input class= "button--send" type='submit'>
+                <br>
+                <br>
+                <input class= "button--send" type='submit' onclick="location.href='view/pages/confirmation_email.html';">
             </form>
         </div>
     </div>
