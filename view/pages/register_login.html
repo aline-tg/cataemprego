@@ -4,7 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <link rel="stylesheet" type="text/css" href="../../view/css/login.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 </head>
 
 <main>
@@ -30,10 +29,10 @@
     })
 
     const signUpSubmitted = async (event) => {
-        const email = event.target[0].value
-        const password = event.target[1].value
+        const email = event.target[0].value;
+        const password = event.target[1].value;
 
-        const { error } = await _supabase
+        const {data: data_register, error: error_register } = await _supabase
                                     .from('users-auth')
                                     .insert(
                                         [{ 
@@ -42,8 +41,15 @@
                                            user_password: password,
                                            created_date: Date.now().toString(),
                                            hashed_password: hashCode(password)
-                                        }])
-    }
+                                        }]);
+        // console.log(error_register);
+        // if (error_register === null) {
+        //     alert("Tivemos um problema no seu cadastro!");
+        // } else {
+        //     alert("Seu login foi feito com sucesso!");
+        //     location.href='../../index.html'
+        // }
+     }
 
 </script>
 
@@ -61,7 +67,7 @@
                 <input class="input--register" type='password' name='password'/>
                 <br>
                 <br>
-                <input class= "button--send" type='submit' onclick="location.href='confirmation_email.html';">
+                <input class= "button--send" type='submit'>
             </form>
         </div>
     </div>
