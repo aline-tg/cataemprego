@@ -22,18 +22,33 @@
     logInForm.onsubmit = logInSubmitted.bind(logInForm)
     })  
 
-    const logInSubmitted = (event) => {
+    function generateGuid() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
+
+    const logInSubmitted = async (event) => {
         event.preventDefault()
     
         const email = event.target[0].value
         const password = event.target[1].value
+        
+        const {data: login_data, error: error_login } = await _supabase
+                                                                .from('users-auth')
+                                                                .select("user_email,user_password")
+                                                                .eq("user_email",email)
 
-        if (email === "alinetg@msn.com" && password === "123456") {
-            alert("Seu login foi feito com sucesso!");
-            location.href='../view/pages/page_user.html'
+        if(login_data.length !== 0) {
+            if (login_data[0].user_email === email && login_data[0].user_password === password) {
+                alert("Seu login foi feito com sucesso!");
+                location.href='../view/pages/page_user.html'
+            } else {
+                alert("E-mail inválido e/ou senha inválida.")
+            }
         } else {
-            alert("E-mail inválido e/ou senha inválida.")
-        }
+            alert("Cadastro não encontrado.")
+        } 
+
     }
 
 </script>
