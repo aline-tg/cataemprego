@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <link rel="stylesheet" type="text/css" href="../../view/css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 </head>
 
 <main>
@@ -14,43 +15,36 @@
 
     const _supabase = supabaseAuthentication();
 
-    window.userToken = null
+    function generateGuid() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
+
+    function hashCode(str) {
+        return Array.from(str).reduce((hash, char) => 0 | (31 * hash + char.charCodeAt(0)), 0)
+    }
 
     document.addEventListener('DOMContentLoaded', function (event) {
       var signUpForm = document.querySelector('#sign-up')
       signUpForm.onsubmit = signUpSubmitted.bind(signUpForm)
     })
 
-    const signUpSubmitted = (event) => {
-      const { data, error } = _supabase.auth.signUp({
-        email: event.target[0].value,
-        password: event.target[1].value,
-        })
-      }
-    // const signUpSubmitted = (event) => {
-    //   event.preventDefault()
-    //   const email = event.target[0].value
-    //   const password = event.target[1].value
+    const signUpSubmitted = async (event) => {
+        const email = event.target[0].value
+        const password = event.target[1].value
 
-    //   _supabase.auth
-    //     .signUp({ email, password })
-    //     .then((response) => {
-    //       response.error ? alert(response.error.message) : setToken(response)
-    //     })
-    //     .catch((err) => {
-    //       alert(err)
-    //     })
-    // }
+        const { error } = await _supabase
+                                    .from('users-auth')
+                                    .insert(
+                                        [{ 
+                                           user_id: generateGuid(),
+                                           user_email: email, 
+                                           user_password: password,
+                                           created_date: Date.now().toString(),
+                                           hashed_password: hashCode(password)
+                                        }])
+    }
 
-    // function setToken(response) {
-    //   if (response.user.confirmation_sent_at && !response?.session?.access_token) {
-    //     alert('Confirmation Email Sent')
-    //   } else {
-    //     document.querySelector('#access-token').value = response.session.access_token
-    //     document.querySelector('#refresh-token').value = response.session.refresh_token
-    //     alert('Logged in as ' + response.user.email)
-    //   }
-    // }
 </script>
 
 <body>
