@@ -27,6 +27,18 @@
                Math.random().toString(36).substring(2, 15);
     }
 
+    async function createCookieAndRegisterSessionId(user_id) {
+        const session_guid = generateGuid()
+        window.document.cookie = "user_id="+user_id 
+        window.document.cookie = "session_id="+session_guid
+        let add_info = {session_id: session_guid, 
+                        last_login_date: Date.now().toString()}
+        const {error: error_login } = await _supabase
+                                                .from('users-auth')
+                                                .update(add_info)
+                                                .eq("user_id", user_id)
+    }
+
     const logInSubmitted = async (event) => {
         event.preventDefault()
     
@@ -35,12 +47,13 @@
         
         const {data: login_data, error: error_login } = await _supabase
                                                                 .from('users-auth')
-                                                                .select("user_email,user_password")
+                                                                .select("user_id,user_email,user_password")
                                                                 .eq("user_email",email)
 
         if(login_data.length !== 0) {
             if (login_data[0].user_email === email && login_data[0].user_password === password) {
                 alert("Seu login foi feito com sucesso!");
+                createCookieAndRegisterSessionId(login_data[0].user_id)
                 location.href='../view/pages/page_user.html'
             } else {
                 alert("E-mail inválido e/ou senha inválida.")
