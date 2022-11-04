@@ -29,10 +29,15 @@
     })
 
     const signUpSubmitted = async (event) => {
+        event.preventDefault()
         const email = event.target[0].value;
         const password = event.target[1].value;
 
-        const {data: data_register, error: error_register } = await _supabase
+        if(email === "" && password == "") {
+            alert("Não podemos cadastrar email ou senha vazia.")
+        }
+        else {
+            const {data: data_register, error: error_register } = await _supabase
                                     .from('users-auth')
                                     .insert(
                                         [{ 
@@ -42,14 +47,14 @@
                                            created_date: Date.now().toString(),
                                            hashed_password: hashCode(password)
                                         }]);
-        // console.log(error_register);
-        // if (error_register === null) {
-        //     alert("Tivemos um problema no seu cadastro!");
-        // } else {
-        //     alert("Seu login foi feito com sucesso!");
-        //     location.href='../../index.html'
-        // }
-     }
+            
+            if (error_register === undefined) {
+                alert("Tivemos um problema no seu cadastro!");
+            } else {
+                document.location.href = "../pages/confirmation_email.html"
+            }
+        }
+    }
 
 </script>
 
