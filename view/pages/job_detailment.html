@@ -88,9 +88,20 @@
         position_description.textContent = position.positionDescription
         document.body.append(card_job)
 
-        function logout() {
+        async function logout() {
+          let old_cookie_value = getCookie("session_id") 
+          let user_id = getCookie("user_id")
           window.document.cookie = "session_id=;Path=/"
           window.document.cookie = "user_id=;Path=/"
+
+          let update_info = {
+            session_id: ""
+          }
+
+          const {data: data_update, error: error_update } = await _supabase
+                                    .from('users-auth')
+                                    .update(update_info)
+                                    .eq("user_id",user_id)
         }
 
         const userLogout = document.getElementById("logout")
