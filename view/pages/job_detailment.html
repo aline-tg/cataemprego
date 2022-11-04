@@ -20,65 +20,88 @@
   <body>
     <main>
       <img class="video_page_logo" src="../images/logo.png">
+      <button id="logout" class="button--logout">Deslogar</button>
     </main>
 
     <script type = "module">
       import supabaseAuthentication from "../../control/SupabaseUtils.js"
       import Position from "../../model/objects/Position.js"
 
-      const _supabase = supabaseAuthentication();
-
-      function getQueryVariable(variable)
-        {
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
       }
 
-      
-      let position_id = getQueryVariable("position_id");
-      const jobCardTemplate = document.querySelector("[job-detailment-template]");
-      const jobCardContainer = document.querySelector("[data-jobs-detailment]");
-      const {data: job, error: error_reading} = await _supabase
-                                                        .from("registered-jobs")
-                                                        .select("*")
-                                                        .eq("position_id", position_id)
-      var position_filtered = job[0]
+      if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+        const _supabase = supabaseAuthentication();
 
-      var position = new Position(position_filtered.position_id,
-                                  position_filtered.company_id,
-                                  position_filtered.company_name,
-                                  position_filtered.position_name,
-                                  position_filtered.position_location,
-                                  position_filtered.position_duty_hours,
-                                  position_filtered.position_salary,
-                                  position_filtered.position_benefits,
-                                  position_filtered.position_description)  
+        function getQueryVariable(variable)
+          {
+         var query = window.location.search.substring(1);
+         var vars = query.split("&");
+         for (var i=0;i<vars.length;i++) {
+                 var pair = vars[i].split("=");
+                 if(pair[0] == variable){return pair[1];}
+         }
+         return(false);
+        }
 
-      const card_job = jobCardTemplate.content.cloneNode(true).children[0]
-      const position_company = card_job.querySelector("[position-company]")
-      const position_detail = card_job.querySelector("[position]")
-      const position_location = card_job.querySelector("[position-location]")
-      const position_duty = card_job.querySelector("[position-duty]")
-      const position_salary = card_job.querySelector("[position-salary]")
-      const position_ben_food_y = card_job.querySelector("[benefit-pos-food-y]")
-      const position_ben_food_n = card_job.querySelector("[benefit-pos-food-n]")
-      const position_ben_trans_y = card_job.querySelector("[benefit-pos-transp-y]")
-      const position_ben_trans_n = card_job.querySelector("[benefit-pos-transp-n]")
-      const position_ben_heal_y = card_job.querySelector("[benefit-heal-y]")
-      const position_ben_heal_n = card_job.querySelector("[benefit-heal-n]")
-      const position_description = card_job.querySelector("[description]")
-      position_company.textContent = position.companyName
-      position_detail.textContent = position.positionName
-      position_location.textContent = position.positionLocation
-      position_duty.textContent = position.positionDutyHours
-      position_salary.textContent = position.positionSalary
-      position_description.textContent = position.positionDescription
-      document.body.append(card_job)
+
+        let position_id = getQueryVariable("position_id");
+        const jobCardTemplate = document.querySelector("[job-detailment-template]");
+        const jobCardContainer = document.querySelector("[data-jobs-detailment]");
+        const {data: job, error: error_reading} = await _supabase
+                                                          .from("registered-jobs")
+                                                          .select("*")
+                                                          .eq("position_id", position_id)
+        var position_filtered = job[0]
+
+        var position = new Position(position_filtered.position_id,
+                                    position_filtered.company_id,
+                                    position_filtered.company_name,
+                                    position_filtered.position_name,
+                                    position_filtered.position_location,
+                                    position_filtered.position_duty_hours,
+                                    position_filtered.position_salary,
+                                    position_filtered.position_benefits,
+                                    position_filtered.position_description)  
+
+        const card_job = jobCardTemplate.content.cloneNode(true).children[0]
+        const position_company = card_job.querySelector("[position-company]")
+        const position_detail = card_job.querySelector("[position]")
+        const position_location = card_job.querySelector("[position-location]")
+        const position_duty = card_job.querySelector("[position-duty]")
+        const position_salary = card_job.querySelector("[position-salary]")
+        const position_ben_food_y = card_job.querySelector("[benefit-pos-food-y]")
+        const position_ben_food_n = card_job.querySelector("[benefit-pos-food-n]")
+        const position_ben_trans_y = card_job.querySelector("[benefit-pos-transp-y]")
+        const position_ben_trans_n = card_job.querySelector("[benefit-pos-transp-n]")
+        const position_ben_heal_y = card_job.querySelector("[benefit-heal-y]")
+        const position_ben_heal_n = card_job.querySelector("[benefit-heal-n]")
+        const position_description = card_job.querySelector("[description]")
+        position_company.textContent = position.companyName
+        position_detail.textContent = position.positionName
+        position_location.textContent = position.positionLocation
+        position_duty.textContent = position.positionDutyHours
+        position_salary.textContent = position.positionSalary
+        position_description.textContent = position.positionDescription
+        document.body.append(card_job)
+
+        function logout() {
+          window.document.cookie = "session_id=;Path=/"
+          window.document.cookie = "user_id=;Path=/"
+        }
+
+        const userLogout = document.getElementById("logout")
+        userLogout.addEventListener("click", e => {
+          logout()
+          document.location.href = "../pages/logout.html"
+        })
+
+    } else {
+        document.location.href = "../pages/needs_login.html"
+      }
       
     </script>
 
