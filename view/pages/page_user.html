@@ -22,68 +22,80 @@
       import supabaseAuthentication from "../../control/SupabaseUtils.js"
       import searchJobs from "../../control/searchSupabase.js"
 
-      const _supabase = supabaseAuthentication();
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
 
-      let jobsFiltered = [];
-      let allJobs = [];
-      let messageToPrint = "Você não pesquisou por nenhuma vaga :(";
-      let i;
-      const searchInput = document.querySelector("[data-search]");
-      const userCardContainer = document.querySelector("[data-jobs-cards-container]");
-      const userCardTemplate = document.querySelector("[data-user-template]");
-      const userTextBeforeSearch = document.querySelector("h1");
-      userTextBeforeSearch.innerHTML = messageToPrint;
+      if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+        const _supabase = supabaseAuthentication();
 
-      function removeAllChildNodes(node) {
-          i = (typeof(node) == "object") ? node : document.querySelector(node);
+        let jobsFiltered = [];
+        let allJobs = [];
+        let messageToPrint = "Você não pesquisou por nenhuma vaga :(";
+        let i;
+        const searchInput = document.querySelector("[data-search]");
+        const userCardContainer = document.querySelector("[data-jobs-cards-container]");
+        const userCardTemplate = document.querySelector("[data-user-template]");
+        const userTextBeforeSearch = document.querySelector("h1");
+        userTextBeforeSearch.innerHTML = messageToPrint;
 
-          while (i.hasChildNodes()) {
-            i.removeChild(i.firstChild);
+        function removeAllChildNodes(node) {
+            i = (typeof(node) == "object") ? node : document.querySelector(node);
+
+            while (i.hasChildNodes()) {
+              i.removeChild(i.firstChild);
+            }
+        }
+
+        searchInput.addEventListener("keydown", e => {
+          removeAllChildNodes("[data-jobs-cards-container]")
+          removeAllChildNodes("h1")
+          if (e.code == "Enter"){
+            const value = e.target.value.toLowerCase()
+            jobsFiltered = searchJobs(value,_supabase)
+            jobsFiltered.then(arrayPosition => {
+              arrayPosition.forEach(position => {
+                const card = userCardTemplate.content.cloneNode(true).children[0]
+                const position_company = card.querySelector("[position-company]")
+                const position_name = card.querySelector("[position-name]")
+                const detail_button_id = card.querySelector("[detail-button-id]")
+                position_company.textContent = position.companyName
+                position_name.textContent = position.positionName
+                detail_button_id.innerText = position.positionId
+                userCardContainer.append(card)
+                return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
+              }) 
+            })
           }
-      }
+        })    
 
-      searchInput.addEventListener("keydown", e => {
-        removeAllChildNodes("[data-jobs-cards-container]")
-        removeAllChildNodes("h1")
-        if (e.code == "Enter"){
-          const value = e.target.value.toLowerCase()
-          jobsFiltered = searchJobs(value,_supabase)
-          jobsFiltered.then(arrayPosition => {
-            arrayPosition.forEach(position => {
-              const card = userCardTemplate.content.cloneNode(true).children[0]
-              const position_company = card.querySelector("[position-company]")
-              const position_name = card.querySelector("[position-name]")
-              const detail_button_id = card.querySelector("[detail-button-id]")
-              position_company.textContent = position.companyName
-              position_name.textContent = position.positionName
-              detail_button_id.innerText = position.positionId
-              userCardContainer.append(card)
-              return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
-            }) 
-          })
+        document.body.addEventListener("click", jobDetailment, false)
+
+        function jobDetailment(e) {
+          e=e || window.event;
+          var target = e.target || e.srcElement;
+          if(target.className.match("button")) {
+            let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
+            window.location.href = "../pages/job_detailment.html?position_id=" + position_id; 
+          }
         }
-      })    
 
-      document.body.addEventListener("click", jobDetailment, false)
-
-      function jobDetailment(e) {
-        e=e || window.event;
-        var target = e.target || e.srcElement;
-        if(target.className.match("button")) {
-          let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
-          window.location.href = "../pages/job_detailment.html?position_id=" + position_id; 
+        function logout() {
+          window.document.cookie = "session_id=;Path=/"
+          window.document.cookie = "user_id=;Path=/"
         }
-      }
 
-      function logout(supabase) {
-        let err = supabase.auth.signOut()
+        const userLogout = document.getElementById("logout")
+        userLogout.addEventListener("click", e => {
+          logout()
+          document.location.href = "../pages/logout.html"
+        })
       }
-
-      const userLogout = document.getElementById("logout")
-      userLogout.addEventListener("click", e => {
-        logout(_supabase)
-        document.location.href = "../pages/logout.html"
-      })
+      else {
+        document.location.href = "../pages/needs_login.html"
+      }
       
     </script>
 
