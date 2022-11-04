@@ -49,14 +49,19 @@
             }
         }
 
-        searchInput.addEventListener("keydown", e => {
+        document.addEventListener("DOMContentLoaded", function(event){
+          searchInput.onsubmit = searchAction.bind(searchInput)
+        })
+
+        const searchAction = async (event) => {
+          event.preventDefault()
           removeAllChildNodes("[data-jobs-cards-container]")
           removeAllChildNodes("h1")
-          if (e.code == "Enter"){
-            const value = e.target.value.toLowerCase()
-            jobsFiltered = searchJobs(value,_supabase)
-            jobsFiltered.then(arrayPosition => {
-              arrayPosition.forEach(position => {
+
+          const search = event.target[0].value.toLowerCase()
+          jobsFiltered = searchJobs(search,_supabase)
+          jobsFiltered.then(arrayPosition => {
+          arrayPosition.forEach(position => {
                 const card = userCardTemplate.content.cloneNode(true).children[0]
                 const position_company = card.querySelector("[position-company]")
                 const position_name = card.querySelector("[position-name]")
@@ -68,8 +73,7 @@
                 return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
               }) 
             })
-          }
-        })    
+        }
 
         document.body.addEventListener("click", jobDetailment, false)
 
@@ -114,9 +118,10 @@
       <div><img class="video_page_logo" src="../images/logo.png">
         <button id="logout" class="button--logout">Deslogar</button>
       </div>  
-      <div class="search_wrapper">
-        <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos." data-search>
-      </div>   
+      <form class="search_wrapper" data-search>
+        <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos.">
+        <input class= "button--send" type='submit'>
+      </form>   
     </main>
     <h1></h1>
     <div class="jobs-cards" data-jobs-cards-container></div>
