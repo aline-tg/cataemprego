@@ -66,7 +66,39 @@
         document.location.href = "../pages/logout.html"
       })
 
+      const formInput = document.querySelector("[register-company]");
+      document.addEventListener("DOMContentLoaded", function(event){
+        formInput.onsubmit = registerAction.bind(formInput)
+        })
 
+        const registerAction = async (event) => {
+          event.preventDefault()
+          
+          const company_name = event.target[0].value.toLowerCase()
+          const company_cnpj = event.target[1].value.toLowerCase()
+          const company_street = event.target[2].value.toLowerCase()
+          const company_neighborhood = event.target[3].value.toLowerCase()
+          const company_city = event.target[4].value.toLowerCase()
+          const company_state = event.target[5].value.toLowerCase()
+          const company_phone = event.target[6].value.toLowerCase()
+          const company_logo = event.target[7].value.toLowerCase()
+
+          //ADICIONAR A LOGICA DE VERIFICACAO DE CAMPOS NÃO NULOS
+          //CRIAR CLASSE PARA REGISTRAR A EMPRESA
+          jobsFiltered.then(arrayPosition => {
+          arrayPosition.forEach(position => {
+                const card = userCardTemplate.content.cloneNode(true).children[0]
+                const position_company = card.querySelector("[position-company]")
+                const position_name = card.querySelector("[position-name]")
+                const detail_button_id = card.querySelector("[detail-button-id]")
+                position_company.textContent = position.companyName
+                position_name.textContent = position.positionName
+                detail_button_id.innerText = position.positionId
+                userCardContainer.append(card)
+                return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
+              }) 
+            })
+        }
     }
     else {
       document.location.href = "../pages/needs_login.html"
@@ -91,7 +123,7 @@
 </main>
 <body>
    <h1 style="align-items: center; margin-left:35%; background: none; color: white; padding-bottom: 10px;">Cadastro de Empresa</h1> 
-   <form id = "register_company" style="margin-left:35%; background: none;">
+   <form id = "register_company" style="margin-left:35%; background: none;" register-company>
        <h5>Digite o nome ou razão social de sua empresa:</h5>
        <input id="company_name" class="user--input" type="text">
        <h5>Digite o CNPJ de sua empresa:</h5>
