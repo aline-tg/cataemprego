@@ -113,16 +113,49 @@
       }
       
     </script>
+    <script type = "text/javascript">
+      /* When the user clicks on the button,
+      toggle between hiding and showing the dropdown content */
+      function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+      // Close the dropdown menu if the user clicks outside of it
+      window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+              openDropdown.classList.remove('show');
+            }
+          }
+        }
+      }
+    </script>
 
     <main>
       <div>
         <img class="video_page_logo" src="../images/logo.png">
         <button id="logout" class="button--logout">Deslogar</button>
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">Menu</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="page_user.html" style="background: #E5E5E5;">Buscar Vagas</a>
+            <a href="#" style="background: #E5E5E5;">Cadastrar Empresa</a>
+            <a href="#" style="background: #E5E5E5;">Cadastrar Vagas</a>
+            <a href="videopage_user.html" style="background: #E5E5E5;">Como usar o CataEmprego</a>
+            <a href="about_us.html" style="background: #E5E5E5;">Sobre o CataEmprego</a>
+          </div>
+        </div>
       </div>  
+
+      <div>
       <form class="search_wrapper" data-search>
         <input id="search_jobs" class="search_bar" type="search" placeholder="Que emprego você quer?" aria-label="Busca de empregos.">
         <input class= "button--send" type='submit'>
       </form>   
+      </div>
     </main>
     <h1></h1>
     <div class="jobs-cards" data-jobs-cards-container></div>

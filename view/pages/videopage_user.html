@@ -15,18 +15,87 @@
     <title>CataEmprego</title>
   </head>
 
+  <script type = "text/javascript">
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+
+  <script type="module">
+    import supabaseAuthentication from "../../control/SupabaseUtils.js"
+    import searchJobs from "../../control/searchSupabase.js"
+  
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+  
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+      const _supabase = supabaseAuthentication();
+    
+      async function logout() {
+        let old_cookie_value = getCookie("session_id") 
+        let user_id = getCookie("user_id")
+        window.document.cookie = "session_id=;Path=/"
+        window.document.cookie = "user_id=;Path=/"
+      
+        let update_info = {
+          session_id: ""
+        }
+      
+        const {data: data_update, error: error_update } = await _supabase
+                                  .from('users-auth')
+                                  .update(update_info)
+                                  .eq("user_id",user_id)
+      }
+    
+      const userLogout = document.getElementById("logout")
+      userLogout.addEventListener("click", e => {
+        logout()
+        document.location.href = "../pages/logout.html"
+      })
+    }
+    else {
+      document.location.href = "../pages/needs_login.html"
+    }
+  </script>
+
   <!-- First page app  -->
   <body>
     <main>
-      <img class="video_page_logo" src="../images/logo.png">
+      <div>
+        <img class="video_page_logo" src="../images/logo.png">
+        <button id="logout" class="button--logout">Deslogar</button>
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">Menu</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="page_user.html" style="background: #E5E5E5;">Buscar Vagas</a>
+            <a href="#" style="background: #E5E5E5;">Cadastrar Empresa</a>
+            <a href="#" style="background: #E5E5E5;">Cadastrar Vagas</a>
+            <a href="videopage_user.html" style="background: #E5E5E5;">Como usar o CataEmprego</a>
+            <a href="about_us.html" style="background: #E5E5E5;">Sobre o CataEmprego</a>
+          </div>
+        </div>
+      </div>  
       <h2 class="video_page_h1">Como usar o CataEmprego?</h2>
       <br>
       <image class="video_page_btn_video" src="../images/video.png">
-      <br>
-      <div>
-        <button class="video_page_btn" onclick="location.href='../../index.html';">Voltar</button>
-        <button class="video_page_btn" onclick= "location.href='page_user.html'">Próximo</button>
-      </div>
     </main>
     <script type="module" src="../../control/videopage.js"></script>
   </body>
