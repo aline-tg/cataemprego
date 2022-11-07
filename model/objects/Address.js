@@ -1,4 +1,4 @@
-class Address {
+export default class Address {
 
     constructor(companyId,
                 street,
@@ -11,6 +11,10 @@ class Address {
         this.state = state;
         this.district = district;
         }
+
+    getCompanyId(){
+        return this.companyId;
+    }
 
     getStreet(){
         return this.street;

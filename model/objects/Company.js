@@ -1,4 +1,4 @@
-class Company {
+export default class Company {
 
     constructor(companyId,
                 cnpj,
@@ -13,6 +13,10 @@ class Company {
         this.companyPhone = companyPhone;
         this.companyLogoImage = companyLogoImage;
         }
+
+    getCompanyId() {
+        return this.companyId;
+    }
 
     getCnpj(){
         return this.cnpj;
