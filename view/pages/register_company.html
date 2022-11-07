@@ -34,6 +34,10 @@
 <script type="module">
     import supabaseAuthentication from "../../control/SupabaseUtils.js"
     import searchJobs from "../../control/searchSupabase.js"
+    import Company from "../../model/objects/Company.js"
+    import Address from "../../model/objects/Address.js"
+
+    const _supabase = supabaseAuthentication();
 
     function getCookie(name) {
       const value = `; ${document.cookie}`;
@@ -42,7 +46,11 @@
     }
 
     if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
-      const _supabase = supabaseAuthentication();
+
+      function generateGuid() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
 
       async function logout() {
         let old_cookie_value = getCookie("session_id") 
@@ -82,22 +90,47 @@
           const company_state = event.target[5].value.toLowerCase()
           const company_phone = event.target[6].value.toLowerCase()
           const company_logo = event.target[7].value.toLowerCase()
+          const company_id = generateGuid()
 
-          //ADICIONAR A LOGICA DE VERIFICACAO DE CAMPOS NÃO NULOS
-          //CRIAR CLASSE PARA REGISTRAR A EMPRESA
-          jobsFiltered.then(arrayPosition => {
-          arrayPosition.forEach(position => {
-                const card = userCardTemplate.content.cloneNode(true).children[0]
-                const position_company = card.querySelector("[position-company]")
-                const position_name = card.querySelector("[position-name]")
-                const detail_button_id = card.querySelector("[detail-button-id]")
-                position_company.textContent = position.companyName
-                position_name.textContent = position.positionName
-                detail_button_id.innerText = position.positionId
-                userCardContainer.append(card)
-                return { id:position.positionId, name: position.positionName, company: position.companyName, element: card }
-              }) 
-            })
+          var address = new Address(company_id,
+                                    company_street,
+                                    company_city,
+                                    company_state)
+          var company = new Company(company_id,
+                                    company_cnpj,
+                                    company_name,
+                                    address,
+                                    company_phone,
+                                    company_logo)  
+
+          if(company_cnpj === undefined) {
+            alert("Necessário preenchimento do valor de CNPJ.")
+          }
+          else {
+
+            const {data: data_register_company, error: error_register_company } = await _supabase
+                                    .from('registered-companies')
+                                    .insert(
+                                        [{ 
+                                           company_id: company_id,
+                                           cnpj: company_state, 
+                                           company_name: company_name,
+                                           company_phone: company_phone,
+                                           registration_date: Date.now().toString()
+                                        }]);
+            const {data: data_register_company_address, error: error_register_company_address } = await _supabase
+                                    .from('companies-address')
+                                    .insert(
+                                        [{ 
+                                           company_id: company_id,
+                                           street: company_street, 
+                                           city: company_city,
+                                           state: company_state,
+                                           registration_date: Date.now().toString()
+                                        }]);
+            alert("Empresa registrada com sucesso!")
+          }
+          
         }
     }
     else {
