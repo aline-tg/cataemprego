@@ -129,6 +129,9 @@
                                            registration_date: Date.now().toString()
                                         }]);
             alert("Empresa registrada com sucesso!")
+            setTimeout(() => {
+                      document.location.href = "../pages/page_user.html"
+                      }, 1800)
           }
           
         }
@@ -155,7 +158,7 @@
       </div>  
 </main>
 <body>
-   <h1 style="align-items: center; margin-left:35%; background: none; color: white; padding-bottom: 10px;">Cadastro de Empresa</h1> 
+   <h1>Cadastrar Empresa</h1> 
    <form id = "register_company" style="margin-left:35%; background: none;" register-company>
        <h5>Digite o nome ou razão social de sua empresa:</h5>
        <input id="company_name" class="user--input" type="text">
@@ -171,8 +174,8 @@
        <input id="company_state" class="user--input" type="text">
        <h5>Digite o número de telefone de sua empresa:</h5>
        <input id="company_phone" class="user--input" type="tel">   
-       <h5>Adicione o logo de sua empresa:</h5>
-       <input id="company_logo" class="user--input" type="file" accept="image/*;.jpeg;.jpg">
+       <!-- <h5>Adicione o logo de sua empresa:</h5>
+       <input id="company_logo" class="user--input" type="file" accept="image/*;.jpeg;.jpg"> -->
        <input class= "button--send" type='submit'>
    </form>  
 </body>
