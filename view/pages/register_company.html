@@ -95,7 +95,8 @@
           var address = new Address(company_id,
                                     company_street,
                                     company_city,
-                                    company_state)
+                                    company_state,
+                                    company_neighborhood)
           var company = new Company(company_id,
                                     company_cnpj,
                                     company_name,
@@ -112,20 +113,21 @@
                                     .from('registered-companies')
                                     .insert(
                                         [{ 
-                                           company_id: company_id,
-                                           cnpj: company_state, 
-                                           company_name: company_name,
-                                           company_phone: company_phone,
+                                           company_id: company.company_id,
+                                           cnpj: company.cnpj, 
+                                           company_name: company.companyName,
+                                           company_phone: company.companyPhone,
                                            registration_date: Date.now().toString()
                                         }]);
             const {data: data_register_company_address, error: error_register_company_address } = await _supabase
                                     .from('companies-address')
                                     .insert(
                                         [{ 
-                                           company_id: company_id,
-                                           street: company_street, 
-                                           city: company_city,
-                                           state: company_state,
+                                           company_id: company.company_id,
+                                           street: company.companyAddress.street, 
+                                           city: company.companyAddress.city,
+                                           state: company.companyAddress.state,
+                                           district: company.companyAddress.district,
                                            registration_date: Date.now().toString()
                                         }]);
             alert("Empresa registrada com sucesso!")
