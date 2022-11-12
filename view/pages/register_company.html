@@ -120,7 +120,6 @@
                                            company_phone: company.companyPhone,
                                            registration_date: Date.now().toString()
                                         }]);
-            console.log(data_register_company)
             const {data: data_register_company_address, error: error_register_company_address } = await _supabase
                                     .from('companies-address')
                                     .insert(
@@ -132,7 +131,6 @@
                                            district: company.companyAddress.district,
                                            registration_date: Date.now().toString()
                                         }]);
-            console.log(data_register_company_address)
             alert("Empresa registrada com sucesso!")
             setTimeout(() => {
                       document.location.href = "../pages/page_user.html"
