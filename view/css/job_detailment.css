@@ -79,7 +79,7 @@ main {
   background: #E5E5E5;
   border-radius: 15px;
   margin-top: 10px;
-  margin-left: 190px;
+  margin-left: 200px;
   text-align: center;
   border: none;
 }
@@ -93,11 +93,11 @@ main {
   height: 30px;
   background: #E5E5E5;
   border-radius: 15px;
-  margin-top: 10px;
-  margin-left: 125px;
-  text-align: center;
+  top: 50px;
+  left: 120px;
   border: none;
-}
+  position:absolute;
+} 
 
 .button--logout{
   right: 120px;
