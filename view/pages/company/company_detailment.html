@@ -68,7 +68,7 @@
                                       company_filtered.cnpj,
                                       company_filtered.company_name,
                                       address_class,
-                                      company_filtered.phone)  
+                                      company_filtered.company_phone)  
       const card_company = compCardTemplate.content.cloneNode(true).children[0]
       const company_name = card_company.querySelector("[company-name]")
       const company_cnpj = card_company.querySelector("[company-cnpj]")
@@ -106,9 +106,20 @@
         document.location.href = "../utils/logout.html"
       })
 
+      function storeCompanyVars(){
+        localStorage.setItem("company_name", company_class.companyName);
+        localStorage.setItem("company_cnpj", company_class.cnpj);
+        localStorage.setItem("company_street", company_class.companyAddress.street);
+        localStorage.setItem("company_district", company_class.companyAddress.district);
+        localStorage.setItem("company_city", company_class.companyAddress.city);
+        localStorage.setItem("company_state", company_class.companyAddress.state);
+        localStorage.setItem("company_phone", company_class.companyPhone);
+      }
+
       const updateCompany = document.getElementById("update_company_register")
       updateCompany.addEventListener("click", e => {
         let company_id = getQueryVariable("company_id"); 
+        storeCompanyVars();
         window.location.href = "../company/update_company.html?company_id=" + company_id; 
       })
       
