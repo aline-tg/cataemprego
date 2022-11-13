@@ -4,13 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <link rel="stylesheet" type="text/css" href="view/css/user/login.css">
+    <script type="module" src="/control/SupabaseUtils.js"></script>
 </head>
 
 <main>
     <img class="video_page_logo" src="view/images/logo.png"></div>
 </main>
+
 <script type="module">
-    import supabaseAuthentication from "../control/SupabaseUtils.js"
+    import supabaseAuthentication from "/control/SupabaseUtils.js"
 
 
     const _supabase = supabaseAuthentication();
@@ -66,7 +68,6 @@
     }
 
 </script>
-<script type="module" src="/control/SupabaseUtils.js"></script>
 
 <body>
     <div class='container' style="text-align:center">
