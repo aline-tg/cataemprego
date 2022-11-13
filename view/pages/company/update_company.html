@@ -122,43 +122,211 @@
              (company_phone_upd.length == 0)) {
               alert("Não é possível fazer a atualização de cadastro com todos os campos vazios. Tente novamente preenchendo os campos com as atualizações.")
             }
-              else {
-                var address_upd = new Address(company_id,
-                                              company_street_upd,
-                                              company_city_upd,
-                                              company_state_upd,
-                                              company_neighborhood_upd)
+          else {
                 var company_upd = new Company(company_id,
                                               company_cnpj,
                                               company_name_upd,
                                               address_upd,
                                               company_phone_upd) 
-                console.log(company_id)
-                
-                let company_update = {
+
+                if((company_name_upd.length == 0) & (company_phone_upd.length == 0)){
+                  let company_update = {
+                      update_date: Date.now().toString()
+                  }
+                }
+                else if((company_name_upd.length != 0) & (company_phone_upd.length == 0)) {
+                  let company_update = {
                     company_name: company_upd.companyName,
+                    update_date: Date.now().toString()
+                }
+                }
+                else if((company_name_upd.length == 0) & (company_phone_upd.length != 0)) {
+                  let company_update = {
                     company_phone: company_upd.companyPhone,
                     update_date: Date.now().toString()
                 }
-
-                let address_update = {
-                  street: company_upd.companyAddress.street, 
-                  city: company_upd.companyAddress.city,
-                  state: company_upd.companyAddress.state,
-                  district: company_upd.companyAddress.district,
-                  update_date: Date.now().toString()
+                } 
+                else {
+                  let company_update = {
+                    company_name: company_upd.companyName,
+                    company_phone: company_upd.companyPhone,
+                    update_date: Date.now().toString()
+                  }
                 }
 
                 const {data: data_update_company, error: error_update_company } = await _supabase
                                     .from('registered-companies')
                                     .update(company_update)
                                     .eq("company_id", company_id)
+
+                var address_upd = new Address(company_id,
+                                              company_street_upd,
+                                              company_city_upd,
+                                              company_state_upd,
+                                              company_neighborhood_upd)
+                if((company_street_upd.length == 0) & 
+                   (company_city_upd.length == 0) &
+                   (company_state_upd.length == 0) & 
+                   (company_neighborhood_upd.length == 0)){
+                    let address_update = {
+                        update_date: Date.now().toString()
+                    }
+                  }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        city: company_upd.companyAddress.city,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        state: company_upd.companyAddress.state,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        city: company_upd.companyAddress.city,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        state: company_upd.companyAddress.state,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        city: company_upd.companyAddress.city,
+                        state: company_upd.companyAddress.state,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        city: company_upd.companyAddress.city,
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        state: company_upd.companyAddress.state,
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        city: company_upd.companyAddress.city,
+                        state: company_upd.companyAddress.state,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        state: company_upd.companyAddress.state,
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        street: company_upd.companyAddress.street, 
+                        city: company_upd.companyAddress.city,
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                } 
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    let address_update = {
+                        city: company_upd.companyAddress.city,
+                        state: company_upd.companyAddress.state,
+                        district: company_upd.companyAddress.district,
+                        update_date: Date.now().toString()
+                    }
+                }                 
+                else {
+                  let address_update = {
+                  street: company_upd.companyAddress.street, 
+                  city: company_upd.companyAddress.city,
+                  state: company_upd.companyAddress.state,
+                  district: company_upd.companyAddress.district,
+                  update_date: Date.now().toString()
+                }
+                }
+     
                 const {data: data_update_company_address, error: error_update_company_address } = await _supabase
                                     .from('companies-address')
                                     .update(address_update)
                                     .eq("company_id", company_id)
-                console.log(error_update_company)
-                console.log(error_update_company_address)
+
                 alert("Empresa atualizada com sucesso!")
                 setTimeout(() => {
                       document.location.href = "../company/registered_companies.html"
@@ -169,6 +337,8 @@
       async function logout() {
         let old_cookie_value = getCookie("session_id") 
         let user_id = getCookie("user_id")
+        window.document.cookie = "session_id=;Path=/cataemprego"
+        window.document.cookie = "user_id=;Path=/cataemprego"
         window.document.cookie = "session_id=;Path=/"
         window.document.cookie = "user_id=;Path=/"
         let update_info = {
