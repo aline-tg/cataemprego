@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
     <link rel="stylesheet" type="text/css" href="view/css/user/login.css">
-    <script type="module" src="/control/SupabaseUtils.js"></script>
+    <script type="module" src="./control/SupabaseUtils.js"></script>
 </head>
 
 <main>
@@ -12,8 +12,7 @@
 </main>
 
 <script type="module">
-    import supabaseAuthentication from "/control/SupabaseUtils.js"
-
+    import supabaseAuthentication from "./control/SupabaseUtils.js"
 
     const _supabase = supabaseAuthentication();
 
