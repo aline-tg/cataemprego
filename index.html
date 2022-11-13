@@ -3,14 +3,15 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
-    <link rel="stylesheet" type="text/css" href="view/css/login.css">
+    <link rel="stylesheet" type="text/css" href="view/css/user/login.css">
 </head>
 
 <main>
     <img class="video_page_logo" src="view/images/logo.png"></div>
 </main>
 <script type="module">
-    import supabaseAuthentication from "../control/SupabaseUtils.js"
+    import supabaseAuthentication from "/control/SupabaseUtils.js"
+
 
     const _supabase = supabaseAuthentication();
 
@@ -54,7 +55,7 @@
             if (login_data[0].user_email === email && login_data[0].user_password === password) {
                 alert("Seu login foi feito com sucesso!");
                 createCookieAndRegisterSessionId(login_data[0].user_id)
-                location.href='../view/pages/page_user.html'
+                location.href='../view/pages/user/page_user.html'
             } else {
                 alert("E-mail inválido e/ou senha inválida.")
             }
@@ -65,13 +66,12 @@
     }
 
 </script>
+<script type="module" src="/control/SupabaseUtils.js"></script>
 
 <body>
     <div class='container' style="text-align:center">
         <div class='section'>          
             <form id='log-in'>
-                <h2 class="font-style-login">Log In</h2>
-                <br>
                 <label class="font-style-login" style="background:none">Email </label>
                 <input class="input--register" type='email' name='email'/>
                 <br>
@@ -87,8 +87,8 @@
     <br>
     <br>
     <div style="text-align:center">
-        <div style="display:inline-block; background: none;"><button class="registration-button" onclick="location.href='view/pages/register_login.html';">Não tem login? <b style="background:none">Registre-se!</b></button></div>
-        <div style="display:inline-block; background: none"><button class="forgot-pass-button" onclick="location.href='view/pages/update_password.html';">Esqueci minha senha</button></div>
+        <div style="display:inline-block; background: none;"><button class="registration-button" onclick="location.href='view/pages/user/register_login.html';">Não tem login? <b style="background:none">Registre-se!</b></button></div>
+        <div style="display:inline-block; background: none"><button class="forgot-pass-button" onclick="location.href='view/pages/user/update_password.html';">Esqueci minha senha</button></div>
     </div>
 </body>
 
