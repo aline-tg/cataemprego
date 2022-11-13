@@ -1,39 +1,52 @@
-function Company() {
-    var cnpj;
-    var companyName;
-    var companyAddress;
-    var companyPhone;
-    var companyLogoImage;
+export default class Company {
 
-    function getCnpj(){
+    constructor(companyId,
+                cnpj,
+                companyName,
+                companyAddress,
+                companyPhone,
+                companyLogoImage) {
+        this.companyId = companyId;
+        this.cnpj = cnpj;
+        this.companyName= companyName;
+        this.companyAddress = companyAddress;
+        this.companyPhone = companyPhone;
+        this.companyLogoImage = companyLogoImage;
+        }
+
+    getCompanyId() {
+        return this.companyId;
+    }
+
+    getCnpj(){
         return this.cnpj;
     }
 
-    function getcompanyName(){
+    getCompanyName(){
         return this.companyName;
     }
 
-    function getCompanyAddress(){
+    getCompanyAddress(){
         return this.companyAddress;
     }
 
-    function getCompanyPhone(){
+    getCompanyPhone(){
         return this.companyPhone;
     }
 
-    function getCompanyLogoImage(){
+    getCompanyLogoImage(){
         return this.companyLogoImage;
     }
 
-    function setCompanyName(){
+    setCompanyName(){
         return undefined;
     }
 
-    function setCompanyPhone(){
+    setCompanyPhone(){
         return undefined;
     }
 
-    function setCompanyLogoImage(){
+    setCompanyLogoImage(){
         return undefined;
     }
 

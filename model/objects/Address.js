@@ -1,32 +1,43 @@
-function Address(){
-    var companyId;
-    var street;
-    var city;
-    var state;
-    var district;
+export default class Address {
 
-    function getStreet(){
+    constructor(companyId,
+                street,
+                city,
+                state,
+                district) {
+        this.companyId = companyId;
+        this.street = street;
+        this.city= city;
+        this.state = state;
+        this.district = district;
+        }
+
+    getCompanyId(){
+        return this.companyId;
+    }
+
+    getStreet(){
         return this.street;
     }
-    function getCity(){
+    getCity(){
         return this.city;
     }
-    function getState(){
+    getState(){
         return this.state;
     }
-    function getDistrict(){
+    getDistrict(){
         return this.district;
     }
-    function setStreet(){
+    setStreet(){
         return undefined;
     }
-    function setCity(){
+    setCity(){
         return undefined;
     }
-    function setState(){
+    setState(){
         return undefined;
     }
-    function setDistrict(){
+    setDistrict(){
         return undefined;
     }
 

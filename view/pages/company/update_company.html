@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Icon from page -->
+    <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
+
+    <!-- Adding libs and styles -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <script type="module" src="../../../model/objects/Company.js"></script>
+    <script type="module" src="../../../model/objects/Address.js"></script>
+    <link rel="stylesheet" href="../../css/company/update_company.css" />
+    <title>Detalhamento de Vagas</title>
+  </head>
+
+  <!-- First page app  -->
+  
+  <script type = "module">
+    import supabaseAuthentication from "../../../control/SupabaseUtils.js"
+    import Company from "../../../model/objects/Company.js"
+    import Address from "../../../model/objects/Address.js"
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function getQueryVariable(variable)
+        {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+        }
+
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+      const _supabase = supabaseAuthentication();
+      let company_id = getQueryVariable("company_id");
+      const compCardTemplate = document.querySelector("[company-detailment-template]");
+      
+      var address_class = new Address(company_id, 
+                                      localStorage.getItem("company_street"), 
+                                      localStorage.getItem("company_city"),
+                                      localStorage.getItem("company_state"), 
+                                      localStorage.getItem("company_district"))
+      var company_class = new Company(company_id,
+                                      localStorage.getItem("company_cnpj"),
+                                      localStorage.getItem("company_name"),
+                                      address_class,
+                                      localStorage.getItem("company_phone"))  
+      const card_company = compCardTemplate.content.cloneNode(true).children[0]
+      const company_name = card_company.querySelector("[company-name]")
+      const company_cnpj = card_company.querySelector("[company-cnpj]")
+      const company_street = card_company.querySelector("[company-street]")
+      const company_district = card_company.querySelector("[company-district]")
+      const company_city = card_company.querySelector("[company-city]")
+      const company_state = card_company.querySelector("[company-state]")
+      const company_phone = card_company.querySelector("[company-phone]")
+
+      if(company_class.companyName == undefined) {
+        company_class.companyName = ""
+      }
+      if(company_class.cnpj == undefined) {
+        company_class.cnpj = ""
+      }
+      if(company_class.companyAddress.street == undefined) {
+        company_class.companyAddress.street = ""
+      }
+      if(company_class.companyAddress.district == undefined) {
+        company_class.companyAddress.district = ""
+      }
+      if(company_class.companyAddress.city == undefined) {
+        company_class.companyAddress.city = ""
+      }
+      if(company_class.companyAddress.state == undefined) {
+        company_class.companyAddress.state = ""
+      }
+      if(company_class.companyPhone == undefined) {
+        company_class.companyPhone = ""
+      }
+
+      company_name.textContent = company_name.textContent + company_class.companyName
+      company_cnpj.textContent = company_cnpj.textContent + company_class.cnpj
+      company_street.textContent = company_street.textContent + company_class.companyAddress.street
+      company_district.textContent = company_district.textContent + company_class.companyAddress.district
+      company_city.textContent =  company_city.textContent + company_class.companyAddress.city
+      company_state.textContent = company_state.textContent + company_class.companyAddress.state
+      company_phone.textContent = company_phone.textContent + company_class.companyPhone
+      document.body.append(card_company)
+
+      const formInput = document.querySelector("[company-update]");
+      document.addEventListener("DOMContentLoaded", function(event){
+        formInput.onsubmit = updateCompany.bind(formInput)
+        })
+
+      const updateCompany = async (event) => {
+          event.preventDefault()
+          let company_id = getQueryVariable("company_id")
+
+          const company_name_upd = event.target[0].value.toLowerCase()
+          const company_street_upd = event.target[1].value.toLowerCase()
+          const company_neighborhood_upd = event.target[2].value.toLowerCase()
+          const company_city_upd = event.target[3].value.toLowerCase()
+          const company_state_upd = event.target[4].value.toLowerCase()
+          const company_phone_upd = event.target[5].value.toLowerCase()
+
+          if((company_name_upd.length == 0) &
+             (company_street_upd.length == 0) &
+             (company_neighborhood_upd.length == 0) &
+             (company_city_upd.length == 0) &
+             (company_state_upd.length == 0) &
+             (company_phone_upd.length == 0)) {
+              alert("Não é possível fazer a atualização de cadastro com todos os campos vazios. Tente novamente preenchendo os campos com as atualizações.")
+            }
+          else {
+                if((company_name_upd.length == 0) & (company_phone_upd.length == 0)){
+                  var company_update = {
+                      update_date: Date.now().toString()
+                  }
+                }
+                else if((company_name_upd.length != 0) & (company_phone_upd.length == 0)) {
+                  var company_update = {
+                    company_name: company_name_upd,
+                    update_date: Date.now().toString()
+                }
+                }
+                else if((company_name_upd.length == 0) & (company_phone_upd.length != 0)) {
+                  var company_update = {
+                    company_phone: company_phone_upd,
+                    update_date: Date.now().toString()
+                }
+                } 
+                else {
+                  var company_update = {
+                    company_name: company_name_upd,
+                    company_phone: company_phone_upd,
+                    update_date: Date.now().toString()
+                  }
+                }
+
+                const {data: data_update_company, error: error_update_company } = await _supabase
+                                    .from('registered-companies')
+                                    .update(company_update)
+                                    .eq("company_id", company_id)
+
+                if((company_street_upd.length == 0) & 
+                   (company_city_upd.length == 0) &
+                   (company_state_upd.length == 0) & 
+                   (company_neighborhood_upd.length == 0)){
+                    var address_update = {
+                        update_date: Date.now().toString()
+                    }
+                  }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        city: company_city_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        state: company_state_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        state: company_state_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        city: company_city_upd,
+                        state: company_state_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        city: company_city_upd,
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length == 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
+                        state: company_state_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length == 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }
+                else if ((company_street_upd.length != 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length == 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                } 
+                else if ((company_street_upd.length == 0) & 
+                         (company_city_upd.length != 0) &
+                         (company_state_upd.length != 0) & 
+                         (company_neighborhood_upd.length != 0)) {
+                    var address_update = {
+                        city: company_city_upd,
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
+                        update_date: Date.now().toString()
+                    }
+                }                 
+                else {
+                  var address_update = {
+                  street: company_street_upd, 
+                  city: company_city_upd,
+                  state: company_state_upd,
+                  district: company_neighborhood_upd,
+                  update_date: Date.now().toString()
+                }
+                }
+     
+                const {data: data_update_company_address, error: error_update_company_address } = await _supabase
+                                    .from('companies-address')
+                                    .update(address_update)
+                                    .eq("company_id", company_id)
+
+                alert("Empresa atualizada com sucesso!")
+                setTimeout(() => {
+                      document.location.href = "../company/registered_companies.html"
+                      }, 1800)
+              }
+        }
+
+      async function logout() {
+        let old_cookie_value = getCookie("session_id") 
+        let user_id = getCookie("user_id")
+        window.document.cookie = "session_id=;Path=/cataemprego"
+        window.document.cookie = "user_id=;Path=/cataemprego"
+        window.document.cookie = "session_id=;Path=/"
+        window.document.cookie = "user_id=;Path=/"
+        let update_info = {
+          session_id: ""
+        }
+        const {data: data_update, error: error_update } = await _supabase
+                                  .from('users-auth')
+                                  .update(update_info)
+                                  .eq("user_id",user_id)
+        }
+
+      const userLogout = document.getElementById("logout")
+      userLogout.addEventListener("click", e => {
+        logout()
+        document.location.href = "../utils/logout.html"
+      })
+
+  } else {
+      document.location.href = "../utils/needs_login.html"
+    }
+    
+  </script>
+  <body>
+    <main>
+      <img class="video_page_logo" src="../../images/logo.png">
+      <button id="logout" class="button--logout">Deslogar</button>
+      <button class="back_button" onclick="location.href='../user/page_user.html';">Voltar</button>
+      <h2>Atualização do Cadastro da Empresa</h2>
+    </main>
+
+    <template company-detailment-template>
+    <div class= "detailment" data-company-detailment>
+      <h6 company-cnpj style="background: none; text-align: center;">Todos os valores de atualização serão refletidos na empresa de CNPJ: </h6>
+      <form company-update style="background:none">
+        <h4 company-name>Razão social cadastrada: </h4>
+        <input type = "text" company-name-upd placeholder="Digite o novo valor de Razão Social aqui"></input>
+        <h4>Endereço</h4>
+        <h4 company-street>Rua cadastrada: </h4>
+        <input type = "text" company-street-upd placeholder="Digite o novo valor de Rua aqui"></input>
+        <h4 company-district>Bairro cadastrado: </h4>
+        <input type = "text" company-district-upd placeholder="Digite o novo valor de Bairro aqui"></input>
+        <h4 company-city>Cidade cadastrada: </h4>
+        <input type = "text" company-city-upd placeholder="Digite o novo valor de Cidade aqui"></input>
+        <h4 company-state>Estado cadastrado: </h4>
+        <input type = "text" company-state-upd placeholder="Digite o novo valor de Estado aqui"></input>
+        <h4 company-phone>Telefone cadastrado: </h4>
+        <input type = "text" company-phone-upd placeholder="Digite o novo valor de Telefone aqui"></input>
+        <input class= "button--send" type='submit' value="Atualizar Cadastro">
+      </form>
+    </div>
+    </template>
+  </body>
+</html>

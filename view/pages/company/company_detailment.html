@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Icon from page -->
+    <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
+
+    <!-- Adding libs and styles -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <script type="module" src="../../../model/objects/Company.js"></script>
+    <script type="module" src="../../../model/objects/Address.js"></script>
+    <link rel="stylesheet" href="../../css/company/company_detailment.css" />
+    <title>Detalhamento de Vagas</title>
+  </head>
+
+  <!-- First page app  -->
+  
+  <script type = "module">
+    import supabaseAuthentication from "../../../control/SupabaseUtils.js"
+    import Company from "../../../model/objects/Company.js"
+    import Address from "../../../model/objects/Address.js"
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    function getQueryVariable(variable)
+        {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+      }
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+      const _supabase = supabaseAuthentication();
+      let company_id = getQueryVariable("company_id");
+      const compCardTemplate = document.querySelector("[company-detailment-template]");
+      const {data: company, error: error_reading_company} = await _supabase
+                                                        .from("registered-companies")
+                                                        .select("*")
+                                                        .eq("company_id", company_id)
+      const {data: address, error: error_reading_address} = await _supabase
+                                                                .from("companies-address")
+                                                                .select(`company_id,
+                                                                         street,
+                                                                         city,
+                                                                         state,
+                                                                         district`)
+                                                                .eq("company_id", company_id)                                                  
+      var company_filtered = company[0]
+      var address_filtered = address[0]
+      
+      var address_class = new Address(company_id, 
+                                      address_filtered.street, 
+                                      address_filtered.city, 
+                                      address_filtered.state, 
+                                      address_filtered.district)
+      var company_class = new Company(company_id,
+                                      company_filtered.cnpj,
+                                      company_filtered.company_name,
+                                      address_class,
+                                      company_filtered.company_phone)  
+      const card_company = compCardTemplate.content.cloneNode(true).children[0]
+      const company_name = card_company.querySelector("[company-name]")
+      const company_cnpj = card_company.querySelector("[company-cnpj]")
+      const company_street = card_company.querySelector("[company-street]")
+      const company_district = card_company.querySelector("[company-district]")
+      const company_city = card_company.querySelector("[company-city]")
+      const company_state = card_company.querySelector("[company-state]")
+      const company_phone = card_company.querySelector("[company-phone]")
+      company_name.textContent = company_class.companyName
+      company_cnpj.textContent = company_class.cnpj
+      company_street.textContent = company_class.companyAddress.street
+      company_district.textContent = company_class.companyAddress.district
+      company_city.textContent = company_class.companyAddress.city
+      company_state.textContent = company_class.companyAddress.state
+      company_phone.textContent = company_class.companyPhone
+      document.body.append(card_company)
+
+      async function logout() {
+        let old_cookie_value = getCookie("session_id") 
+        let user_id = getCookie("user_id")
+        window.document.cookie = "session_id=;Path=/cataemprego"
+        window.document.cookie = "user_id=;Path=/cataemprego"
+        window.document.cookie = "session_id=;Path=/"
+        window.document.cookie = "user_id=;Path=/"
+        let update_info = {
+          session_id: ""
+        }
+        const {data: data_update, error: error_update } = await _supabase
+                                  .from('users-auth')
+                                  .update(update_info)
+                                  .eq("user_id",user_id)
+        }
+
+      const userLogout = document.getElementById("logout")
+      userLogout.addEventListener("click", e => {
+        logout()
+        document.location.href = "../utils/logout.html"
+      })
+
+      function storeCompanyVars(){
+        localStorage.setItem("company_name", company_class.companyName);
+        localStorage.setItem("company_cnpj", company_class.cnpj);
+        localStorage.setItem("company_street", company_class.companyAddress.street);
+        localStorage.setItem("company_district", company_class.companyAddress.district);
+        localStorage.setItem("company_city", company_class.companyAddress.city);
+        localStorage.setItem("company_state", company_class.companyAddress.state);
+        localStorage.setItem("company_phone", company_class.companyPhone);
+      }
+
+      const updateCompany = document.getElementById("update_company_register")
+      updateCompany.addEventListener("click", e => {
+        let company_id = getQueryVariable("company_id"); 
+        storeCompanyVars();
+        window.location.href = "../company/update_company.html?company_id=" + company_id; 
+      })
+      
+      async function removeCompany(company_id){
+        const {data: delete_company, error: error_delete_company } = await _supabase
+                                                                .from('registered-companies')
+                                                                .delete()
+                                                                .eq("company_id",company_id)
+        const {data: delete_adress_company, error: error_delete_address} = await _supabase
+                                                                              .from("companies-address")
+                                                                              .delete()
+                                                                              .eq("company_id", company_id)  
+        window.location.href = "../company/registered_companies.html"
+      }
+
+      const excludeCompany = document.getElementById("exclude_company_register")
+      excludeCompany.addEventListener("click", e => {
+        let company_id = getQueryVariable("company_id"); 
+        if (confirm("Esta ação não poderá ser revertida. Você tem certeza que deseja excluir o cadastro dessa empresa?")) {
+          removeCompany(company_id)
+        }    
+      })
+
+  } else {
+      document.location.href = "../utils/needs_login.html"
+    }
+    
+  </script>
+  <body>
+    <main>
+      <img class="video_page_logo" src="../../images/logo.png">
+      <button id="logout" class="button--logout">Deslogar</button>
+      <button class="back_button" onclick="location.href='../user/page_user.html';">Voltar</button>
+    </main>
+
+    <template company-detailment-template>
+    <div class= "detailment" data-company-detailment>
+      <h4>Razão Social:</h4>
+      <h5 company-name></h5>
+      <h4>CNPJ:</h4>
+      <h5 company-cnpj></h5>
+      <h4>Endereço <br> Rua:</h4>
+      <h5 company-street></h5>
+      <h4>Bairro:</h4>
+      <h5 company-district></h5>
+      <h4>Cidade:</h4>
+      <h5 company-city></h5>
+      <h4>Estado:</h4>
+      <h5 company-state></h5>
+      <h4>Telefone:</h4>
+      <h5 company-phone></h5>
+
+      <button id="update_company_register" class="update_button">Atualizar Cadastro</button>
+      <button id="exclude_company_register" class="exclude_company">Excluir Cadastro</button>
+    </div>
+    </template>
+  </body>
+</html>
