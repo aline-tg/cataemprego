@@ -56,7 +56,7 @@
             if (login_data[0].user_email === email && login_data[0].user_password === password) {
                 alert("Seu login foi feito com sucesso!");
                 createCookieAndRegisterSessionId(login_data[0].user_id)
-                location.href='../view/pages/user/page_user.html'
+                location.href='./view/pages/user/page_user.html'
             } else {
                 alert("E-mail inválido e/ou senha inválida.")
             }
