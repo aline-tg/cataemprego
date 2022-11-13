@@ -7,6 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="../../css/company/register_company.css">
     <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <script type="module" src="../../../model/objects/Company.js"></script>
+    <script type="module" src="../../../model/objects/Address.js"></script>
     <title>Cadastro de Empresa</title>
 </head>
 
@@ -33,7 +36,6 @@
 
 <script type="module">
     import supabaseAuthentication from "../../../control/SupabaseUtils.js"
-    import searchJobs from "../../../control/searchSupabase.js"
     import Company from "../../../model/objects/Company.js"
     import Address from "../../../model/objects/Address.js"
 
