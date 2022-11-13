@@ -123,33 +123,27 @@
               alert("Não é possível fazer a atualização de cadastro com todos os campos vazios. Tente novamente preenchendo os campos com as atualizações.")
             }
           else {
-                var company_upd = new Company(company_id,
-                                              company_cnpj,
-                                              company_name_upd,
-                                              address_upd,
-                                              company_phone_upd) 
-
                 if((company_name_upd.length == 0) & (company_phone_upd.length == 0)){
-                  let company_update = {
+                  var company_update = {
                       update_date: Date.now().toString()
                   }
                 }
                 else if((company_name_upd.length != 0) & (company_phone_upd.length == 0)) {
-                  let company_update = {
-                    company_name: company_upd.companyName,
+                  var company_update = {
+                    company_name: company_name_upd,
                     update_date: Date.now().toString()
                 }
                 }
                 else if((company_name_upd.length == 0) & (company_phone_upd.length != 0)) {
-                  let company_update = {
-                    company_phone: company_upd.companyPhone,
+                  var company_update = {
+                    company_phone: company_phone_upd,
                     update_date: Date.now().toString()
                 }
                 } 
                 else {
-                  let company_update = {
-                    company_name: company_upd.companyName,
-                    company_phone: company_upd.companyPhone,
+                  var company_update = {
+                    company_name: company_name_upd,
+                    company_phone: company_phone_upd,
                     update_date: Date.now().toString()
                   }
                 }
@@ -159,16 +153,11 @@
                                     .update(company_update)
                                     .eq("company_id", company_id)
 
-                var address_upd = new Address(company_id,
-                                              company_street_upd,
-                                              company_city_upd,
-                                              company_state_upd,
-                                              company_neighborhood_upd)
                 if((company_street_upd.length == 0) & 
                    (company_city_upd.length == 0) &
                    (company_state_upd.length == 0) & 
                    (company_neighborhood_upd.length == 0)){
-                    let address_update = {
+                    var address_update = {
                         update_date: Date.now().toString()
                     }
                   }
@@ -176,8 +165,8 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
+                    var address_update = {
+                        street: company_street_upd, 
                         update_date: Date.now().toString()
                     }
                 }
@@ -185,8 +174,8 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        city: company_upd.companyAddress.city,
+                    var address_update = {
+                        city: company_city_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -194,8 +183,8 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        state: company_upd.companyAddress.state,
+                    var address_update = {
+                        state: company_state_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -203,8 +192,8 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -212,9 +201,9 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        city: company_upd.companyAddress.city,
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -222,9 +211,9 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        state: company_upd.companyAddress.state,
+                    var address_update = {
+                        street: company_street_upd, 
+                        state: company_state_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -232,9 +221,9 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        street: company_street_upd, 
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -242,9 +231,9 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        city: company_upd.companyAddress.city,
-                        state: company_upd.companyAddress.state,
+                    var address_update = {
+                        city: company_city_upd,
+                        state: company_state_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -252,9 +241,9 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        city: company_upd.companyAddress.city,
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        city: company_city_upd,
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -262,9 +251,9 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        state: company_upd.companyAddress.state,
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -272,10 +261,10 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length == 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        city: company_upd.companyAddress.city,
-                        state: company_upd.companyAddress.state,
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
+                        state: company_state_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -283,10 +272,10 @@
                          (company_city_upd.length == 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        state: company_upd.companyAddress.state,
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        street: company_street_upd, 
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }
@@ -294,10 +283,10 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length == 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        street: company_upd.companyAddress.street, 
-                        city: company_upd.companyAddress.city,
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        street: company_street_upd, 
+                        city: company_city_upd,
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 } 
@@ -305,19 +294,19 @@
                          (company_city_upd.length != 0) &
                          (company_state_upd.length != 0) & 
                          (company_neighborhood_upd.length != 0)) {
-                    let address_update = {
-                        city: company_upd.companyAddress.city,
-                        state: company_upd.companyAddress.state,
-                        district: company_upd.companyAddress.district,
+                    var address_update = {
+                        city: company_city_upd,
+                        state: company_state_upd,
+                        district: company_neighborhood_upd,
                         update_date: Date.now().toString()
                     }
                 }                 
                 else {
-                  let address_update = {
-                  street: company_upd.companyAddress.street, 
-                  city: company_upd.companyAddress.city,
-                  state: company_upd.companyAddress.state,
-                  district: company_upd.companyAddress.district,
+                  var address_update = {
+                  street: company_street_upd, 
+                  city: company_city_upd,
+                  state: company_state_upd,
+                  district: company_neighborhood_upd,
                   update_date: Date.now().toString()
                 }
                 }
