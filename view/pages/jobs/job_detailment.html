@@ -52,6 +52,7 @@
                                                           .select("*")
                                                           .eq("position_id", position_id)
         var position_filtered = job[0]
+        console.log(position_filtered)
 
         var position = new Position(position_filtered.position_id,
                                     position_filtered.company_id,
@@ -60,7 +61,6 @@
                                     position_filtered.position_location,
                                     position_filtered.position_duty_hours,
                                     position_filtered.position_salary,
-                                    position_filtered.position_benefits,
                                     position_filtered.position_description)  
 
         const card_job = jobCardTemplate.content.cloneNode(true).children[0]
