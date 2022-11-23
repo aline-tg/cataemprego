@@ -119,7 +119,7 @@
         document.location.href = "../utils/logout.html"
       })
 
-      const formInput = document.querySelector("[register-company]");
+      const formInput = document.querySelector("[register-job]");
       document.addEventListener("DOMContentLoaded", function(event){
         formInput.onsubmit = registerAction.bind(formInput)
         })
@@ -129,15 +129,20 @@
           let user_id = getCookie("user_id")
           let company_id = getQueryVariable("company_id")
           const position_id = generateGuid()
-          const company_name = event.target[0].value.toLowerCase()
-          const position_name = event.target[1].value.toLowerCase()
-          const position_location = event.target[2].value.toLowerCase()
-          const position_duty_hours = event.target[3].value.toLowerCase()
-          const position_salary = event.target[4].value.toLowerCase()
-          const position_benefits_01 = event.target[5].value.toLowerCase()
-          const position_benefits_02 = event.target[6].value.toLowerCase()
-          const position_benefits_03 = event.target[7].value.toLowerCase()
-          const position_benefits_04 = event.target[8].value.toLowerCase()
+
+          const {data: data_regist_company, error: error_regist_company } = await _supabase
+                                        .from('registered-companies')
+                                        .select("company_name")
+                                        .eq("company_id",company_id)
+          const company_name = data_regist_company[0].company_name
+          const position_name = event.target[0].value.toLowerCase()
+          const position_location = event.target[1].value.toLowerCase()
+          const position_duty_hours = event.target[2].value.toLowerCase()
+          const position_salary = event.target[3].value.toLowerCase()
+          const position_benefits_01 = event.target[4].value.toLowerCase()
+          const position_benefits_02 = event.target[5].value.toLowerCase()
+          const position_benefits_03 = event.target[6].value.toLowerCase()
+          const position_benefits_04 = event.target[7].value.toLowerCase()
           const position_keywords = generateKeywords([company_name, position_name,position_location])
 
           var position = new Position(position_id,
@@ -152,11 +157,13 @@
                                     .insert(
                                         [{ 
                                            position_id: position.positionId,
-                                           companyId: position.companyId,
+                                           company_id: position.companyId,
+                                           company_name: company_name,
                                            position_name: position.positionName, 
                                            position_duty_hours: position.positionDutyHours,
                                            position_location: position.positionLocation,
                                            position_salary: position.positionSalary,
+                                           position_keywords: position_keywords,
                                            registration_date: Date.now().toString()
                                         }]);
           const {data: data_register_company_benefit, 
@@ -202,23 +209,23 @@
 </main>
 <body>
    <h1 style= "margin:center; padding-bottom: 30px;">Cadastre sua vaga!</h1> 
-   <form id = "register_company" style="margin-left:35%; background: none;" register-company>
-       <h5>Digite o nome ou razão social de sua empresa:</h5>
-       <input id="company_name" class="user--input" type="text">
+   <form id = "register_job" style="margin-left:35%; background: none;" register-job>
+       <h3>Informações Gerais</h3>
        <h5>Digite o nome da posição em aberto:</h5>
        <input id="position_name" class="user--input" type="text">
        <h5>Digite a localização da posição (Cidade, Estado ou Home Office):</h5>
        <input id="position_location" class="user--input" type="text">
        <h5>Selecione o tipo de horas trabalhadas:</h5>
-       <input id="position_duty_hours" class="user--input" type="text" list="ben_health">
-        <datalist id="ben_health">
+       <input id="position_duty_hours" class="user--input" type="text" list="list_duty_hours">
+        <datalist id="list_duty_hours">
           <option value="Meio período"></option>
           <option value="Tempo integral"></option>
           <option value="Estágio"></option>
         </datalist>
        <h5>Digite o salário médio da posição:</h5>
        <input id="position_salary" class="user--input" type="text">
-       <h4>Benefícios</h4>
+
+       <h3>Benefícios</h3>
        <h5>A posição possui benefício de vale refeição?</h5>
        <input id="position_benefit_food" class="user--input" type="text" list="ben_food">
         <datalist id="ben_food">
