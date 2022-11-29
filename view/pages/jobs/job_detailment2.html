@@ -114,6 +114,19 @@
         position_description.textContent = position.positionDescription
         document.body.append(card_job)
 
+        // function jobDetailment(e) {
+        //   e=e || window.event;
+        //   var target = e.target || e.srcElement;
+        //   console.log(e.target)
+        //   console.log(e.srcElement)
+        //   if(target.className.match("button")) {
+        //     let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
+        //     window.location.href = "../jobs/job_detailment.html?position_id=" + position_id; 
+        //   }
+        // }
+
+        // document.body.addEventListener("click", jobDetailment, false)
+
         async function logout() {
           let old_cookie_value = getCookie("session_id") 
           let user_id = getCookie("user_id")
