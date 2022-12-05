@@ -149,6 +149,26 @@
           document.location.href = "../utils/logout.html"
         })
 
+        async function removeJob(job_id){
+        const {data: delete_job, error: error_delete_job } = await _supabase
+                                                                .from('registered-jobs')
+                                                                .delete()
+                                                                .eq("position_id",job_id)
+        const {data: delete_det_job, error: error_delete_det_job} = await _supabase
+                                                                            .from("registered-jobs-benefits")
+                                                                            .delete()
+                                                                            .eq("position_id", job_id)  
+        window.location.href = "../jobs/registered_jobs.html"
+      }
+
+      const excludeJob = document.getElementById("delete-job")
+      excludeJob.addEventListener("click", e => {
+        let position_id = getQueryVariable("position_id"); 
+        if (confirm("Esta ação não poderá ser revertida. Você tem certeza que deseja excluir o cadastro dessa vaga?")) {
+          removeJob(position_id)
+        }    
+      })
+
     } else {
         document.location.href = "../utils/needs_login.html"
       }
@@ -203,9 +223,9 @@
         <p style="background:white; margin-left: 10px; text-justify: auto; margin-right: 10px;" description></p>
       </div>
       <div style="background: white; display: flex">
-        <button class="resume_button" update-job>Atualizar Vaga</button>
-        <button class="resume_button" delete-job>Apagar Vaga</button>
-        <button class="resume_button" inactivate-job>Inativar Vaga</button>
+        <button class="resume_button" id = "update-job">Atualizar Vaga</button>
+        <button class="resume_button" id = "delete-job">Apagar Vaga</button>
+        <button class="resume_button" id = "inactivate-job">Inativar Vaga</button>
       </div>
     </div> 
     </template>
