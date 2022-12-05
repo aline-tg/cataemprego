@@ -68,9 +68,10 @@
                                         .from('registered-jobs')
                                         .select("*")
                                         .eq("user_id",user_id)
-            
-            if(data_regist_jobs == undefined){
+            console.log(data_regist_jobs)
+            if(data_regist_jobs.length == 0){
                 let messageToPrint = "Você não tem nenhuma vaga cadastrada :(";
+                console.log(messageToPrint)
                 const compTextBeforeSearch = document.querySelector("h1");
                 compTextBeforeSearch.innerHTML = messageToPrint;
             }
@@ -138,7 +139,7 @@
             </div>
           </div>   
     </main>
-
+    <h1></h1>
     <div data-job-container></div>
       <template data-job-template>
       <div class="job_card">
