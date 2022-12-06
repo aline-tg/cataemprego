@@ -23,6 +23,7 @@
     <script type = "module">
       import supabaseAuthentication from "../../../control/SupabaseUtils.js"
       import Position from "../../../model/objects/Position.js"
+      import Benefit from "../../../model/objects/Benefit.js"
 
       function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -58,6 +59,8 @@
         var position_filtered = job[0]
         var benefits_filtered = job_benefits[0]
 
+        var benefits = (benefits_filtered !== undefined) ? true : false
+
         var position = new Position(position_filtered.position_id,
                                     position_filtered.company_id,
                                     position_filtered.company_name,
@@ -87,23 +90,47 @@
         if(benefits_filtered !== undefined) {
           if(benefits_filtered.food == 's') {
             position_ben_food_y.style.background = "#0FF2F2"
+            var food_benefit = new Benefit(position_filtered.position_id,
+                                           "food_benefit",
+                                           "s")
           } else {
             position_ben_food_n.style.background = "#0FF2F2"
+            var food_benefit = new Benefit(position_filtered.position_id,
+                                           "food_benefit",
+                                           "n")
           }
           if(benefits_filtered.locomotion == 's') {
             position_ben_trans_y.style.background = "#0FF2F2"
+            var loc_benefit = new Benefit(position_filtered.position_id,
+                                           "loc_benefit",
+                                           "s")
           } else {
             position_ben_trans_n.style.background = "#0FF2F2"
+            var loc_benefit = new Benefit(position_filtered.position_id,
+                                           "loc_benefit",
+                                           "n")
           }
           if(benefits_filtered.health == 's') {
             position_ben_heal_y.style.background = "#0FF2F2"
+            var heal_benefit = new Benefit(position_filtered.position_id,
+                                           "heal_benefit",
+                                           "s")
           } else {
             position_ben_heal_n.style.background = "#0FF2F2"
+            var heal_benefit = new Benefit(position_filtered.position_id,
+                                           "heal_benefit",
+                                           "n")
           }
           if(benefits_filtered.dentist == 's') {
             position_dentist_y.style.background = "#0FF2F2"
+            var dent_benefit = new Benefit(position_filtered.position_id,
+                                           "dent_benefit",
+                                           "s")
           } else {
             position_dentist_n.style.background = "#0FF2F2"
+            var dent_benefit = new Benefit(position_filtered.position_id,
+                                           "dent_benefit",
+                                           "n")
           }
         }
 
@@ -120,19 +147,6 @@
         position_salary.textContent = position.positionSalary
         position_description.textContent = position.positionDescription
         document.body.append(card_job)
-
-        // function jobDetailment(e) {
-        //   e=e || window.event;
-        //   var target = e.target || e.srcElement;
-        //   console.log(e.target)
-        //   console.log(e.srcElement)
-        //   if(target.className.match("button")) {
-        //     let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
-        //     window.location.href = "../jobs/job_detailment.html?position_id=" + position_id; 
-        //   }
-        // }
-
-        // document.body.addEventListener("click", jobDetailment, false)
 
         async function logout() {
           let old_cookie_value = getCookie("session_id") 
@@ -156,6 +170,7 @@
           document.location.href = "../utils/logout.html"
         })
 
+        //DELETE JOB
         async function removeJob(job_id){
         const {data: delete_job, error: error_delete_job } = await _supabase
                                                                 .from('registered-jobs')
@@ -176,6 +191,7 @@
         }    
       })
 
+      //INACTIVATE JOB
       async function checkOrInactivate(job_id){
         const {data: check_job, error: error_check_job } = await _supabase
                                                                 .from('registered-jobs')
@@ -205,6 +221,38 @@
         let position_id = getQueryVariable("position_id"); 
         checkOrInactivate(position_id)
       })
+
+      //UPDATE JOB
+      function storeJobVars(){
+        var position = new Position(position_filtered.position_id,
+                                    position_filtered.company_id,
+                                    position_filtered.company_name,
+                                    position_filtered.position_name,
+                                    position_filtered.position_location,
+                                    position_filtered.position_duty_hours,
+                                    position_filtered.position_salary,
+                                    position_filtered.position_description)  
+
+        localStorage.setItem("position_name", position.positionName);
+        localStorage.setItem("company_id", position.companyId);
+        localStorage.setItem("company_name", position.companyName);
+        localStorage.setItem("position_duty_hours", position.positionDutyHours);
+        localStorage.setItem("position_location", position.positionLocation);
+        localStorage.setItem("position_salary", position.positionSalary);
+        localStorage.setItem("position_description", position.positionDescription);
+        localStorage.setItem("pos_food_ben", food_benefit.benefitValue);
+        localStorage.setItem("pos_loc_ben", loc_benefit.benefitValue);
+        localStorage.setItem("pos_heal_ben", heal_benefit.benefitValue);
+        localStorage.setItem("pos_dent_ben", dent_benefit.benefitValue);
+      }
+
+      const updateJob = document.getElementById("update-job")
+      updateJob.addEventListener("click", e => {
+        let position_id = getQueryVariable("position_id"); 
+        storeJobVars();
+        window.location.href = "../jobs/update_job.html?position_id=" + position_id; 
+      })
+
 
     } else {
         document.location.href = "../utils/needs_login.html"
