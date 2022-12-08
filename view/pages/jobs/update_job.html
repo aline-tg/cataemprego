@@ -127,7 +127,97 @@
           const job_duty_hours_upd = event.target[1].value.toLowerCase()
           const job_salary_upd = event.target[2].value.toLowerCase()
           const job_desc_upd = event.target[3].value.toLowerCase()
-          const position_benefit_food = event.target[4].value.toLowerCase()
+          const position_benefit_food_upd = event.target[4].value.toLowerCase()
+          const position_benefit_loc_upd = event.target[5].value.toLowerCase()
+          const position_benefit_heal_upd = event.target[6].value.toLowerCase()
+          const position_benefit_dent_upd = event.target[7].value.toLowerCase()
+
+          if((job_name_upd.length == 0) &
+             (job_duty_hours_upd.length == 0) &
+             (job_salary_upd.length == 0) &
+             (job_desc_upd.length == 0) &
+             (position_benefit_food_upd.length == 0) &
+             (position_benefit_loc_upd.length == 0) & 
+             (position_benefit_heal_upd.length == 0) &
+             (position_benefit_dent_upd.length == 0)) {
+              alert("Não é possível fazer a atualização de cadastro com todos os campos vazios. Tente novamente preenchendo os campos com as atualizações.")
+            }
+          else {
+            if((job_name_upd.length == 0) &
+               (job_duty_hours_upd.length == 0) &
+               (job_salary_upd.length == 0) &
+               (job_desc_upd.length == 0)) {
+                var job_update = {
+                       update_date: Date.now().toString()
+                   }
+            } else if ((job_name_upd.length != 0) &
+                       (job_duty_hours_upd.length == 0) &
+                       (job_salary_upd.length == 0) &
+                       (job_desc_upd.length == 0)){
+                  var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd
+                   }
+               } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length != 0) &
+                          (job_salary_upd.length == 0) &
+                          (job_desc_upd.length == 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_duty_hours: job_duty_hours_upd
+                   }
+                } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length == 0) &
+                          (job_salary_upd.length != 0) &
+                          (job_desc_upd.length == 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_salary: job_salary_upd
+                   }
+                } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length == 0) &
+                          (job_salary_upd.length == 0) &
+                          (job_desc_upd.length != 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_description: job_desc_upd
+                   }
+                } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length != 0) &
+                          (job_salary_upd.length != 0) &
+                          (job_desc_upd.length == 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_duty_hours: job_duty_hours_upd,
+                       position_salary: job_salary_upd
+                   }
+                } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length != 0) &
+                          (job_salary_upd.length == 0) &
+                          (job_desc_upd.length != 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_duty_hours: job_duty_hours_upd,
+                       position_description: job_desc_upd
+                   }
+                } else if ((job_name_upd.length != 0) &
+                          (job_duty_hours_upd.length != 0) &
+                          (job_salary_upd.length != 0) &
+                          (job_desc_upd.length != 0)) {
+                    var job_update = {
+                       update_date: Date.now().toString(),
+                       position_name: job_name_upd,
+                       position_duty_hours: job_duty_hours_upd,
+                       position_salary: job_salary_upd,
+                       position_description: job_desc_upd
+                   }
+                }
+          }
 
           // if((company_name_upd.length == 0) &
           //    (company_street_upd.length == 0) &
