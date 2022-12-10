@@ -158,7 +158,35 @@
                        update_date: Date.now().toString(),
                        position_name: job_name_upd
                    }
-               } else if ((job_name_upd.length != 0) &
+               } else if ((job_name_upd.length == 0) &
+                          (job_duty_hours_upd.length != 0) &
+                          (job_salary_upd.length == 0) &
+                          (job_desc_upd.length == 0)){
+                  var job_update = {
+                       update_date: Date.now().toString(),
+                       position_duty_hours: job_duty_hours_upd
+                   }
+                   
+                  } else if ((job_name_upd.length == 0) &
+                          (job_duty_hours_upd.length == 0) &
+                          (job_salary_upd.length != 0) &
+                          (job_desc_upd.length == 0)){
+                  var job_update = {
+                       update_date: Date.now().toString(),
+                       position_salary: job_salary_upd
+                   }
+                   
+                  }  else if ((job_name_upd.length == 0) &
+                          (job_duty_hours_upd.length == 0) &
+                          (job_salary_upd.length == 0) &
+                          (job_desc_upd.length != 0)){
+                  var job_update = {
+                       update_date: Date.now().toString(),
+                       position_description: job_desc_upd
+                   }
+                  } 
+                  
+                  else if ((job_name_upd.length != 0) &
                           (job_duty_hours_upd.length != 0) &
                           (job_salary_upd.length == 0) &
                           (job_desc_upd.length == 0)) {
@@ -217,215 +245,172 @@
                        position_description: job_desc_upd
                    }
                 }
+              const {data: data_update_job, error: error_update_job } = await _supabase
+                                    .from('registered-jobs')
+                                    .update(job_update)
+                                    .eq("position_id", position_id)
+
+              if((position_benefit_food_upd.length == 0) &
+                 (position_benefit_loc_upd.length == 0) &
+                 (position_benefit_heal_upd.length == 0) &
+                 (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString()
+                   }
+               } else if ((position_benefit_food_upd.length != 0) &
+                          (position_benefit_loc_upd.length == 0) &
+                          (position_benefit_heal_upd.length == 0) &
+                          (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                          (position_benefit_loc_upd.length != 0) &
+                          (position_benefit_heal_upd.length == 0) &
+                          (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       locomotion: position_benefit_loc_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length == 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       health: position_benefit_heal_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                          (position_benefit_loc_upd.length == 0) &
+                          (position_benefit_heal_upd.length == 0) &
+                          (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length != 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length == 0) &
+                            (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       locomotion: position_benefit_loc_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length != 0) &
+                            (position_benefit_loc_upd.length == 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       health: position_benefit_heal_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length != 0) &
+                            (position_benefit_loc_upd.length == 0) &
+                            (position_benefit_heal_upd.length == 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       locomotion: position_benefit_loc_upd,
+                       health: position_benefit_heal_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length == 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       locomotion: position_benefit_loc_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length == 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       health: position_benefit_heal_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length != 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length == 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       locomotion: position_benefit_loc_upd,
+                       health: position_benefit_heal_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length != 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length == 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       locomotion: position_benefit_loc_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       locomotion: position_benefit_loc_upd,
+                       health: position_benefit_heal_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 } else if ((position_benefit_food_upd.length == 0) &
+                            (position_benefit_loc_upd.length != 0) &
+                            (position_benefit_heal_upd.length != 0) &
+                            (position_benefit_dent_upd.length != 0)) {
+                  var ben_update = {
+                       update_date: Date.now().toString(),
+                       food: position_benefit_food_upd,
+                       health: position_benefit_heal_upd,
+                       dentist: position_benefit_dent_upd,
+                   }
+
+                 }
+
+                 const {data: data_update_ben, error: error_update_ben } = await _supabase
+                                    .from('registered-jobs-benefits')
+                                    .update(ben_update)
+                                    .eq("position_id", position_id)
+              
           }
-
-          // if((company_name_upd.length == 0) &
-          //    (company_street_upd.length == 0) &
-          //    (company_neighborhood_upd.length == 0) &
-          //    (company_city_upd.length == 0) &
-          //    (company_state_upd.length == 0) &
-          //    (company_phone_upd.length == 0)) {
-          //     alert("Não é possível fazer a atualização de cadastro com todos os campos vazios. Tente novamente preenchendo os campos com as atualizações.")
-          //   }
-          // else {
-          //       if((company_name_upd.length == 0) & (company_phone_upd.length == 0)){
-          //         var company_update = {
-          //             update_date: Date.now().toString()
-          //         }
-          //       }
-          //       else if((company_name_upd.length != 0) & (company_phone_upd.length == 0)) {
-          //         var company_update = {
-          //           company_name: company_name_upd,
-          //           update_date: Date.now().toString()
-          //       }
-          //       }
-          //       else if((company_name_upd.length == 0) & (company_phone_upd.length != 0)) {
-          //         var company_update = {
-          //           company_phone: company_phone_upd,
-          //           update_date: Date.now().toString()
-          //       }
-          //       } 
-          //       else {
-          //         var company_update = {
-          //           company_name: company_name_upd,
-          //           company_phone: company_phone_upd,
-          //           update_date: Date.now().toString()
-          //         }
-          //       }
-
-          //       const {data: data_update_company, error: error_update_company } = await _supabase
-          //                           .from('registered-companies')
-          //                           .update(company_update)
-          //                           .eq("company_id", company_id)
-
-          //       if((company_street_upd.length == 0) & 
-          //          (company_city_upd.length == 0) &
-          //          (company_state_upd.length == 0) & 
-          //          (company_neighborhood_upd.length == 0)){
-          //           var address_update = {
-          //               update_date: Date.now().toString()
-          //           }
-          //         }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               city: company_city_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               state: company_state_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               city: company_city_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               state: company_state_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               city: company_city_upd,
-          //               state: company_state_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               city: company_city_upd,
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               state: company_state_upd,
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length == 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               city: company_city_upd,
-          //               state: company_state_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length == 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               state: company_state_upd,
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }
-          //       else if ((company_street_upd.length != 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length == 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               street: company_street_upd, 
-          //               city: company_city_upd,
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       } 
-          //       else if ((company_street_upd.length == 0) & 
-          //                (company_city_upd.length != 0) &
-          //                (company_state_upd.length != 0) & 
-          //                (company_neighborhood_upd.length != 0)) {
-          //           var address_update = {
-          //               city: company_city_upd,
-          //               state: company_state_upd,
-          //               district: company_neighborhood_upd,
-          //               update_date: Date.now().toString()
-          //           }
-          //       }                 
-          //       else {
-          //         var address_update = {
-          //         street: company_street_upd, 
-          //         city: company_city_upd,
-          //         state: company_state_upd,
-          //         district: company_neighborhood_upd,
-          //         update_date: Date.now().toString()
-          //       }
-          //       }
-     
-          //       const {data: data_update_company_address, error: error_update_company_address } = await _supabase
-          //                           .from('companies-address')
-          //                           .update(address_update)
-          //                           .eq("company_id", company_id)
-
-          //       alert("Empresa atualizada com sucesso!")
-          //       setTimeout(() => {
-          //             document.location.href = "../company/registered_companies.html"
-          //             }, 1800)
-          //     }
+          
+                alert("Posição atualizada com sucesso!")
+                setTimeout(() => {
+                      document.location.href = "../jobs/registered_jobs.html"
+                      }, 1800)
+              }
         }
 
       async function logout() {
