@@ -87,6 +87,7 @@
         const position_ben_heal_n = card_job.querySelector("[benefit-heal-n]")
         const position_description = card_job.querySelector("[description]")
         const job_situation = card_job.querySelector("[job-situation]")
+        const job_inactivate = card_job.querySelector("[inactivate-job]")
         
         if(benefits_filtered !== undefined) {
           if(benefits_filtered.food == 's') {
@@ -137,6 +138,7 @@
 
         if (position_filtered.is_available == 0) {
           job_situation.textContent = "Inativa"
+          job_inactivate.textContent = "Ativar Vaga"
         } else {
           job_situation.textContent = "Ativa"
         }
@@ -201,10 +203,19 @@
         const job = check_job[0]
         console.log(job)
         if(job.is_available == 0) {
-          alert("Esta vaga já está inativa.")
-        }
+          if (confirm("Você tem certeza que deseja ativar a vaga?")) {
+            var activate_update = {
+                  is_available: 1
+                }
+            const {data: inactive_job, error: error_inactive_job } = await _supabase
+                                                                        .from('registered-jobs')
+                                                                        .update(activate_update)
+                                                                        .eq("position_id",job_id)
+            window.location.href = "../jobs/registered_jobs.html"
+          }
+        } 
         else {
-          if (confirm("Esta ação não poderá ser revertida. Você tem certeza que deseja inativar vaga?")) {
+          if (confirm("Você tem certeza que deseja inativar a vaga?")) {
             var inactivate_update = {
                   is_available: 0
                 }
@@ -314,7 +325,7 @@
       <div style="background: white; display: flex">
         <button class="resume_button" id = "update-job">Atualizar Vaga</button>
         <button class="resume_button" id = "delete-job">Apagar Vaga</button>
-        <button class="resume_button" id = "inactivate-job">Inativar Vaga</button>
+        <button class="resume_button" id = "inactivate-job" inactivate-job>Inativar Vaga</button>
       </div>
     </div> 
     </template>
