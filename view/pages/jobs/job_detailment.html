@@ -45,6 +45,7 @@
         const _supabase = supabaseAuthentication();
 
         let position_id = getQueryVariable("position_id");
+        // let user_id = getCookie("user_id")
         const jobCardTemplate = document.querySelector("[job-detailment-template]");
         const jobCardContainer = document.querySelector("[data-jobs-detailment]");
         const {data: job, error: error_reading} = await _supabase
@@ -113,6 +114,18 @@
         position_salary.textContent = position.positionSalary
         position_description.textContent = position.positionDescription
         document.body.append(card_job)
+
+        // const actualBtn = document.getElementById('actual-btn');
+
+        // const fileChosen = document.getElementById('file-chosen');
+
+        // actualBtn.addEventListener('change', async function(){
+        //   fileChosen.textContent = this.files[0].name
+        //   const resumeFile =  this.files[0]
+        //   const { data, error } = await _supabase.storage
+        //     .from('resumes')
+        //     .upload(user_id + "/" + position_id + "/" + resumeFile.name, resumeFile)
+        // })
 
         async function logout() {
           let old_cookie_value = getCookie("session_id") 
@@ -189,7 +202,10 @@
         <div class="job_card_ret1">Descrição</div>
         <p style="background:white; margin-left: 10px; text-justify: auto; margin-right: 10px;" description></p>
       </div>
-      <!-- <button class="resume_button">Cadastrar Currículo</button> -->
+
+      <!-- <input type="file" id="actual-btn" hidden/>
+      <label for="actual-btn" class= "resume_button">Escolha um arquivo</label>
+      <span id="file-chosen" style="background:none">Nenhum arquivo</span> -->
     </div> 
     </template>
   </body>
