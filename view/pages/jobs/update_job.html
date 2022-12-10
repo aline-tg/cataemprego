@@ -403,15 +403,13 @@
                                     .from('registered-jobs-benefits')
                                     .update(ben_update)
                                     .eq("position_id", position_id)
-              
-          }
-          
-                alert("Posição atualizada com sucesso!")
+              alert("Posição atualizada com sucesso!")
                 setTimeout(() => {
                       document.location.href = "../jobs/registered_jobs.html"
                       }, 1800)
               }
-        }
+              
+          }
 
       async function logout() {
         let old_cookie_value = getCookie("session_id") 
