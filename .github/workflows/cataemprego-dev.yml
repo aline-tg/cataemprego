@@ -6,7 +6,7 @@ name: Deploy cataemprego in dev stage
 on:
   push:
     branches: 
-      - feature/jobs-crud
+      - develop
 
 permissions:
   contents: read
