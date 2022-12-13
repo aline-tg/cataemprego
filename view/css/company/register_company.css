@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
-  background: linear-gradient(to right, #0FF2F2 , #321473);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -90,7 +89,8 @@ main {
   }
 
   .user--input{
-    width: 300px;
+    
+    width: 400px;
     height: 40px;
     left: 17px;
     top: 69px;
@@ -103,8 +103,7 @@ main {
   }
 
   h1{
-    align-items: center;
-    margin-left: 35%;
+    text-align: center;
     padding-bottom: 10px;
     color:white;
     background: none;
@@ -118,10 +117,36 @@ main {
   }
 
   .button--send{
-    width: 60px;
-    height: 35px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 40px;
     background: #FFFFFF;
     border: none;
     border-radius: 50px; 
     text-align: center;
+  }
+
+  .corpo {
+    background: linear-gradient(to right, #0FF2F2 , #321473);
+  }
+
+  .divFormulariopt {
+    text-align: center;
+    display: block;
+    align-items: center;
+    margin: auto;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border-radius: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    background-color: #ffffff2c;
   }
