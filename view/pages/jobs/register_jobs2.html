@@ -213,52 +213,72 @@
         </div>
       </div>  
 </main>
-<body>
-   <h1 style= "margin:center; padding-bottom: 30px;">Cadastre sua vaga!</h1> 
-   <form id = "register_job" style="margin-left:35%; background: none;" register-job>
-       <h3>Informações Gerais</h3>
-       <h5>Digite o nome da posição em aberto:</h5>
-       <input id="position_name" class="user--input" type="text" required>
-       <h5>Digite a localização da posição (Cidade, Estado ou Home Office):</h5>
-       <input id="position_location" class="user--input" type="text" required>
-       <h5>Selecione o tipo de horas trabalhadas:</h5>
-       <input id="position_duty_hours" class="user--input" type="text" list="list_duty_hours" required>
-        <datalist id="list_duty_hours">
-          <option value="Meio período"></option>
-          <option value="Tempo integral"></option>
-          <option value="Estágio"></option>
-        </datalist>
-       <h5>Digite o salário médio da posição:</h5>
-       <input id="position_salary" class="user--input" type="text" required>
-       <h5>Digite uma breve descrição sobre a posição aberta:</h5>
-       <input id="position_decs" class="user--input" type="text" required>
+<body class="corpo">
 
-       <h3>Benefícios</h3>
-       <h5>A posição possui benefício de vale refeição?</h5>
-       <input id="position_benefit_food" class="user--input" type="text" list="ben_food">
-        <datalist id="ben_food">
-          <option value="S"></option>  
-          <option value="N"></option>
-        </datalist>
-       <h5>A posição possui benefício de vale transporte?</h5>
-       <input id="position_benefit_transport" class="user--input" type="text" list="ben_transp">
-        <datalist id="ben_transp">
-          <option value="S"></option>  
-          <option value="N"></option>
-        </datalist>
-       <h5>A posição possui plano de saúde?</h5>
-       <input id="position_benefit_health" class="user--input" type="text" list="ben_health">
-        <datalist id="ben_health">
-          <option value="S"></option>  
-          <option value="N"></option>
-        </datalist>
-       <h5>A posição possui plano odontológico?</h5>
-       <input id="position_benefit_dentist" class="user--input" type="text" list="ben_dentist">
-        <datalist id="ben_dentist">
-          <option value="S"></option>  
-          <option value="N"></option>
-        </datalist>
-       <input class= "button--send" type='submit'>
-   </form>  
+  <div class="divFormulario">
+
+    <h1>Cadastre sua vaga!</h1> 
+    <form id = "register_job" class="divFormularioVaga" register-job>
+        <h3>Informações Gerais</h3>
+        <h5>Digite o nome da posição em aberto:</h5>
+        <input id="position_name" class="user--input" type="text" required>
+        <h5>Digite a localização da posição (Cidade, Estado ou Home Office):</h5>
+        <input id="position_location" class="user--input" type="text" required>
+        <h5>Selecione o tipo de horas trabalhadas:</h5>
+        <input id="position_duty_hours" class="user--input" type="text" list="list_duty_hours" required>
+         <datalist id="list_duty_hours">
+           <option value="Meio período"></option>
+           <option value="Tempo integral"></option>
+           <option value="Estágio"></option>
+         </datalist>
+        <h5>Digite o salário médio da posição:</h5>
+        <input id="position_salary" class="user--input" type="text" required>
+        <h5>Digite uma breve descrição sobre a posição aberta:</h5>
+        <input id="position_decs" class="user--input" type="text" required>
+        
+
+        <h3>Benefícios</h3>
+        <div class="divFormulariopt2">
+          
+        <h5>Vale refeição?</h5>
+        <input id="position_benefit_food" class="user--input--ben" type="text" list="ben_food">
+         <datalist id="ben_food">
+           <option value="S"></option>  
+           <option value="N"></option>
+         </datalist>
+
+        <h5>Vale transporte?</h5>
+        <input id="position_benefit_transport" class="user--input--ben" type="text" list="ben_transp">
+         <datalist id="ben_transp">
+           <option value="S"></option>  
+           <option value="N"></option>
+         </datalist>
+
+          <h5>Plano de saúde?</h5>
+          <input id="position_benefit_health" class="user--input--ben" type="text" list="ben_health">
+           <datalist id="ben_health">
+             <option value="S"></option>  
+             <option value="N"></option>
+           </datalist>
+
+
+          <h5>Plano odontológico?</h5>
+          <input id="position_benefit_dentist" class="user--input--ben" type="text" list="ben_dentist">
+           <datalist id="ben_dentist">
+             <option value="S"></option>  
+             <option value="N"></option>
+           </datalist>
+
+           
+          </div>
+       
+         <input class= "button--send" type='submit'>
+    </form>  
+
+  </div>
+  
+
+   
+   
 </body>
 </html>
