@@ -1,12 +1,12 @@
 name: Deploy cataemprego in dev stage
 
-# on:
-#   release:
-#     types: [published]
 on:
-  push:
-    branches: 
-      - feature/jobs-crud
+  release:
+    types: [published]
+# on:
+#   push:
+#     branches: 
+#       - feature/jobs-crud
 
 permissions:
   contents: read
