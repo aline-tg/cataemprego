@@ -43,10 +43,9 @@ main {
 }
 
 .video_page_btn_video {
-  background-color:"transparent";
-  background-blend-mode: multiply;
+  max-width: 700px;
+  margin-top: 50px;
 }
-
 
 /* Dropdown Button */
 .dropbtn {
