@@ -1,49 +1,36 @@
-function Benefits() {
-    var positionId;
-    var benefitId;
-    var foodBenefit;
-    var locomotionBenefit;
-    var healthBenefit;
-    var dentistBenefit;
+export default class Benefits {
 
-    function getPositionId() {
+    constructor(positionId,
+                foodBenefit,
+                locomotionBenefit,
+                healthBenefit,
+                dentistBenefit) {
+        this.positionId = positionId;
+        this.foodBenefit = foodBenefit;
+        this.locomotionBenefit= locomotionBenefit;
+        this.healthBenefit= healthBenefit;
+        this.dentistBenefit= dentistBenefit;
+        }
+
+    getPositionId(){
         return this.positionId;
     }
 
-    function getBenefitId() {
-        return this.benefitId;
-    }
-
-    function getFoodBenefit() {
+    getFoodBenefit(){
         return this.foodBenefit;
     }
 
-    function getLocomotionBenefit() {
+    getLocomotionBenefit(){
         return this.locomotionBenefit;
     }
 
-    function getHealthBenefit() {
+    getHealthBenefit(){
         return this.healthBenefit;
     }
 
-    function getDentistBenefit() {
+    getDentistBenefit(){
         return this.dentistBenefit;
     }
 
-    function setFoodBenefit() {
-        return undefined;
-    }
-
-    function setLocomotionBenefit() {
-        return undefined;
-    }
-
-    function setHealthBenefit() {
-        return undefined;
-    }
-
-    function setDentistBenefit() {
-        return undefined;
-    }
 
 }

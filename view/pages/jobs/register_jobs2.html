@@ -1,0 +1,284 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../../css/jobs/register_jobs2.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <script type="module" src="../../../model/objects/Company.js"></script>
+    <script type="module" src="../../../model/objects/Address.js"></script>
+    <title>Cadastro de Vagas</title>
+</head>
+
+<script type = "text/javascript">
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+
+<script type="module">
+    import supabaseAuthentication from "../../../control/SupabaseUtils.js"
+    import Position from "../../../model/objects/Position.js"
+
+    const _supabase = supabaseAuthentication();
+
+    const createKeywords = name => {
+      const arrName = [];
+      let curName = '';
+      name.split('').forEach(letter => {
+        curName += letter.toLowerCase();
+        arrName.push(curName);
+      });
+      return arrName;
+    }
+   
+    const generateKeywords = names => {
+      const [companyName, positionName, positionLocation] = names;
+      const keywordNamePosition = createKeywords(`${positionName}`);
+      const keywordFull = createKeywords(`${positionName} ${companyName} ${positionLocation}`);
+      const keywordLocationFirst = createKeywords(`${positionLocation} ${positionName} ${companyName}`);
+      const keywordCompanyFirst = createKeywords(` ${companyName} ${positionName} ${positionLocation}`);
+
+      const middleInitial = positionName.length > 0 ? ` ${positionName[0]}.` : '';
+      const keywordFullMiddleInitial = createKeywords(`${companyName} ${positionLocation}`);
+      const keywordLocationMiddleInitial = createKeywords(`${positionLocation} ${middleInitial}`);
+      return [
+        ...new Set([
+          '',
+          ...keywordNamePosition,
+          ...keywordFull,
+          ...keywordLocationFirst,
+          ...keywordCompanyFirst,
+          ...keywordFullMiddleInitial,
+          ...keywordLocationMiddleInitial
+        ])
+      ];
+    }
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function getQueryVariable(variable)
+        {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+      }
+
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+
+      function generateGuid() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
+
+      async function logout() {
+        let old_cookie_value = getCookie("session_id") 
+        let user_id = getCookie("user_id")
+        window.document.cookie = "session_id=;Path=/cataemprego"
+        window.document.cookie = "user_id=;Path=/cataemprego"
+
+        let update_info = {
+          session_id: ""
+        }
+
+        const {data: data_update, error: error_update } = await _supabase
+                                  .from('users-auth')
+                                  .update(update_info)
+                                  .eq("user_id",user_id)
+      }
+
+      const userLogout = document.getElementById("logout")
+      userLogout.addEventListener("click", e => {
+        logout()
+        document.location.href = "../utils/logout.html"
+      })
+
+      const formInput = document.querySelector("[register-job]");
+      document.addEventListener("DOMContentLoaded", function(event){
+        formInput.onsubmit = registerAction.bind(formInput)
+        })
+
+        const registerAction = async (event) => {
+          event.preventDefault()
+          let user_id = getCookie("user_id")
+          let company_id = getQueryVariable("company_id")
+          const position_id = generateGuid()
+
+          const {data: data_regist_company, error: error_regist_company } = await _supabase
+                                        .from('registered-companies')
+                                        .select("company_name")
+                                        .eq("company_id",company_id)
+          const company_name = data_regist_company[0].company_name
+          const position_name = event.target[0].value.toLowerCase()
+          const position_location = event.target[1].value.toLowerCase()
+          const position_duty_hours = event.target[2].value.toLowerCase()
+          const position_salary = event.target[3].value.toLowerCase()
+          const position_desc = event.target[4].value.toLowerCase()
+          const position_benefits_01 = event.target[5].value.toLowerCase()
+          const position_benefits_02 = event.target[6].value.toLowerCase()
+          const position_benefits_03 = event.target[7].value.toLowerCase()
+          const position_benefits_04 = event.target[8].value.toLowerCase()
+          const position_keywords = generateKeywords([company_name, position_name,position_location])
+
+          var position = new Position(position_id,
+                                      company_id,
+                                      company_name,
+                                      position_name,
+                                      position_location,
+                                      position_duty_hours,
+                                      position_salary,
+                                      position_desc)
+          const {data: data_register_position, error: error_register_position } = await _supabase
+                                    .from('registered-jobs')
+                                    .insert(
+                                        [{ 
+                                           position_id: position.positionId,
+                                           company_id: position.companyId,
+                                           user_id: user_id,
+                                           is_available: 1,
+                                           company_name: company_name,
+                                           position_name: position.positionName, 
+                                           position_duty_hours: position.positionDutyHours,
+                                           position_location: position.positionLocation,
+                                           position_salary: position.positionSalary,
+                                           position_keywords: position_keywords,
+                                           position_description: position.positionDescription,
+                                           registration_date: Date.now().toString()
+                                        }]);
+          const {data: data_register_company_benefit, 
+                error: error_data_register_company_benefit} = await _supabase
+                                    .from('registered-jobs-benefits')
+                                    .insert(
+                                        [{ 
+                                           position_id: position.positionId,
+                                           food: position_benefits_01,
+                                           locomotion: position_benefits_02,
+                                           health: position_benefits_03,
+                                           dentist: position_benefits_04,
+                                           registration_date: Date.now().toString()
+                                        }]);
+            alert("Vaga registrada com sucesso!")
+            setTimeout(() => {
+                      document.location.href = "../user/page_user.html"
+                      }, 1800)
+          }
+          
+    }
+    else {
+      document.location.href = "../utils/needs_login.html"
+    }
+</script>
+
+<main>
+    <div>
+        <img class="video_page_logo" src="../../images/logo.png">
+        <button id="logout" class="button--logout">Deslogar</button>
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn">Menu</button>
+          <div id="myDropdown" class="dropdown-content">
+            <a href="../user/page_user.html" style="background: #E5E5E5;">Buscar Vagas</a>
+            <a href="../company/register_company.html" style="background: #E5E5E5;">Cadastrar Empresa</a>
+            <a href="../company/registered_companies.html" style="background: #E5E5E5;">Empresas Cadastradas</a>
+            <a href="../jobs/register_jobs1.html" style="background: #E5E5E5;">Cadastrar Vagas</a>
+            <a href="../jobs/registered_jobs.html" style="background: #E5E5E5;">Vagas Cadastradas</a>
+            <a href="../utils/videopage_user.html" style="background: #E5E5E5;">Como usar o CataEmprego</a>
+            <a href="../utils/about_us.html" style="background: #E5E5E5;">Sobre o CataEmprego</a>
+          </div>
+        </div>
+      </div>  
+</main>
+<body class="corpo">
+
+  <div class="divFormulario">
+
+    <h1>Cadastre sua vaga!</h1> 
+    <form id = "register_job" class="divFormularioVaga" register-job>
+        <h3>Informações Gerais</h3>
+        <h5>Digite o nome da posição em aberto:</h5>
+        <input id="position_name" class="user--input" type="text" required>
+        <h5>Digite a localização da posição (Cidade, Estado ou Home Office):</h5>
+        <input id="position_location" class="user--input" type="text" required>
+        <h5>Selecione o tipo de horas trabalhadas:</h5>
+        <input id="position_duty_hours" class="user--input" type="text" list="list_duty_hours" required>
+         <datalist id="list_duty_hours">
+           <option value="Meio período"></option>
+           <option value="Tempo integral"></option>
+           <option value="Estágio"></option>
+         </datalist>
+        <h5>Digite o salário médio da posição:</h5>
+        <input id="position_salary" class="user--input" type="text" required>
+        <h5>Digite uma breve descrição sobre a posição aberta:</h5>
+        <input id="position_decs" class="user--input" type="text" required>
+        
+
+        <h3>Benefícios</h3>
+        <div class="divFormulariopt2">
+          
+        <h5>Vale refeição?</h5>
+        <input id="position_benefit_food" class="user--input--ben" type="text" list="ben_food">
+         <datalist id="ben_food">
+           <option value="S"></option>  
+           <option value="N"></option>
+         </datalist>
+
+        <h5>Vale transporte?</h5>
+        <input id="position_benefit_transport" class="user--input--ben" type="text" list="ben_transp">
+         <datalist id="ben_transp">
+           <option value="S"></option>  
+           <option value="N"></option>
+         </datalist>
+
+          <h5>Plano de saúde?</h5>
+          <input id="position_benefit_health" class="user--input--ben" type="text" list="ben_health">
+           <datalist id="ben_health">
+             <option value="S"></option>  
+             <option value="N"></option>
+           </datalist>
+
+
+          <h5>Plano odontológico?</h5>
+          <input id="position_benefit_dentist" class="user--input--ben" type="text" list="ben_dentist">
+           <datalist id="ben_dentist">
+             <option value="S"></option>  
+             <option value="N"></option>
+           </datalist>
+
+           
+          </div>
+       
+         <input class= "button--send" type='submit'>
+    </form>  
+
+  </div>
+  
+
+   
+   
+</body>
+</html>

@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+    <link rel="stylesheet" type="text/css" href="../../../view/css/user/login.css">
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
+    <title>Registro CataEmprego</title>
+</head>
+
+<main>
+    <img class="video_page_logo" src="../../images/logo.png"></div>
+</main>
+<script type="module">
+    import supabaseAuthentication from "../../../control/SupabaseUtils.js"
+
+    const _supabase = supabaseAuthentication();
+
+    function generateGuid() {
+        return Math.random().toString(36).substring(2, 15) +
+               Math.random().toString(36).substring(2, 15);
+    }
+
+    function hashCode(str) {
+        return Array.from(str).reduce((hash, char) => 0 | (31 * hash + char.charCodeAt(0)), 0)
+    }
+
+    document.addEventListener('DOMContentLoaded', function (event) {
+      var signUpForm = document.querySelector('#sign-up')
+      signUpForm.onsubmit = signUpSubmitted.bind(signUpForm)
+    })
+
+    const signUpSubmitted = async (event) => {
+        event.preventDefault()
+        const email = event.target[0].value;
+        const password = event.target[1].value;
+
+        if(email === "" && password == "") {
+            alert("Não podemos cadastrar email ou senha vazia.")
+        }
+        else {
+            const {data: data_register, error: error_register } = await _supabase
+                                    .from('users-auth')
+                                    .insert(
+                                        [{ 
+                                           user_id: generateGuid(),
+                                           user_email: email, 
+                                           user_password: password,
+                                           created_date: Date.now().toString(),
+                                           hashed_password: hashCode(password)
+                                        }]);
+            
+            if (error_register === undefined) {
+                alert("Tivemos um problema no seu cadastro!");
+            } else {
+                document.location.href = "../../pages/utils/confirmation_email.html"
+            }
+        }
+    }
+
+</script>
+
+<body>
+    <div class='container' style="text-align:center">
+        <div class='section'>
+            <form id='sign-up'>
+                <h2 class="font-style-login">Registre-se!</h2>
+                <br>
+                <label class="font-style-login" style="background:none">Email </label>
+                <input class="input--register" type='email' name='email'/>
+                <br>
+                <br>
+                <label class="font-style-login" style="background:none">Senha </label>
+                <input class="input--register" type='password' name='password'/>
+                <br>
+                <br>
+                <input class= "button--send" type='submit'>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div style="text-align:center">
+        <button class="video_page_btn" onclick="location.href='../../../index.html';">Voltar</button>
+    </div>
+</body>
+
+</html>

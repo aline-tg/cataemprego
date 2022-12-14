@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  background: linear-gradient(to right, #0FF2F2 , #321473);
+  margin: auto;
+  padding: 0;
+  display: center;
+}
+
+main {
+  margin: auto;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.video_page_logo {
+    width: 161px; 
+    height: 90px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: 20px;
+    padding: 0.5rem;
+    align-content: center;
+    background: none;
+  }
+
+.company_card {
+    background: #FFFFFF;
+    border-radius: 15px;
+    width: 350px;
+    height: 110px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    margin-top: 5px;
+    padding-top: 10px;
+  }
+  
+  .comp_card_ret1 {
+    width: 100px;
+    height: 25px;
+    background: #E5E5E5;
+    border-radius: 12px;
+    margin-top: 1px;
+    margin-left: 5px;
+    text-align: center;
+  }
+
+  .comp_card_ret2 {
+    width: 240px;
+    height: 25px;
+    background: #E5E5E5;
+    border-radius: 12px;
+    margin-top: 1px;
+    text-align: center;
+  }
+
+  .detail_button{
+    width: 100px;
+    height: 25px;
+    background: #E5E5E5;
+    border-radius: 12px;
+    margin-top: 1px;
+    margin-left: 5px;
+    border-style: none;
+    margin-top: 2.5px;
+    text-align: center;
+  }
+
+  .detail_button--actions:hover{
+    background-color: #eeebeb;
+  }
+
+  /* Dropdown Button */
+  .dropbtn {
+    background: none;
+    border:none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  /* Dropdown button on hover & focus */
+  .dropbtn:hover, .dropbtn:focus {
+    background: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: absolute;
+    left: 120px;
+    height: 35px;
+    width: 80px;
+    top: 50px;
+    background:#E5E5E5;
+    border-radius: 50px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display:none;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  /* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  opacity: 0.8;
+  border: none;
+}
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover { background: none;}
+  
+  /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+  .show {display:block; background: none;}
+  
+  .button--logout{
+    right: 120px;
+    width: 80px;
+    height: 35px;
+    top: 50px;
+    background: #E5E5E5;
+    border: none;
+    border-radius: 50px; 
+    text-align: center;
+    position: absolute;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+
+  h1 {
+    color:white;
+    text-align: center;
+    text-shadow: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }

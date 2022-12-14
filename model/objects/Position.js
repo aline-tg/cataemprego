@@ -1,4 +1,4 @@
-class Position {
+export default class Position {
     
     constructor(positionId,
                 companyId,
@@ -7,9 +7,9 @@ class Position {
                 positionLocation,
                 positionDutyHours,
                 positionSalary,
-                positionBenefits,
                 positionDescription,
-                companyLogoImage) {
+                companyLogoImage,
+                positionBenefits) {
         this.positionId = positionId;
         this.companyId = companyId;
         this.companyName= companyName;
@@ -17,9 +17,9 @@ class Position {
         this.positionLocation = positionLocation;
         this.positionDutyHours = positionDutyHours;
         this.positionSalary = positionSalary;
-        this.positionBenefits = positionBenefits;
         this.positionDescription = positionDescription;
         this.companyLogoImage = companyLogoImage;
+        this.positionBenefits = positionBenefits;
     }
 
     getPositionId() {
@@ -91,5 +91,3 @@ class Position {
     }
 
 }
-
-export default Position;

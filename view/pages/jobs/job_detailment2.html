@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Icon from page -->
+    <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
+
+    <!-- Adding libs and styles -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <script type="module" src="../../../model/objects/Position.js"></script> 
+    <script type="module" src="../../../model/objects/Benefit.js"></script> 
+    <link rel="stylesheet" href="../../css/jobs/job_detailment2.css" />
+    <title>Vagas Cadastradas</title>
+  </head>
+
+  <!-- First page app  -->
+  <body>
+    <script type = "module">
+      import supabaseAuthentication from "../../../control/SupabaseUtils.js"
+      import Position from "../../../model/objects/Position.js"
+      import Benefit from "../../../model/objects/Benefit.js"
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+
+      function getQueryVariable(variable)
+          {
+         var query = window.location.search.substring(1);
+         var vars = query.split("&");
+         for (var i=0;i<vars.length;i++) {
+                 var pair = vars[i].split("=");
+                 if(pair[0] == variable){return pair[1];}
+         }
+         return(false);
+        }
+
+      if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
+        const _supabase = supabaseAuthentication();
+
+        let position_id = getQueryVariable("position_id");
+        const jobCardTemplate = document.querySelector("[job-detailment-template]");
+        const jobCardContainer = document.querySelector("[data-jobs-detailment]");
+        const {data: job, error: error_reading} = await _supabase
+                                                          .from("registered-jobs")
+                                                          .select("*")
+                                                          .eq("position_id", position_id)
+        const {data: job_benefits, error: error_reading_benefits} = await _supabase
+                                                                  .from("registered-jobs-benefits")
+                                                                  .select("*")
+                                                                  .eq("position_id", position_id)
+        var position_filtered = job[0]
+        var benefits_filtered = job_benefits[0]
+
+        var benefits = (benefits_filtered !== undefined) ? true : false
+
+        var position = new Position(position_filtered.position_id,
+                                    position_filtered.company_id,
+                                    position_filtered.company_name,
+                                    position_filtered.position_name,
+                                    position_filtered.position_location,
+                                    position_filtered.position_duty_hours,
+                                    position_filtered.position_salary,
+                                    position_filtered.position_description)  
+
+        const card_job = jobCardTemplate.content.cloneNode(true).children[0]
+        const position_company = card_job.querySelector("[position-company]")
+        const position_detail = card_job.querySelector("[position]")
+        const position_location = card_job.querySelector("[position-location]")
+        const position_duty = card_job.querySelector("[position-duty]")
+        const position_salary = card_job.querySelector("[position-salary]")
+        const position_ben_food_y = card_job.querySelector("[benefit-pos-food-y]")
+        const position_ben_food_n = card_job.querySelector("[benefit-pos-food-n]")
+        const position_ben_trans_y = card_job.querySelector("[benefit-pos-transp-y]")
+        const position_ben_trans_n = card_job.querySelector("[benefit-pos-transp-n]")
+        const position_dentist_y = card_job.querySelector("[benefit-tee-y]")
+        const position_dentist_n = card_job.querySelector("[benefit-tee-n]")
+        const position_ben_heal_y = card_job.querySelector("[benefit-heal-y]")
+        const position_ben_heal_n = card_job.querySelector("[benefit-heal-n]")
+        const position_description = card_job.querySelector("[description]")
+        const job_situation = card_job.querySelector("[job-situation]")
+        const job_inactivate = card_job.querySelector("[inactivate-job]")
+        
+        if(benefits_filtered !== undefined) {
+          if(benefits_filtered.food == 's') {
+            position_ben_food_y.style.background = "#0FF2F2"
+            var food_benefit = new Benefit(position_filtered.position_id,
+                                           "food_benefit",
+                                           "s")
+          } else {
+            position_ben_food_n.style.background = "#0FF2F2"
+            var food_benefit = new Benefit(position_filtered.position_id,
+                                           "food_benefit",
+                                           "n")
+          }
+          if(benefits_filtered.locomotion == 's') {
+            position_ben_trans_y.style.background = "#0FF2F2"
+            var loc_benefit = new Benefit(position_filtered.position_id,
+                                           "loc_benefit",
+                                           "s")
+          } else {
+            position_ben_trans_n.style.background = "#0FF2F2"
+            var loc_benefit = new Benefit(position_filtered.position_id,
+                                           "loc_benefit",
+                                           "n")
+          }
+          if(benefits_filtered.health == 's') {
+            position_ben_heal_y.style.background = "#0FF2F2"
+            var heal_benefit = new Benefit(position_filtered.position_id,
+                                           "heal_benefit",
+                                           "s")
+          } else {
+            position_ben_heal_n.style.background = "#0FF2F2"
+            var heal_benefit = new Benefit(position_filtered.position_id,
+                                           "heal_benefit",
+                                           "n")
+          }
+          if(benefits_filtered.dentist == 's') {
+            position_dentist_y.style.background = "#0FF2F2"
+            var dent_benefit = new Benefit(position_filtered.position_id,
+                                           "dent_benefit",
+                                           "s")
+          } else {
+            position_dentist_n.style.background = "#0FF2F2"
+            var dent_benefit = new Benefit(position_filtered.position_id,
+                                           "dent_benefit",
+                                           "n")
+          }
+        }
+
+        if (position_filtered.is_available == 0) {
+          job_situation.textContent = "Inativa"
+          job_inactivate.textContent = "Ativar Vaga"
+        } else {
+          job_situation.textContent = "Ativa"
+        }
+
+        position_company.textContent = position.companyName
+        position_detail.textContent = position.positionName
+        position_location.textContent = position.positionLocation
+        position_duty.textContent = position.positionDutyHours
+        position_salary.textContent = position.positionSalary
+        position_description.textContent = position.positionDescription
+        document.body.append(card_job)
+
+        async function logout() {
+          let old_cookie_value = getCookie("session_id") 
+          let user_id = getCookie("user_id")
+          window.document.cookie = "session_id=;Path=/cataemprego"
+          window.document.cookie = "user_id=;Path=/cataemprego"
+
+          let update_info = {
+            session_id: ""
+          }
+
+          const {data: data_update, error: error_update } = await _supabase
+                                    .from('users-auth')
+                                    .update(update_info)
+                                    .eq("user_id",user_id)
+        }
+
+        const userLogout = document.getElementById("logout")
+        userLogout.addEventListener("click", e => {
+          logout()
+          document.location.href = "../utils/logout.html"
+        })
+
+        //DELETE JOB
+        async function removeJob(job_id){
+        const {data: delete_job, error: error_delete_job } = await _supabase
+                                                                .from('registered-jobs')
+                                                                .delete()
+                                                                .eq("position_id",job_id)
+        const {data: delete_det_job, error: error_delete_det_job} = await _supabase
+                                                                            .from("registered-jobs-benefits")
+                                                                            .delete()
+                                                                            .eq("position_id", job_id)  
+        window.location.href = "../jobs/registered_jobs.html"
+      }
+
+      const excludeJob = document.getElementById("delete-job")
+      excludeJob.addEventListener("click", e => {
+        let position_id = getQueryVariable("position_id"); 
+        if (confirm("Esta ação não poderá ser revertida. Você tem certeza que deseja excluir o cadastro dessa vaga?")) {
+          removeJob(position_id)
+        }    
+      })
+
+      //INACTIVATE JOB
+      async function checkOrInactivate(job_id){
+        const {data: check_job, error: error_check_job } = await _supabase
+                                                                .from('registered-jobs')
+                                                                .select("*")
+                                                                .eq("position_id",job_id)
+        const job = check_job[0]
+        console.log(job)
+        if(job.is_available == 0) {
+          if (confirm("Você tem certeza que deseja ativar a vaga?")) {
+            var activate_update = {
+                  is_available: 1
+                }
+            const {data: inactive_job, error: error_inactive_job } = await _supabase
+                                                                        .from('registered-jobs')
+                                                                        .update(activate_update)
+                                                                        .eq("position_id",job_id)
+            window.location.href = "../jobs/registered_jobs.html"
+          }
+        } 
+        else {
+          if (confirm("Você tem certeza que deseja inativar a vaga?")) {
+            var inactivate_update = {
+                  is_available: 0
+                }
+            const {data: inactive_job, error: error_inactive_job } = await _supabase
+                                                                        .from('registered-jobs')
+                                                                        .update(inactivate_update)
+                                                                        .eq("position_id",job_id)
+            window.location.href = "../jobs/registered_jobs.html"
+          }
+        } 
+      }
+
+      const desativateJob = document.getElementById("inactivate-job")
+      desativateJob.addEventListener("click", e => {
+        let position_id = getQueryVariable("position_id"); 
+        checkOrInactivate(position_id)
+      })
+
+      //UPDATE JOB
+      function storeJobVars(){
+        var position = new Position(position_filtered.position_id,
+                                    position_filtered.company_id,
+                                    position_filtered.company_name,
+                                    position_filtered.position_name,
+                                    position_filtered.position_location,
+                                    position_filtered.position_duty_hours,
+                                    position_filtered.position_salary,
+                                    position_filtered.position_description)  
+
+        localStorage.setItem("position_name", position.positionName);
+        localStorage.setItem("company_id", position.companyId);
+        localStorage.setItem("company_name", position.companyName);
+        localStorage.setItem("position_duty_hours", position.positionDutyHours);
+        localStorage.setItem("position_location", position.positionLocation);
+        localStorage.setItem("position_salary", position.positionSalary);
+        localStorage.setItem("position_description", position.positionDescription);
+        localStorage.setItem("pos_food_ben", food_benefit.benefitValue);
+        localStorage.setItem("pos_loc_ben", loc_benefit.benefitValue);
+        localStorage.setItem("pos_heal_ben", heal_benefit.benefitValue);
+        localStorage.setItem("pos_dent_ben", dent_benefit.benefitValue);
+      }
+
+      const updateJob = document.getElementById("update-job")
+      updateJob.addEventListener("click", e => {
+        let position_id = getQueryVariable("position_id"); 
+        storeJobVars();
+        window.location.href = "../jobs/update_job.html?position_id=" + position_id; 
+      })
+
+
+    } else {
+        document.location.href = "../utils/needs_login.html"
+      }
+      
+    </script>
+
+    <main>
+      <img class="video_page_logo" src="../../images/logo.png">
+      <button id="logout" class="button--logout">Deslogar</button>
+      <button class="back_button" onclick="location.href='../../pages/user/page_user.html';">Voltar</button>
+    </main>
+    <template job-detailment-template>
+    <div class="detailment" data-jobs-detailment style="margin:auto;">
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" position-company></div>  
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Vaga</div><div class="job_card_ret2" position></div>  
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Local</div><div class="job_card_ret2" position-location></div>  
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Horário</div><div class="job_card_ret2" position-duty></div>  
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Salário</div><div class="job_card_ret2" position-salary></div>  
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Benefícios</div>
+        <div class="job_card_ret3">Vale Alimentação</div>
+        <div class="job_card_ret4" benefit-pos-food-y style="margin-left: 20px;">Sim</div>   
+        <div class="job_card_ret4" benefit-pos-food-n style="margin-left: 20px;">Não</div> 
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret3" style="margin-left:110px;">Vale Transporte</div>
+        <div class="job_card_ret4" benefit-pos-transp-y style="margin-left: 20px;">Sim</div>   
+        <div class="job_card_ret4" benefit-pos-transp-n style="margin-left: 20px;">Não</div> 
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret3" style="margin-left:110px;">Plano Odontológico</div>
+        <div class="job_card_ret4" benefit-tee-y style="margin-left: 20px;">Sim</div>   
+        <div class="job_card_ret4" benefit-tee-n style="margin-left: 20px;">Não</div> 
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret3" style="margin-left:110px;">Plano de Saúde</div>
+        <div class="job_card_ret4" benefit-heal-y style="margin-left: 20px;">Sim</div>   
+        <div class="job_card_ret4" benefit-heal-n style="margin-left: 20px;">Não</div> 
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Descrição</div>
+        <p style="background:white; margin-left: 10px; text-justify: auto; margin-right: 10px;" description></p>
+      </div>
+      <div style="background:white;  display: flex; margin-bottom: 5px;">
+        <div class="job_card_ret1">Situação</div><div class="job_card_ret2" job-situation></div>  
+      </div>
+      <div style="background: white; display: flex">
+        <button class="resume_button" id = "update-job">Atualizar Vaga</button>
+        <button class="resume_button" id = "delete-job">Apagar Vaga</button>
+        <button class="resume_button" id = "inactivate-job" inactivate-job>Inativar Vaga</button>
+      </div>
+    </div> 
+    </template>
+  </body>
+</html>
