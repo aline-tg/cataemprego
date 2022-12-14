@@ -7,9 +7,9 @@ export default class Position {
                 positionLocation,
                 positionDutyHours,
                 positionSalary,
-                positionBenefits,
                 positionDescription,
-                companyLogoImage) {
+                companyLogoImage,
+                positionBenefits) {
         this.positionId = positionId;
         this.companyId = companyId;
         this.companyName= companyName;
@@ -17,9 +17,9 @@ export default class Position {
         this.positionLocation = positionLocation;
         this.positionDutyHours = positionDutyHours;
         this.positionSalary = positionSalary;
-        this.positionBenefits = positionBenefits;
         this.positionDescription = positionDescription;
         this.companyLogoImage = companyLogoImage;
+        this.positionBenefits = positionBenefits;
     }
 
     getPositionId() {

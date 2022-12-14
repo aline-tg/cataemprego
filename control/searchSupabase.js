@@ -8,6 +8,7 @@ export default async function searchJobs(search,
     .from("registered-jobs")
     .select("*")
     .contains("position_keywords",[search])
+    .eq("is_available", 1)
 
     all_jobs.forEach(position_filtered => {
       var position = new Position(position_filtered.position_id,

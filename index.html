@@ -31,7 +31,7 @@
 
     async function createCookieAndRegisterSessionId(user_id) {
         const session_guid = generateGuid()
-        window.document.cookie = "user_id="+user_id 
+        window.document.cookie = "user_id="+user_id
         window.document.cookie = "session_id="+session_guid
         let add_info = {session_id: session_guid, 
                         last_login_date: Date.now().toString()}

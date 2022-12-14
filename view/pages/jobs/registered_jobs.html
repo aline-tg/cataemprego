@@ -11,8 +11,9 @@
     <!-- Adding libs and styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../css/utils/about_us.css" />
-    <title>Sobre o CataEmprego</title>
+    <link rel="stylesheet" href="../../css/jobs/registered_jobs.css">
+    <script type="module" src="../../../control/SupabaseUtils.js"></script>
+    <title>Vagas Cadastradas</title>
   </head>
 
   <!-- First page app  -->
@@ -39,23 +40,65 @@
 
     <script type="module">
           import supabaseAuthentication from "../../../control/SupabaseUtils.js"
-          import searchJobs from "../../../control/searchSupabase.js"
     
           function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);
             if (parts.length === 2) return parts.pop().split(';').shift();
           }
+
+          function jobDetailment(e) {
+          e=e || window.event;
+          var target = e.target || e.srcElement;
+          if(target.className.match("button")) {
+            let position_id = e.target.children[0].textContent || e.target.children[0].innerText; 
+            window.location.href = "../jobs/job_detailment2.html?position_id=" + position_id; 
+          }
+        }
     
           if (document.cookie.split(';').some((item) => item.trim().startsWith('session_id=')) && getCookie("session_id").length > 1) {
             const _supabase = supabaseAuthentication();
-    
+
+            const jobCardContainer = document.querySelector("[data-job-container]");
+            const jobCardTemplate = document.querySelector("[data-job-template]");
+            
+            let user_id = getCookie("user_id")
+
+            const {data: data_regist_jobs, error: error_regist_job} = await _supabase
+                                        .from('registered-jobs')
+                                        .select("*")
+                                        .eq("user_id",user_id)
+            console.log(data_regist_jobs)
+            if(data_regist_jobs.length == 0){
+                let messageToPrint = "Você não tem nenhuma vaga cadastrada :(";
+                console.log(messageToPrint)
+                const compTextBeforeSearch = document.querySelector("h1");
+                compTextBeforeSearch.innerHTML = messageToPrint;
+            }
+            else {
+              data_regist_jobs.forEach(position => {
+                const card = jobCardTemplate.content.cloneNode(true).children[0]
+                const job_name = card.querySelector("[job-name]")
+                const job_location = card.querySelector("[job-location]")
+                const company_name = card.querySelector("[company-name]")
+                const detail_button_id = card.querySelector("[detail-button-id]")
+                job_name.textContent = position.position_name
+                job_location.textContent = position.position_location
+                company_name.textContent = position.company_name
+                detail_button_id.innerText = position.position_id
+                jobCardContainer.append(card)
+                return { id: position.position_id, company_name: position.company_name, element: card }
+              }) 
+            }
+            
+            document.body.addEventListener("click", jobDetailment, false)
+
             async function logout() {
               let old_cookie_value = getCookie("session_id") 
               let user_id = getCookie("user_id")
               window.document.cookie = "session_id=;Path=/cataemprego"
               window.document.cookie = "user_id=;Path=/cataemprego"
-
+    
               let update_info = {
                 session_id: ""
               }
@@ -96,14 +139,21 @@
             </div>
           </div>   
     </main>
-    
-    <div class="AboutUs">
-      <h2 class="HtxtAboutUs">O que é o CataEmprego?</h1>
-      <p class="PtxtAboutUs"> Somos uma aplicação que quer transformar o jeito que você busca empregos usando tecnologia. Este serviço é gratuito e para você encontrar sua vaga perfeita bastam poucos cliques!</p>
-      <h2 class="HtxtAboutUs">Não encontrei a vaga que eu quero.</h2>
-      <p class="PtxtAboutUs">Nós da CataEmprego ficamos tristes com isso. Você pode nos comunicar qual é a vaga de seu interesse para que possamos entrar em contato com empresas que tenham essa posição em aberto.</p>
-      <h2 class="HtxtAboutUs">Como acompanhar o status do meu currículo?</h2>
-      <p class="PtxtAboutUs">Após o cadastro do currículo na plataforma você poderá acompanhar os status diretamente no CataEmprego.</p>
-  </div>
+    <h1></h1>
+    <div data-job-container></div>
+      <template data-job-template>
+      <div class="job_card">
+         <div style="background:white; display: flex; margin-bottom: 5px;">
+           <div class="job_card_ret1">Posição</div><div class="job_card_ret2" job-name></div>  
+         </div>
+         <div style="background:white; display: flex; margin-bottom: 5px;">
+          <div class="job_card_ret1">Empresa</div><div class="job_card_ret2" company-name></div>
+         </div>
+         <div style="background:white; display: flex; margin-bottom: 5px;">
+          <div class="job_card_ret1">Local</div><div class="job_card_ret2" job-location></div>
+         </div>
+       <button class="detail_button">Detalhes<div style = "display:none" detail-button-id></div></button>
+      </div>
+      </template>  
   </body>
 </html>

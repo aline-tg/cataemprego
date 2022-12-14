@@ -59,8 +59,6 @@
         let user_id = getCookie("user_id")
         window.document.cookie = "session_id=;Path=/cataemprego"
         window.document.cookie = "user_id=;Path=/cataemprego"
-        window.document.cookie = "session_id=;Path=/"
-        window.document.cookie = "user_id=;Path=/"
 
         let update_info = {
           session_id: ""
@@ -158,33 +156,44 @@
             <a href="../user/page_user.html" style="background: #E5E5E5;">Buscar Vagas</a>
             <a href="../company/register_company.html" style="background: #E5E5E5;">Cadastrar Empresa</a>
             <a href="../company/registered_companies.html" style="background: #E5E5E5;">Empresas Cadastradas</a>
-            <a href="../jobs/register_jobs.html" style="background: #E5E5E5;">Cadastrar Vagas</a>
+            <a href="../jobs/register_jobs1.html" style="background: #E5E5E5;">Cadastrar Vagas</a>
+            <a href="../jobs/registered_jobs.html" style="background: #E5E5E5;">Vagas Cadastradas</a>
             <a href="../utils/videopage_user.html" style="background: #E5E5E5;">Como usar o CataEmprego</a>
             <a href="../utils/about_us.html" style="background: #E5E5E5;">Sobre o CataEmprego</a>
           </div>
         </div>
       </div>  
 </main>
-<body>
-   <h1 style= "margin:center; padding-bottom: 30px;">Cadastre sua empresa!</h1> 
-   <form id = "register_company" style="margin-left:35%; background: none;" register-company>
-       <h5>Digite o nome ou razão social de sua empresa:</h5>
-       <input id="company_name" class="user--input" type="text">
-       <h5>Digite o CNPJ de sua empresa:</h5>
-       <input id="company_cnpj" class="user--input" type="text">
-       <h5>Digite a rua de sua empresa:</h5>
-       <input id="company_street" class="user--input" type="text">
-       <h5>Digite o bairro de sua empresa:</h5>
-       <input id="company_neighborhood" class="user--input" type="text">
-       <h5>Digite a cidade de sua empresa:</h5>
-       <input id="company_city" class="user--input" type="text">
-       <h5>Digite o estado de sua empresa:</h5>
-       <input id="company_state" class="user--input" type="text">
-       <h5>Digite o número de telefone de sua empresa:</h5>
-       <input id="company_phone" class="user--input" type="tel">   
-       <!-- <h5>Adicione o logo de sua empresa:</h5>
-       <input id="company_logo" class="user--input" type="file" accept="image/*;.jpeg;.jpg"> -->
-       <input class= "button--send" type='submit'>
-   </form>  
+<body class="corpo">
+
+  <div class="divFormulariopt">
+    <h1 >Cadastre sua empresa!</h1>
+    <form id = "register_company" register-company>
+      <div>
+        <h5>Digite o nome ou razão social de sua empresa:</h5>
+        <input id="company_name" class="user--input" type="text">
+        <h5>Digite o CNPJ de sua empresa:</h5>
+        <input id="company_cnpj" class="user--input" type="text">
+        <h5>Digite a rua de sua empresa:</h5>
+        <input id="company_street" class="user--input" type="text">
+        <h5>Digite o bairro de sua empresa:</h5>
+        <input id="company_neighborhood" class="user--input" type="text">
+        <h5>Digite a cidade de sua empresa:</h5>
+        <input id="company_city" class="user--input" type="text">
+        <h5>Digite o estado de sua empresa:</h5>
+        <input id="company_state" class="user--input" type="text">
+        <h5>Digite o número de telefone de sua empresa:</h5>
+        <input id="company_phone" class="user--input" type="tel">   
+        <!-- <h5>Adicione o logo de sua empresa:</h5>
+        <input id="company_logo" class="user--input" type="file" accept="image/*;.jpeg;.jpg"> -->
+
+      </div>
+
+        <input class= "button--send" type='submit'>
+    </form>  
+
+
+  </div>
+ 
 </body>
 </html>

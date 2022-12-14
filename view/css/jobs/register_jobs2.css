@@ -89,7 +89,6 @@ main {
   }
 
   .user--input{
-    
     width: 400px;
     height: 40px;
     left: 17px;
@@ -102,7 +101,24 @@ main {
     margin-left: 20px;
   }
 
-  h1{
+  .user--input--ben{
+
+    width: 75px;
+    height: 40px;
+    left: 17px;
+    top: 69px;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-style: none;
+    margin-left: 20px;
+
+
+  }
+
+
+  h1{margin-top: 15px;
     text-align: center;
     padding-bottom: 10px;
     color:white;
@@ -116,7 +132,36 @@ main {
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
+  h3{
+    color:white;
+    background: none;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+
+
+
+  .divFormulario{
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border-radius: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    background-color: #ffffff2c;
+  }
+
+  .divFormulariopt2{
+    display: grid;
+    grid-template-columns: 300px 300px;
+  }
+
+
+
   .button--send{
+
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -134,19 +179,12 @@ main {
     background: linear-gradient(to right, #0FF2F2 , #321473);
   }
 
-  .divFormulariopt {
+  .divFormularioVaga {
+
     text-align: center;
     display: block;
     align-items: center;
     margin: auto;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    border-radius: 15px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
-    background-color: #ffffff2c;
+
   }
+
